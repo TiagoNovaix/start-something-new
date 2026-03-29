@@ -14,7 +14,189 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      categorias: {
+        Row: {
+          cor: string | null
+          created_at: string | null
+          id: string
+          nome: string
+          tipo: string
+          updated_at: string | null
+        }
+        Insert: {
+          cor?: string | null
+          created_at?: string | null
+          id?: string
+          nome: string
+          tipo: string
+          updated_at?: string | null
+        }
+        Update: {
+          cor?: string | null
+          created_at?: string | null
+          id?: string
+          nome?: string
+          tipo?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      fechamentos: {
+        Row: {
+          ano: number
+          data_fechamento: string | null
+          id: string
+          mes: number
+          status: string | null
+          user_id: string | null
+        }
+        Insert: {
+          ano: number
+          data_fechamento?: string | null
+          id?: string
+          mes: number
+          status?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          ano?: number
+          data_fechamento?: string | null
+          id?: string
+          mes?: number
+          status?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      lancamentos: {
+        Row: {
+          categoria_id: string | null
+          comprovante_url: string | null
+          created_at: string | null
+          data: string
+          descricao: string
+          id: string
+          observacoes: string | null
+          socio_id: string | null
+          updated_at: string | null
+          user_id: string | null
+          valor: number
+        }
+        Insert: {
+          categoria_id?: string | null
+          comprovante_url?: string | null
+          created_at?: string | null
+          data?: string
+          descricao: string
+          id?: string
+          observacoes?: string | null
+          socio_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          valor: number
+        }
+        Update: {
+          categoria_id?: string | null
+          comprovante_url?: string | null
+          created_at?: string | null
+          data?: string
+          descricao?: string
+          id?: string
+          observacoes?: string | null
+          socio_id?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lancamentos_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamentos_socio_id_fkey"
+            columns: ["socio_id"]
+            isOneToOne: false
+            referencedRelation: "socios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          full_name: string | null
+          id: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          full_name?: string | null
+          id?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      reservas: {
+        Row: {
+          created_at: string | null
+          id: string
+          meta: number | null
+          nome: string
+          saldo_atual: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          meta?: number | null
+          nome: string
+          saldo_atual?: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          meta?: number | null
+          nome?: string
+          saldo_atual?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      socios: {
+        Row: {
+          created_at: string | null
+          id: string
+          nome: string
+          participacao: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          nome: string
+          participacao?: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          nome?: string
+          participacao?: number
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
