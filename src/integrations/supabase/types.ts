@@ -22,6 +22,7 @@ export type Database = {
           nome: string
           tipo: string
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           cor?: string | null
@@ -30,6 +31,7 @@ export type Database = {
           nome: string
           tipo: string
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           cor?: string | null
@@ -38,6 +40,40 @@ export type Database = {
           nome?: string
           tipo?: string
           updated_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      contas: {
+        Row: {
+          banco: string | null
+          created_at: string | null
+          id: string
+          nome: string
+          saldo_inicial: number | null
+          tipo: string | null
+          updated_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          banco?: string | null
+          created_at?: string | null
+          id?: string
+          nome: string
+          saldo_inicial?: number | null
+          tipo?: string | null
+          updated_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          banco?: string | null
+          created_at?: string | null
+          id?: string
+          nome?: string
+          saldo_inicial?: number | null
+          tipo?: string | null
+          updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -72,6 +108,7 @@ export type Database = {
         Row: {
           categoria_id: string | null
           comprovante_url: string | null
+          conta_id: string | null
           created_at: string | null
           data: string
           descricao: string
@@ -85,6 +122,7 @@ export type Database = {
         Insert: {
           categoria_id?: string | null
           comprovante_url?: string | null
+          conta_id?: string | null
           created_at?: string | null
           data?: string
           descricao: string
@@ -98,6 +136,7 @@ export type Database = {
         Update: {
           categoria_id?: string | null
           comprovante_url?: string | null
+          conta_id?: string | null
           created_at?: string | null
           data?: string
           descricao?: string
@@ -114,6 +153,13 @@ export type Database = {
             columns: ["categoria_id"]
             isOneToOne: false
             referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamentos_conta_id_fkey"
+            columns: ["conta_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
             referencedColumns: ["id"]
           },
           {
@@ -154,6 +200,7 @@ export type Database = {
           nome: string
           saldo_atual: number
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string | null
@@ -162,6 +209,7 @@ export type Database = {
           nome: string
           saldo_atual?: number
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string | null
@@ -170,6 +218,7 @@ export type Database = {
           nome?: string
           saldo_atual?: number
           updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -180,6 +229,7 @@ export type Database = {
           nome: string
           participacao: number
           updated_at: string | null
+          user_id: string | null
         }
         Insert: {
           created_at?: string | null
@@ -187,6 +237,7 @@ export type Database = {
           nome: string
           participacao?: number
           updated_at?: string | null
+          user_id?: string | null
         }
         Update: {
           created_at?: string | null
@@ -194,6 +245,7 @@ export type Database = {
           nome?: string
           participacao?: number
           updated_at?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
