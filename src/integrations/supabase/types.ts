@@ -112,10 +112,18 @@ export type Database = {
           conta_id: string | null
           created_at: string | null
           data: string
+          data_pagamento: string | null
           descricao: string
+          frequencia_recorrencia: string | null
           id: string
+          metodo_pagamento: string | null
+          numero_parcela: number | null
           observacoes: string | null
+          parcelado: boolean | null
+          recorrente: boolean | null
           socio_id: string | null
+          status: string | null
+          total_parcelas: number | null
           updated_at: string | null
           user_id: string | null
           valor: number
@@ -127,10 +135,18 @@ export type Database = {
           conta_id?: string | null
           created_at?: string | null
           data?: string
+          data_pagamento?: string | null
           descricao: string
+          frequencia_recorrencia?: string | null
           id?: string
+          metodo_pagamento?: string | null
+          numero_parcela?: number | null
           observacoes?: string | null
+          parcelado?: boolean | null
+          recorrente?: boolean | null
           socio_id?: string | null
+          status?: string | null
+          total_parcelas?: number | null
           updated_at?: string | null
           user_id?: string | null
           valor: number
@@ -142,10 +158,18 @@ export type Database = {
           conta_id?: string | null
           created_at?: string | null
           data?: string
+          data_pagamento?: string | null
           descricao?: string
+          frequencia_recorrencia?: string | null
           id?: string
+          metodo_pagamento?: string | null
+          numero_parcela?: number | null
           observacoes?: string | null
+          parcelado?: boolean | null
+          recorrente?: boolean | null
           socio_id?: string | null
+          status?: string | null
+          total_parcelas?: number | null
           updated_at?: string | null
           user_id?: string | null
           valor?: number
@@ -177,6 +201,69 @@ export type Database = {
             columns: ["socio_id"]
             isOneToOne: false
             referencedRelation: "socios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      modelos_recorrentes: {
+        Row: {
+          ativo: boolean | null
+          categoria_id: string | null
+          conta_id: string | null
+          created_at: string | null
+          descricao: string
+          dia_vencimento: number | null
+          frequencia: string | null
+          id: string
+          proxima_execucao: string | null
+          tipo: string
+          updated_at: string | null
+          user_id: string | null
+          valor: number
+        }
+        Insert: {
+          ativo?: boolean | null
+          categoria_id?: string | null
+          conta_id?: string | null
+          created_at?: string | null
+          descricao: string
+          dia_vencimento?: number | null
+          frequencia?: string | null
+          id?: string
+          proxima_execucao?: string | null
+          tipo: string
+          updated_at?: string | null
+          user_id?: string | null
+          valor: number
+        }
+        Update: {
+          ativo?: boolean | null
+          categoria_id?: string | null
+          conta_id?: string | null
+          created_at?: string | null
+          descricao?: string
+          dia_vencimento?: number | null
+          frequencia?: string | null
+          id?: string
+          proxima_execucao?: string | null
+          tipo?: string
+          updated_at?: string | null
+          user_id?: string | null
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "modelos_recorrentes_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "modelos_recorrentes_conta_id_fkey"
+            columns: ["conta_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
             referencedColumns: ["id"]
           },
         ]
@@ -310,6 +397,45 @@ export type Database = {
           user_id?: string | null
         }
         Relationships: []
+      }
+      transferencias: {
+        Row: {
+          created_at: string | null
+          destino_lancamento_id: string | null
+          id: string
+          origem_lancamento_id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          destino_lancamento_id?: string | null
+          id?: string
+          origem_lancamento_id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          destino_lancamento_id?: string | null
+          id?: string
+          origem_lancamento_id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "transferencias_destino_lancamento_id_fkey"
+            columns: ["destino_lancamento_id"]
+            isOneToOne: false
+            referencedRelation: "lancamentos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "transferencias_origem_lancamento_id_fkey"
+            columns: ["origem_lancamento_id"]
+            isOneToOne: false
+            referencedRelation: "lancamentos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
