@@ -108,6 +108,7 @@ export type Database = {
         Row: {
           categoria_id: string | null
           comprovante_url: string | null
+          conta_destino_id: string | null
           conta_id: string | null
           created_at: string | null
           data: string
@@ -122,6 +123,7 @@ export type Database = {
         Insert: {
           categoria_id?: string | null
           comprovante_url?: string | null
+          conta_destino_id?: string | null
           conta_id?: string | null
           created_at?: string | null
           data?: string
@@ -136,6 +138,7 @@ export type Database = {
         Update: {
           categoria_id?: string | null
           comprovante_url?: string | null
+          conta_destino_id?: string | null
           conta_id?: string | null
           created_at?: string | null
           data?: string
@@ -156,6 +159,13 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "lancamentos_conta_destino_id_fkey"
+            columns: ["conta_destino_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "lancamentos_conta_id_fkey"
             columns: ["conta_id"]
             isOneToOne: false
@@ -167,6 +177,47 @@ export type Database = {
             columns: ["socio_id"]
             isOneToOne: false
             referencedRelation: "socios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orcamentos: {
+        Row: {
+          ano: number
+          categoria_id: string | null
+          created_at: string | null
+          id: string
+          mes: number
+          updated_at: string | null
+          user_id: string | null
+          valor_planejado: number
+        }
+        Insert: {
+          ano: number
+          categoria_id?: string | null
+          created_at?: string | null
+          id?: string
+          mes: number
+          updated_at?: string | null
+          user_id?: string | null
+          valor_planejado?: number
+        }
+        Update: {
+          ano?: number
+          categoria_id?: string | null
+          created_at?: string | null
+          id?: string
+          mes?: number
+          updated_at?: string | null
+          user_id?: string | null
+          valor_planejado?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orcamentos_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
             referencedColumns: ["id"]
           },
         ]
@@ -194,6 +245,7 @@ export type Database = {
       }
       reservas: {
         Row: {
+          conta_id: string | null
           created_at: string | null
           id: string
           meta: number | null
@@ -203,6 +255,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          conta_id?: string | null
           created_at?: string | null
           id?: string
           meta?: number | null
@@ -212,6 +265,7 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          conta_id?: string | null
           created_at?: string | null
           id?: string
           meta?: number | null
@@ -220,7 +274,15 @@ export type Database = {
           updated_at?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "reservas_conta_id_fkey"
+            columns: ["conta_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       socios: {
         Row: {
