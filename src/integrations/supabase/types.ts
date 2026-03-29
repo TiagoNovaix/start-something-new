@@ -16,8 +16,10 @@ export type Database = {
     Tables: {
       categorias: {
         Row: {
+          classificacao_dre: string | null
           cor: string | null
           created_at: string | null
+          icone: string | null
           id: string
           nome: string
           tipo: string
@@ -25,8 +27,10 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          classificacao_dre?: string | null
           cor?: string | null
           created_at?: string | null
+          icone?: string | null
           id?: string
           nome: string
           tipo: string
@@ -34,13 +38,45 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          classificacao_dre?: string | null
           cor?: string | null
           created_at?: string | null
+          icone?: string | null
           id?: string
           nome?: string
           tipo?: string
           updated_at?: string | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      configuracoes: {
+        Row: {
+          created_at: string | null
+          empresa_logo: string | null
+          empresa_nome: string | null
+          id: string
+          moeda: string | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          empresa_logo?: string | null
+          empresa_nome?: string | null
+          id?: string
+          moeda?: string | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          empresa_logo?: string | null
+          empresa_nome?: string | null
+          id?: string
+          moeda?: string | null
+          updated_at?: string | null
+          user_id?: string
         }
         Relationships: []
       }
@@ -124,6 +160,7 @@ export type Database = {
           recorrente: boolean | null
           socio_id: string | null
           status: string | null
+          tipo_movimentacao: string | null
           total_parcelas: number | null
           updated_at: string | null
           user_id: string | null
@@ -148,6 +185,7 @@ export type Database = {
           recorrente?: boolean | null
           socio_id?: string | null
           status?: string | null
+          tipo_movimentacao?: string | null
           total_parcelas?: number | null
           updated_at?: string | null
           user_id?: string | null
@@ -172,6 +210,7 @@ export type Database = {
           recorrente?: boolean | null
           socio_id?: string | null
           status?: string | null
+          tipo_movimentacao?: string | null
           total_parcelas?: number | null
           updated_at?: string | null
           user_id?: string | null
@@ -379,7 +418,9 @@ export type Database = {
       }
       socios: {
         Row: {
+          ativo: boolean | null
           created_at: string | null
+          email: string | null
           id: string
           nome: string
           participacao: number
@@ -387,7 +428,9 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          ativo?: boolean | null
           created_at?: string | null
+          email?: string | null
           id?: string
           nome: string
           participacao?: number
@@ -395,7 +438,9 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          ativo?: boolean | null
           created_at?: string | null
+          email?: string | null
           id?: string
           nome?: string
           participacao?: number
