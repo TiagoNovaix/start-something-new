@@ -116,6 +116,7 @@ export type Database = {
           descricao: string
           frequencia_recorrencia: string | null
           id: string
+          metadata: Json | null
           metodo_pagamento: string | null
           numero_parcela: number | null
           observacoes: string | null
@@ -139,6 +140,7 @@ export type Database = {
           descricao: string
           frequencia_recorrencia?: string | null
           id?: string
+          metadata?: Json | null
           metodo_pagamento?: string | null
           numero_parcela?: number | null
           observacoes?: string | null
@@ -162,6 +164,7 @@ export type Database = {
           descricao?: string
           frequencia_recorrencia?: string | null
           id?: string
+          metadata?: Json | null
           metodo_pagamento?: string | null
           numero_parcela?: number | null
           observacoes?: string | null
