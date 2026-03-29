@@ -68,7 +68,7 @@ const App = () => (
             element={
               <Layout>
                 <Fechamento />
-              </Route>
+              </Layout>
             }
           />
           <Route
