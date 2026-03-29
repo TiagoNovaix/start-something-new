@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       categorias: {
         Row: {
+          ativo: boolean | null
           classificacao_dre: string | null
           cor: string | null
           created_at: string | null
@@ -23,11 +24,13 @@ export type Database = {
           icone: string | null
           id: string
           nome: string
+          subgrupo: string | null
           tipo: string
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          ativo?: boolean | null
           classificacao_dre?: string | null
           cor?: string | null
           created_at?: string | null
@@ -35,11 +38,13 @@ export type Database = {
           icone?: string | null
           id?: string
           nome: string
+          subgrupo?: string | null
           tipo: string
           updated_at?: string | null
           user_id?: string
         }
         Update: {
+          ativo?: boolean | null
           classificacao_dre?: string | null
           cor?: string | null
           created_at?: string | null
@@ -47,6 +52,7 @@ export type Database = {
           icone?: string | null
           id?: string
           nome?: string
+          subgrupo?: string | null
           tipo?: string
           updated_at?: string | null
           user_id?: string
@@ -55,29 +61,35 @@ export type Database = {
       }
       configuracoes: {
         Row: {
+          cnpj: string | null
           created_at: string | null
           empresa_logo: string | null
           empresa_nome: string | null
           id: string
           moeda: string | null
+          regime_tributario: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          cnpj?: string | null
           created_at?: string | null
           empresa_logo?: string | null
           empresa_nome?: string | null
           id?: string
           moeda?: string | null
+          regime_tributario?: string | null
           updated_at?: string | null
           user_id: string
         }
         Update: {
+          cnpj?: string | null
           created_at?: string | null
           empresa_logo?: string | null
           empresa_nome?: string | null
           id?: string
           moeda?: string | null
+          regime_tributario?: string | null
           updated_at?: string | null
           user_id?: string
         }
@@ -85,6 +97,7 @@ export type Database = {
       }
       contas: {
         Row: {
+          ativo: boolean | null
           banco: string | null
           cor: string | null
           created_at: string | null
@@ -96,6 +109,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          ativo?: boolean | null
           banco?: string | null
           cor?: string | null
           created_at?: string | null
@@ -107,6 +121,7 @@ export type Database = {
           user_id?: string
         }
         Update: {
+          ativo?: boolean | null
           banco?: string | null
           cor?: string | null
           created_at?: string | null
