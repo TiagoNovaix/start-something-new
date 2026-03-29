@@ -19,6 +19,7 @@ export type Database = {
           classificacao_dre: string | null
           cor: string | null
           created_at: string | null
+          descricao: string | null
           icone: string | null
           id: string
           nome: string
@@ -30,6 +31,7 @@ export type Database = {
           classificacao_dre?: string | null
           cor?: string | null
           created_at?: string | null
+          descricao?: string | null
           icone?: string | null
           id?: string
           nome: string
@@ -41,6 +43,7 @@ export type Database = {
           classificacao_dre?: string | null
           cor?: string | null
           created_at?: string | null
+          descricao?: string | null
           icone?: string | null
           id?: string
           nome?: string
@@ -153,6 +156,7 @@ export type Database = {
           data: string
           data_pagamento: string | null
           descricao: string
+          fixo: boolean | null
           frequencia_recorrencia: string | null
           id: string
           metadata: Json | null
@@ -163,6 +167,7 @@ export type Database = {
           recorrente: boolean | null
           socio_id: string | null
           status: string | null
+          tags: string[] | null
           tipo_movimentacao: string | null
           total_parcelas: number | null
           updated_at: string | null
@@ -178,6 +183,7 @@ export type Database = {
           data?: string
           data_pagamento?: string | null
           descricao: string
+          fixo?: boolean | null
           frequencia_recorrencia?: string | null
           id?: string
           metadata?: Json | null
@@ -188,6 +194,7 @@ export type Database = {
           recorrente?: boolean | null
           socio_id?: string | null
           status?: string | null
+          tags?: string[] | null
           tipo_movimentacao?: string | null
           total_parcelas?: number | null
           updated_at?: string | null
@@ -203,6 +210,7 @@ export type Database = {
           data?: string
           data_pagamento?: string | null
           descricao?: string
+          fixo?: boolean | null
           frequencia_recorrencia?: string | null
           id?: string
           metadata?: Json | null
@@ -213,6 +221,7 @@ export type Database = {
           recorrente?: boolean | null
           socio_id?: string | null
           status?: string | null
+          tags?: string[] | null
           tipo_movimentacao?: string | null
           total_parcelas?: number | null
           updated_at?: string | null
