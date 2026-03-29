@@ -83,6 +83,7 @@ export type Database = {
       contas: {
         Row: {
           banco: string | null
+          cor: string | null
           created_at: string | null
           id: string
           nome: string
@@ -93,6 +94,7 @@ export type Database = {
         }
         Insert: {
           banco?: string | null
+          cor?: string | null
           created_at?: string | null
           id?: string
           nome: string
@@ -103,6 +105,7 @@ export type Database = {
         }
         Update: {
           banco?: string | null
+          cor?: string | null
           created_at?: string | null
           id?: string
           nome?: string
