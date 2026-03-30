@@ -161,6 +161,36 @@ export type Database = {
         }
         Relationships: []
       }
+      grupos_parcelas: {
+        Row: {
+          created_at: string
+          descricao: string | null
+          id: string
+          total_parcelas: number
+          updated_at: string
+          user_id: string
+          valor_total: number
+        }
+        Insert: {
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          total_parcelas: number
+          updated_at?: string
+          user_id: string
+          valor_total: number
+        }
+        Update: {
+          created_at?: string
+          descricao?: string | null
+          id?: string
+          total_parcelas?: number
+          updated_at?: string
+          user_id?: string
+          valor_total?: number
+        }
+        Relationships: []
+      }
       lancamentos: {
         Row: {
           categoria_id: string | null
@@ -173,6 +203,7 @@ export type Database = {
           descricao: string
           fixo: boolean | null
           frequencia_recorrencia: string | null
+          grupo_parcelas_id: string | null
           id: string
           metadata: Json | null
           metodo_pagamento: string | null
@@ -180,8 +211,10 @@ export type Database = {
           observacoes: string | null
           parcelado: boolean | null
           recorrente: boolean | null
+          regra_recorrencia_id: string | null
           socio_id: string | null
           status: string | null
+          subtipo: string | null
           tags: string[] | null
           tipo_movimentacao: string | null
           total_parcelas: number | null
@@ -200,6 +233,7 @@ export type Database = {
           descricao: string
           fixo?: boolean | null
           frequencia_recorrencia?: string | null
+          grupo_parcelas_id?: string | null
           id?: string
           metadata?: Json | null
           metodo_pagamento?: string | null
@@ -207,8 +241,10 @@ export type Database = {
           observacoes?: string | null
           parcelado?: boolean | null
           recorrente?: boolean | null
+          regra_recorrencia_id?: string | null
           socio_id?: string | null
           status?: string | null
+          subtipo?: string | null
           tags?: string[] | null
           tipo_movimentacao?: string | null
           total_parcelas?: number | null
@@ -227,6 +263,7 @@ export type Database = {
           descricao?: string
           fixo?: boolean | null
           frequencia_recorrencia?: string | null
+          grupo_parcelas_id?: string | null
           id?: string
           metadata?: Json | null
           metodo_pagamento?: string | null
@@ -234,8 +271,10 @@ export type Database = {
           observacoes?: string | null
           parcelado?: boolean | null
           recorrente?: boolean | null
+          regra_recorrencia_id?: string | null
           socio_id?: string | null
           status?: string | null
+          subtipo?: string | null
           tags?: string[] | null
           tipo_movimentacao?: string | null
           total_parcelas?: number | null
@@ -263,6 +302,20 @@ export type Database = {
             columns: ["conta_id"]
             isOneToOne: false
             referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamentos_grupo_parcelas_id_fkey"
+            columns: ["grupo_parcelas_id"]
+            isOneToOne: false
+            referencedRelation: "grupos_parcelas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamentos_regra_recorrencia_id_fkey"
+            columns: ["regra_recorrencia_id"]
+            isOneToOne: false
+            referencedRelation: "regras_recorrencia"
             referencedColumns: ["id"]
           },
           {
@@ -337,6 +390,51 @@ export type Database = {
           },
         ]
       }
+      movimentacoes_reservas: {
+        Row: {
+          created_at: string
+          id: string
+          reserva_id: string
+          tipo: string
+          transacao_id: string | null
+          user_id: string
+          valor: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reserva_id: string
+          tipo: string
+          transacao_id?: string | null
+          user_id: string
+          valor: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reserva_id?: string
+          tipo?: string
+          transacao_id?: string | null
+          user_id?: string
+          valor?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movimentacoes_reservas_reserva_id_fkey"
+            columns: ["reserva_id"]
+            isOneToOne: false
+            referencedRelation: "reservas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimentacoes_reservas_transacao_id_fkey"
+            columns: ["transacao_id"]
+            isOneToOne: false
+            referencedRelation: "lancamentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orcamentos: {
         Row: {
           ano: number
@@ -402,37 +500,106 @@ export type Database = {
         }
         Relationships: []
       }
+      regras_recorrencia: {
+        Row: {
+          categoria_id: string | null
+          conta_id: string | null
+          created_at: string
+          data_fim: string | null
+          data_inicio: string
+          descricao: string | null
+          frequencia: string
+          id: string
+          updated_at: string
+          user_id: string
+          valor: number | null
+        }
+        Insert: {
+          categoria_id?: string | null
+          conta_id?: string | null
+          created_at?: string
+          data_fim?: string | null
+          data_inicio: string
+          descricao?: string | null
+          frequencia: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          valor?: number | null
+        }
+        Update: {
+          categoria_id?: string | null
+          conta_id?: string | null
+          created_at?: string
+          data_fim?: string | null
+          data_inicio?: string
+          descricao?: string | null
+          frequencia?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          valor?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "regras_recorrencia_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "regras_recorrencia_conta_id_fkey"
+            columns: ["conta_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       reservas: {
         Row: {
+          automatico: boolean | null
           conta_id: string | null
           cor: string | null
           created_at: string | null
           id: string
           meta: number | null
           nome: string
+          origem_tipo: string[] | null
+          percentual: number | null
           saldo_atual: number
+          status: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
+          automatico?: boolean | null
           conta_id?: string | null
           cor?: string | null
           created_at?: string | null
           id?: string
           meta?: number | null
           nome: string
+          origem_tipo?: string[] | null
+          percentual?: number | null
           saldo_atual?: number
+          status?: string | null
           updated_at?: string | null
           user_id?: string
         }
         Update: {
+          automatico?: boolean | null
           conta_id?: string | null
           cor?: string | null
           created_at?: string | null
           id?: string
           meta?: number | null
           nome?: string
+          origem_tipo?: string[] | null
+          percentual?: number | null
           saldo_atual?: number
+          status?: string | null
           updated_at?: string | null
           user_id?: string
         }
