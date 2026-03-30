@@ -40,6 +40,7 @@ const App = () => (
               </Layout>
             }
           />
+          <Route path="/lancamentos/novo" element={<NovoLancamento />} />
           <Route
             path="/dre"
             element={
