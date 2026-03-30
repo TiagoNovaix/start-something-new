@@ -24,6 +24,7 @@ export type Database = {
           icone: string | null
           id: string
           nome: string
+          parent_id: string | null
           subgrupo: string | null
           tipo: string
           updated_at: string | null
@@ -38,6 +39,7 @@ export type Database = {
           icone?: string | null
           id?: string
           nome: string
+          parent_id?: string | null
           subgrupo?: string | null
           tipo: string
           updated_at?: string | null
@@ -52,8 +54,47 @@ export type Database = {
           icone?: string | null
           id?: string
           nome?: string
+          parent_id?: string | null
           subgrupo?: string | null
           tipo?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "categorias_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      centros_custo: {
+        Row: {
+          ativo: boolean | null
+          created_at: string | null
+          descricao: string | null
+          id: string
+          nome: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          ativo?: boolean | null
+          created_at?: string | null
+          descricao?: string | null
+          id?: string
+          nome: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          ativo?: boolean | null
+          created_at?: string | null
+          descricao?: string | null
+          id?: string
+          nome?: string
           updated_at?: string | null
           user_id?: string
         }
@@ -215,7 +256,9 @@ export type Database = {
       lancamentos: {
         Row: {
           categoria_id: string | null
+          centro_custo_id: string | null
           comprovante_url: string | null
+          conciliado: boolean | null
           conta_destino_id: string | null
           conta_id: string | null
           created_at: string | null
@@ -245,7 +288,9 @@ export type Database = {
         }
         Insert: {
           categoria_id?: string | null
+          centro_custo_id?: string | null
           comprovante_url?: string | null
+          conciliado?: boolean | null
           conta_destino_id?: string | null
           conta_id?: string | null
           created_at?: string | null
@@ -275,7 +320,9 @@ export type Database = {
         }
         Update: {
           categoria_id?: string | null
+          centro_custo_id?: string | null
           comprovante_url?: string | null
+          conciliado?: boolean | null
           conta_destino_id?: string | null
           conta_id?: string | null
           created_at?: string | null
@@ -309,6 +356,13 @@ export type Database = {
             columns: ["categoria_id"]
             isOneToOne: false
             referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamentos_centro_custo_id_fkey"
+            columns: ["centro_custo_id"]
+            isOneToOne: false
+            referencedRelation: "centros_custo"
             referencedColumns: ["id"]
           },
           {
@@ -505,6 +559,7 @@ export type Database = {
           full_name: string | null
           id: string
           phone: string | null
+          preferencias: Json | null
           updated_at: string | null
         }
         Insert: {
@@ -514,6 +569,7 @@ export type Database = {
           full_name?: string | null
           id: string
           phone?: string | null
+          preferencias?: Json | null
           updated_at?: string | null
         }
         Update: {
@@ -523,6 +579,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           phone?: string | null
+          preferencias?: Json | null
           updated_at?: string | null
         }
         Relationships: []
