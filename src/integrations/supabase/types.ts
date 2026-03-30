@@ -402,6 +402,48 @@ export type Database = {
           },
         ]
       }
+      metas: {
+        Row: {
+          ativo: boolean | null
+          cor: string | null
+          created_at: string | null
+          data_limite: string | null
+          icone: string | null
+          id: string
+          nome: string
+          updated_at: string | null
+          user_id: string
+          valor_atual: number | null
+          valor_objetivo: number
+        }
+        Insert: {
+          ativo?: boolean | null
+          cor?: string | null
+          created_at?: string | null
+          data_limite?: string | null
+          icone?: string | null
+          id?: string
+          nome: string
+          updated_at?: string | null
+          user_id: string
+          valor_atual?: number | null
+          valor_objetivo: number
+        }
+        Update: {
+          ativo?: boolean | null
+          cor?: string | null
+          created_at?: string | null
+          data_limite?: string | null
+          icone?: string | null
+          id?: string
+          nome?: string
+          updated_at?: string | null
+          user_id?: string
+          valor_atual?: number | null
+          valor_objetivo?: number
+        }
+        Relationships: []
+      }
       modelos_recorrentes: {
         Row: {
           ativo: boolean | null
