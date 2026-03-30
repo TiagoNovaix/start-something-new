@@ -11,6 +11,7 @@ import Reservas from "./pages/Reservas";
 import Socios from "./pages/Socios";
 import Fechamento from "./pages/Fechamento";
 import Configuracoes from "./pages/Configuracoes";
+import NovoLancamento from "./pages/lancamentos/novo";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const App = () => (
               </Layout>
             }
           />
+          <Route path="/lancamentos/novo" element={<NovoLancamento />} />
           <Route
             path="/dre"
             element={
