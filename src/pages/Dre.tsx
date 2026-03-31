@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format, subMonths, startOfMonth, endOfMonth, getMonth, getYear } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -11,7 +11,10 @@ import {
   Filter,
   ChevronUp,
   ChevronDown,
-  Info
+  Info,
+  Lock,
+  Unlock,
+  CheckCircle2
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
