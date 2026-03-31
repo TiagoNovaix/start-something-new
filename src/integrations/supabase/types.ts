@@ -955,6 +955,7 @@ export type Database = {
         }[]
       }
       sync_conta_saldo: { Args: { target_id: string }; Returns: undefined }
+      sync_reserva_saldo: { Args: { target_id: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
