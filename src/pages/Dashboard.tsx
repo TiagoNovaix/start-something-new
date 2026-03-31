@@ -164,9 +164,25 @@ const Dashboard = () => {
     <div className="space-y-8 pb-10">
       {/* KPI Cards Row 1 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <KPICard title="Receita Bruta" value={68000} trend={12} isPositive={true} />
-        <KPICard title="Despesas Totais" value={41000} trend={5} isPositive={false} />
-        <KPICard title="Lucro Líquido" value={27000} trend={18} isPositive={true} highlight={true} />
+        <KPICard 
+          title="Receita Bruta" 
+          value={metrics?.receita_total || 0} 
+          trend={metrics ? undefined : 12} 
+          isPositive={metrics ? undefined : true} 
+        />
+        <KPICard 
+          title="Despesas Totais" 
+          value={metrics?.despesa_total || 0} 
+          trend={metrics ? undefined : 5} 
+          isPositive={metrics ? undefined : false} 
+        />
+        <KPICard 
+          title="Lucro Líquido" 
+          value={metrics?.lucro_liquido_realizado || 0} 
+          trend={metrics ? undefined : 18} 
+          isPositive={metrics ? undefined : true} 
+          highlight={true} 
+        />
         <KPICard title="Caixa Atual" value={145000} />
         <KPICard title="Disp. Distribuição" value={32400} />
         <KPICard title="Total em Reservas" value={100000} />
