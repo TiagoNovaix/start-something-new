@@ -336,31 +336,33 @@ const Dre = () => {
           <p className="text-secondary mt-1">Demonstrativo do Resultado do Exercício</p>
         </div>
         <div className="flex items-center gap-2">
-          {closingStatus?.status === 'fechado' ? (
-            <Badge variant="outline" className="bg-positive/10 text-positive border-positive/20 px-3 py-1 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4" />
-              Mês Fechado
-            </Badge>
-          ) : closingStatus?.status === 'em_conferencia' ? (
-            <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20 px-3 py-1 flex items-center gap-2">
-              <Info className="w-4 h-4" />
-              Em Conferência
-            </Badge>
-          ) : (
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
-              onClick={handleCloseMonth}
-              disabled={closeMonthMutation.isPending || isLoading}
-            >
-              {closeMonthMutation.isPending ? (
-                <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin mr-2" />
-              ) : (
-                <Lock className="w-4 h-4 mr-2" />
-              )}
-              Fechar Mês
-            </Button>
+          {isAdmin && (
+            closingStatus?.status === 'fechado' ? (
+              <Badge variant="outline" className="bg-positive/10 text-positive border-positive/20 px-3 py-1 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4" />
+                Mês Fechado
+              </Badge>
+            ) : closingStatus?.status === 'em_conferencia' ? (
+              <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20 px-3 py-1 flex items-center gap-2">
+                <Info className="w-4 h-4" />
+                Em Conferência
+              </Badge>
+            ) : (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                onClick={handleCloseMonth}
+                disabled={closeMonthMutation.isPending || isLoading}
+              >
+                {closeMonthMutation.isPending ? (
+                  <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin mr-2" />
+                ) : (
+                  <Lock className="w-4 h-4 mr-2" />
+                )}
+                Fechar Mês
+              </Button>
+            )
           )}
           
           <Button 
