@@ -298,6 +298,7 @@ export function useTransactionForm() {
             categoria_id: formData.categoriaId || null,
             conta_id: formData.contaId || null,
             socio_id: formData.socioId || null,
+            centro_custo_id: formData.centroCustoId || null,
             observacoes: formData.observacoes || null,
             recorrente: true,
             frequencia_recorrencia: formData.frequenciaRecorrencia,
