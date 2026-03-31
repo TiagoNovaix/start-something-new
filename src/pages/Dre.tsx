@@ -101,7 +101,7 @@ const Dre = () => {
   });
 
   const closeMonthMutation = useMutation({
-    mutationFn: async (snapshot: any) => {
+    mutationFn: async ({ snapshot, justification }: { snapshot: any, justification: string }) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Usuário não autenticado");
 
@@ -114,7 +114,8 @@ const Dre = () => {
           snapshot_dre: snapshot as any,
           closed_at: new Date().toISOString(),
           closed_by: user.id,
-          user_id: user.id
+          user_id: user.id,
+          justification
         })
         .select()
         .single();
@@ -133,8 +134,9 @@ const Dre = () => {
   });
 
   const handleCloseMonth = () => {
-    if (confirm(`Deseja realmente fechar o mês de ${format(selectedDate, "MMMM", { locale: ptBR })}? Isso salvará um snapshot dos dados atuais.`)) {
-      closeMonthMutation.mutate(dreData);
+    const justification = prompt(`Deseja fechar o mês de ${format(selectedDate, "MMMM", { locale: ptBR })}? Isso salvará um snapshot dos dados atuais. Adicione uma justificativa (opcional):`);
+    if (justification !== null) {
+      closeMonthMutation.mutate({ snapshot: dreData, justification });
     }
   };
 
