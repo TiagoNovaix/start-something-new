@@ -246,6 +246,7 @@ export type Database = {
       }
       grupos_parcelas: {
         Row: {
+          centro_custo_id: string | null
           created_at: string
           deleted_at: string | null
           descricao: string | null
@@ -256,6 +257,7 @@ export type Database = {
           valor_total: number
         }
         Insert: {
+          centro_custo_id?: string | null
           created_at?: string
           deleted_at?: string | null
           descricao?: string | null
@@ -266,6 +268,7 @@ export type Database = {
           valor_total: number
         }
         Update: {
+          centro_custo_id?: string | null
           created_at?: string
           deleted_at?: string | null
           descricao?: string | null
@@ -275,7 +278,15 @@ export type Database = {
           user_id?: string
           valor_total?: number
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "grupos_parcelas_centro_custo_id_fkey"
+            columns: ["centro_custo_id"]
+            isOneToOne: false
+            referencedRelation: "centros_custo"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       lancamentos: {
         Row: {
@@ -674,6 +685,7 @@ export type Database = {
       regras_recorrencia: {
         Row: {
           categoria_id: string | null
+          centro_custo_id: string | null
           conta_id: string | null
           created_at: string
           data_fim: string | null
@@ -682,12 +694,14 @@ export type Database = {
           descricao: string | null
           frequencia: string
           id: string
+          subtipo: string | null
           updated_at: string
           user_id: string
           valor: number | null
         }
         Insert: {
           categoria_id?: string | null
+          centro_custo_id?: string | null
           conta_id?: string | null
           created_at?: string
           data_fim?: string | null
@@ -696,12 +710,14 @@ export type Database = {
           descricao?: string | null
           frequencia: string
           id?: string
+          subtipo?: string | null
           updated_at?: string
           user_id: string
           valor?: number | null
         }
         Update: {
           categoria_id?: string | null
+          centro_custo_id?: string | null
           conta_id?: string | null
           created_at?: string
           data_fim?: string | null
@@ -710,6 +726,7 @@ export type Database = {
           descricao?: string | null
           frequencia?: string
           id?: string
+          subtipo?: string | null
           updated_at?: string
           user_id?: string
           valor?: number | null
@@ -720,6 +737,13 @@ export type Database = {
             columns: ["categoria_id"]
             isOneToOne: false
             referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "regras_recorrencia_centro_custo_id_fkey"
+            columns: ["centro_custo_id"]
+            isOneToOne: false
+            referencedRelation: "centros_custo"
             referencedColumns: ["id"]
           },
           {
