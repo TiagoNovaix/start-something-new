@@ -211,6 +211,11 @@ export function useTransactionForm() {
             total_parcelas: formData.numeroParcelas,
             valor_total: valor,
             descricao: formData.descricao,
+            subtipo: formData.subtipo,
+            categoria_id: formData.categoriaId || null,
+            conta_id: formData.contaId || null,
+            socio_id: formData.socioId || null,
+            centro_custo_id: formData.centroCustoId || null,
           })
           .select()
           .single();
