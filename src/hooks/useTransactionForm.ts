@@ -25,6 +25,7 @@ export interface TransactionFormData {
   contaId: string;
   contaDestinoId: string;
   socioId: string;
+  centroCustoId: string;
   observacoes: string;
   parcelado: boolean;
   numeroParcelas: number;
