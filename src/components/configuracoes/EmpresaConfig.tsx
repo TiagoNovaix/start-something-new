@@ -12,6 +12,7 @@ type FormValues = {
   empresa_nome: string;
   cnpj: string;
   regime_tributario: string;
+  caixa_operacional_minimo_meses: number;
 };
 
 const EmpresaConfig = () => {
