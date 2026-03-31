@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       audit_logs: {
         Row: {
+          company_id: string | null
           created_at: string
           id: string
           justification: string | null
@@ -26,6 +27,7 @@ export type Database = {
           valor_novo: Json | null
         }
         Insert: {
+          company_id?: string | null
           created_at?: string
           id?: string
           justification?: string | null
@@ -36,6 +38,7 @@ export type Database = {
           valor_novo?: Json | null
         }
         Update: {
+          company_id?: string | null
           created_at?: string
           id?: string
           justification?: string | null
@@ -46,6 +49,13 @@ export type Database = {
           valor_novo?: Json | null
         }
         Relationships: [
+          {
+            foreignKeyName: "audit_logs_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "audit_logs_socio_id_fkey"
             columns: ["socio_id"]
@@ -97,6 +107,7 @@ export type Database = {
         Row: {
           ativo: boolean | null
           classificacao_dre: string | null
+          company_id: string | null
           cor: string | null
           created_at: string | null
           deleted_at: string | null
@@ -113,6 +124,7 @@ export type Database = {
         Insert: {
           ativo?: boolean | null
           classificacao_dre?: string | null
+          company_id?: string | null
           cor?: string | null
           created_at?: string | null
           deleted_at?: string | null
@@ -129,6 +141,7 @@ export type Database = {
         Update: {
           ativo?: boolean | null
           classificacao_dre?: string | null
+          company_id?: string | null
           cor?: string | null
           created_at?: string | null
           deleted_at?: string | null
@@ -144,6 +157,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "categorias_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "categorias_parent_id_fkey"
             columns: ["parent_id"]
             isOneToOne: false
@@ -155,6 +175,7 @@ export type Database = {
       centros_custo: {
         Row: {
           ativo: boolean | null
+          company_id: string | null
           created_at: string | null
           deleted_at: string | null
           descricao: string | null
@@ -165,6 +186,7 @@ export type Database = {
         }
         Insert: {
           ativo?: boolean | null
+          company_id?: string | null
           created_at?: string | null
           deleted_at?: string | null
           descricao?: string | null
@@ -175,6 +197,7 @@ export type Database = {
         }
         Update: {
           ativo?: boolean | null
+          company_id?: string | null
           created_at?: string | null
           deleted_at?: string | null
           descricao?: string | null
@@ -183,7 +206,15 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "centros_custo_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       companies: {
         Row: {
@@ -258,6 +289,7 @@ export type Database = {
         Row: {
           ativo: boolean | null
           banco: string | null
+          company_id: string | null
           cor: string | null
           created_at: string | null
           deleted_at: string | null
@@ -272,6 +304,7 @@ export type Database = {
         Insert: {
           ativo?: boolean | null
           banco?: string | null
+          company_id?: string | null
           cor?: string | null
           created_at?: string | null
           deleted_at?: string | null
@@ -286,6 +319,7 @@ export type Database = {
         Update: {
           ativo?: boolean | null
           banco?: string | null
+          company_id?: string | null
           cor?: string | null
           created_at?: string | null
           deleted_at?: string | null
@@ -297,10 +331,19 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "contas_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       distribuicoes_lucro: {
         Row: {
+          company_id: string | null
           created_at: string
           despesas_operacionais: number
           disponivel_distribuicao: number
@@ -318,6 +361,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          company_id?: string | null
           created_at?: string
           despesas_operacionais?: number
           disponivel_distribuicao?: number
@@ -335,6 +379,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          company_id?: string | null
           created_at?: string
           despesas_operacionais?: number
           disponivel_distribuicao?: number
@@ -351,7 +396,15 @@ export type Database = {
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "distribuicoes_lucro_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       distribuicoes_lucro_itens: {
         Row: {
@@ -500,6 +553,7 @@ export type Database = {
         Row: {
           categoria_id: string | null
           centro_custo_id: string | null
+          company_id: string | null
           comprovante_url: string | null
           conciliado: boolean | null
           conta_destino_id: string | null
@@ -534,6 +588,7 @@ export type Database = {
         Insert: {
           categoria_id?: string | null
           centro_custo_id?: string | null
+          company_id?: string | null
           comprovante_url?: string | null
           conciliado?: boolean | null
           conta_destino_id?: string | null
@@ -568,6 +623,7 @@ export type Database = {
         Update: {
           categoria_id?: string | null
           centro_custo_id?: string | null
+          company_id?: string | null
           comprovante_url?: string | null
           conciliado?: boolean | null
           conta_destino_id?: string | null
@@ -612,6 +668,13 @@ export type Database = {
             columns: ["centro_custo_id"]
             isOneToOne: false
             referencedRelation: "centros_custo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "lancamentos_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
           {
@@ -1070,6 +1133,7 @@ export type Database = {
         Row: {
           automatico: boolean | null
           categorias_especificas: string[] | null
+          company_id: string | null
           conta_id: string | null
           cor: string | null
           created_at: string | null
@@ -1090,6 +1154,7 @@ export type Database = {
         Insert: {
           automatico?: boolean | null
           categorias_especificas?: string[] | null
+          company_id?: string | null
           conta_id?: string | null
           cor?: string | null
           created_at?: string | null
@@ -1110,6 +1175,7 @@ export type Database = {
         Update: {
           automatico?: boolean | null
           categorias_especificas?: string[] | null
+          company_id?: string | null
           conta_id?: string | null
           cor?: string | null
           created_at?: string | null
@@ -1129,6 +1195,13 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "reservas_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "reservas_conta_id_fkey"
             columns: ["conta_id"]
             isOneToOne: false
@@ -1140,6 +1213,7 @@ export type Database = {
       socios: {
         Row: {
           ativo: boolean | null
+          company_id: string | null
           created_at: string | null
           deleted_at: string | null
           email: string | null
@@ -1152,6 +1226,7 @@ export type Database = {
         }
         Insert: {
           ativo?: boolean | null
+          company_id?: string | null
           created_at?: string | null
           deleted_at?: string | null
           email?: string | null
@@ -1164,6 +1239,7 @@ export type Database = {
         }
         Update: {
           ativo?: boolean | null
+          company_id?: string | null
           created_at?: string | null
           deleted_at?: string | null
           email?: string | null
@@ -1174,7 +1250,15 @@ export type Database = {
           updated_at?: string | null
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "socios_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       transferencias: {
         Row: {
@@ -1279,6 +1363,7 @@ export type Database = {
       vw_dashboard_resumo: {
         Row: {
           ano: number | null
+          company_id: string | null
           despesa_paga: number | null
           despesa_pendente: number | null
           despesa_total: number | null
@@ -1289,7 +1374,15 @@ export type Database = {
           receita_total: number | null
           user_id: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "lancamentos_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       vw_dre: {
         Row: {
@@ -1306,6 +1399,10 @@ export type Database = {
       }
     }
     Functions: {
+      check_user_company_access: {
+        Args: { check_company_id: string }
+        Returns: boolean
+      }
       is_month_closed: {
         Args: { target_month: number; target_year: number }
         Returns: boolean
