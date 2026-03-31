@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          justification: string | null
           socio_id: string | null
           tipo_evento: string
           user_id: string
@@ -27,6 +28,7 @@ export type Database = {
         Insert: {
           created_at?: string
           id?: string
+          justification?: string | null
           socio_id?: string | null
           tipo_evento: string
           user_id: string
@@ -36,6 +38,7 @@ export type Database = {
         Update: {
           created_at?: string
           id?: string
+          justification?: string | null
           socio_id?: string | null
           tipo_evento?: string
           user_id?: string
@@ -348,36 +351,6 @@ export type Database = {
           id?: number
           metadata?: Json | null
           user_id?: string | null
-        }
-        Relationships: []
-      }
-      fechamentos: {
-        Row: {
-          ano: number
-          data_fechamento: string | null
-          deleted_at: string | null
-          id: string
-          mes: number
-          status: string | null
-          user_id: string
-        }
-        Insert: {
-          ano: number
-          data_fechamento?: string | null
-          deleted_at?: string | null
-          id?: string
-          mes: number
-          status?: string | null
-          user_id: string
-        }
-        Update: {
-          ano?: number
-          data_fechamento?: string | null
-          deleted_at?: string | null
-          id?: string
-          mes?: number
-          status?: string | null
-          user_id?: string
         }
         Relationships: []
       }
@@ -724,6 +697,48 @@ export type Database = {
           },
         ]
       }
+      monthly_closings: {
+        Row: {
+          ano: number
+          closed_at: string | null
+          closed_by: string | null
+          data_fechamento: string | null
+          deleted_at: string | null
+          id: string
+          justification: string | null
+          mes: number
+          snapshot_dre: Json | null
+          status: string | null
+          user_id: string
+        }
+        Insert: {
+          ano: number
+          closed_at?: string | null
+          closed_by?: string | null
+          data_fechamento?: string | null
+          deleted_at?: string | null
+          id?: string
+          justification?: string | null
+          mes: number
+          snapshot_dre?: Json | null
+          status?: string | null
+          user_id: string
+        }
+        Update: {
+          ano?: number
+          closed_at?: string | null
+          closed_by?: string | null
+          data_fechamento?: string | null
+          deleted_at?: string | null
+          id?: string
+          justification?: string | null
+          mes?: number
+          snapshot_dre?: Json | null
+          status?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       movimentacoes_reservas: {
         Row: {
           created_at: string
@@ -828,6 +843,7 @@ export type Database = {
           id: string
           phone: string | null
           preferencias: Json | null
+          role: string | null
           updated_at: string | null
         }
         Insert: {
@@ -838,6 +854,7 @@ export type Database = {
           id: string
           phone?: string | null
           preferencias?: Json | null
+          role?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -848,6 +865,7 @@ export type Database = {
           id?: string
           phone?: string | null
           preferencias?: Json | null
+          role?: string | null
           updated_at?: string | null
         }
         Relationships: []
@@ -1153,6 +1171,10 @@ export type Database = {
       }
     }
     Functions: {
+      is_month_closed: {
+        Args: { target_month: number; target_year: number }
+        Returns: boolean
+      }
       match_documents: {
         Args: { filter?: Json; match_count?: number; query_embedding: string }
         Returns: {
