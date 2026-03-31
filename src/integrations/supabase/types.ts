@@ -954,6 +954,7 @@ export type Database = {
           similarity: number
         }[]
       }
+      sync_conta_saldo: { Args: { target_id: string }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
