@@ -100,35 +100,20 @@ const Dashboard = () => {
     { name: "Sócio C", percent: 30, value: 8100 },
   ];
 
-  const KPICard = ({ title, value, trend, isPositive, highlight = false, subtitle = "este mês" }: any) => (
+  const KPICard = ({ title, value, trend, isPositive, highlight = false }: any) => (
     <Card className={cn(
-      "bg-card border-t-2 border-t-identity-gradient shadow-subtle relative overflow-hidden",
+      "bg-card border-none shadow-subtle relative overflow-hidden group pt-0.5",
       highlight && "ring-1 ring-primary/30"
     )}>
-      <CardHeader className="flex flex-row items-center justify-between pb-1 space-y-0">
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-identity-gradient" />
+      <CardHeader className="flex flex-row items-center justify-between pb-1 space-y-0 pt-4">
         <CardTitle className="text-sm font-medium text-secondary">{title}</CardTitle>
         {isPositive !== undefined && (
           isPositive ? <ArrowUpRight className="w-4 h-4 text-positive" /> : <ArrowDownRight className="w-4 h-4 text-negative" />
         )}
       </CardHeader>
       <CardContent>
-        <div className={cn(
-          "text-3xl font-serif tracking-tight",
-          highlight ? "text-primary font-bold" : "text-foreground",
-          isPositive === true && !highlight && "text-positive",
-          isPositive === false && !highlight && "text-negative"
-        )}>
-          {formatCurrency(value)}
-        </div>
-        {trend && (
-          <div className="flex items-center gap-1 mt-1">
-            <span className={cn("text-xs font-medium", isPositive ? "text-positive" : "text-negative")}>
-              {isPositive ? "↑" : "↓"} {trend}%
-            </span>
-            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">vs mês anterior</span>
-          </div>
-        )}
-      </CardContent>
+...
     </Card>
   );
 
