@@ -4,6 +4,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { TrendingUp, TrendingDown, DollarSign, PieChart } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { TrendingUp, TrendingDown, DollarSign, PieChart } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 const Dre = () => {
   const { data: dreData = [], isLoading } = useQuery({
     queryKey: ["dre-data"],
@@ -11,7 +17,7 @@ const Dre = () => {
       const { data, error } = await supabase
         .from("vw_dre")
         .select("*")
-        .order("ordem", { ascending: true });
+        .order("classificacao_dre", { ascending: true });
 
       if (error) throw error;
       return data;
@@ -25,6 +31,24 @@ const Dre = () => {
     }).format(value || 0);
   };
 
+  // Grouping by classification for the main metrics
+  const groupedData = dreData.reduce((acc: any, item: any) => {
+    const key = item.classificacao_dre || "Outros";
+    if (!acc[key]) acc[key] = 0;
+    acc[key] += item.valor_total;
+    return acc;
+  }, {});
+
+  const totalReceita = dreData
+    .filter((d: any) => d.tipo_movimentacao === "Receita")
+    .reduce((acc: number, curr: any) => acc + curr.valor_total, 0);
+
+  const totalDespesa = dreData
+    .filter((d: any) => d.tipo_movimentacao === "Despesa")
+    .reduce((acc: number, curr: any) => acc + curr.valor_total, 0);
+
+  const lucroLiquido = totalReceita - totalDespesa;
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-full">
@@ -35,7 +59,7 @@ const Dre = () => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="bg-card shadow-subtle border-none">
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-xs font-medium text-secondary uppercase tracking-wider flex items-center gap-2">
@@ -43,21 +67,8 @@ const Dre = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-0">
-            <div className="text-xl font-bold font-serif">
-              {formatCurrency(dreData.find(d => d.descricao === "RECEITA BRUTA")?.valor || 0)}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card shadow-subtle border-none">
-          <CardHeader className="p-4 pb-2">
-            <CardTitle className="text-xs font-medium text-secondary uppercase tracking-wider flex items-center gap-2">
-              <PieChart className="w-4 h-4 text-amber-500" /> Custos
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 pt-0">
-            <div className="text-xl font-bold font-serif text-negative">
-              {formatCurrency(dreData.find(d => d.descricao === "CUSTO DAS MERCADORIAS/SERVIÇOS VENDIDOS")?.valor || 0)}
+            <div className="text-2xl font-bold font-serif">
+              {formatCurrency(totalReceita)}
             </div>
           </CardContent>
         </Card>
@@ -69,8 +80,8 @@ const Dre = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-0">
-            <div className="text-xl font-bold font-serif text-negative">
-              {formatCurrency(dreData.find(d => d.descricao === "DESPESAS OPERACIONAIS")?.valor || 0)}
+            <div className="text-2xl font-bold font-serif text-negative">
+              {formatCurrency(totalDespesa)}
             </div>
           </CardContent>
         </Card>
@@ -82,46 +93,42 @@ const Dre = () => {
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-0">
-            <div className="text-xl font-bold font-serif text-positive">
-              {formatCurrency(dreData.find(d => d.descricao === "LUCRO/PREJUÍZO LÍQUIDO DO EXERCÍCIO")?.valor || 0)}
+            <div className={`text-2xl font-bold font-serif ${lucroLiquido >= 0 ? "text-positive" : "text-negative"}`}>
+              {formatCurrency(lucroLiquido)}
             </div>
           </CardContent>
         </Card>
       </div>
 
       <div className="bg-card rounded-lg border shadow-subtle p-6">
-        <h2 className="text-xl font-medium mb-6">Relatório de Resultados (DRE)</h2>
+        <h2 className="text-xl font-medium mb-6">Demonstrativo de Resultados</h2>
         
         <div className="rounded-md border bg-white/5 overflow-hidden">
           <Table>
             <TableHeader className="bg-card">
               <TableRow>
-                <TableHead className="w-1/2">Descrição</TableHead>
+                <TableHead>Grupo</TableHead>
+                <TableHead>Categoria</TableHead>
                 <TableHead className="text-right">Valor</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {dreData.map((item, index) => {
-                const isHeading = item.descricao.toUpperCase() === item.descricao;
-                const isPositive = item.valor > 0;
-                
-                return (
-                  <TableRow 
-                    key={index} 
-                    className={isHeading ? "bg-muted/30 font-bold" : "hover:bg-muted/10"}
-                  >
-                    <TableCell className={isHeading ? "text-foreground" : "text-secondary pl-8"}>
-                      {item.descricao}
-                    </TableCell>
-                    <TableCell className={`text-right font-serif ${isHeading ? "text-foreground" : isPositive ? "text-positive" : "text-negative"}`}>
-                      {formatCurrency(item.valor)}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+              {dreData.map((item: any, index: number) => (
+                <TableRow key={index} className="hover:bg-muted/10">
+                  <TableCell className="font-medium text-sm text-foreground">
+                    {item.classificacao_dre || "Outros"}
+                  </TableCell>
+                  <TableCell className="text-sm text-secondary">
+                    {item.categoria_nome}
+                  </TableCell>
+                  <TableCell className={`text-right font-serif text-sm ${item.tipo_movimentacao === "Despesa" ? "text-negative" : "text-positive"}`}>
+                    {formatCurrency(item.valor_total)}
+                  </TableCell>
+                </TableRow>
+              ))}
               {dreData.length === 0 && (
                 <TableRow>
-                  <TableCell colSpan={2} className="text-center text-secondary py-12">
+                  <TableCell colSpan={3} className="text-center text-secondary py-12">
                     Dados insuficientes para gerar o DRE.
                   </TableCell>
                 </TableRow>
