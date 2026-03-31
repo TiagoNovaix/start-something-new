@@ -115,6 +115,17 @@ const EmpresaConfig = () => {
           </Select>
         </div>
 
+        <div className="space-y-2">
+          <Label htmlFor="caixa-operacional">Meses de Caixa Operacional Mínimo</Label>
+          <Input 
+            id="caixa-operacional" 
+            type="number" 
+            {...register("caixa_operacional_minimo_meses", { valueAsNumber: true })} 
+            min={1} 
+          />
+          <p className="text-xs text-muted-foreground">Utilizado no cálculo de reserva operacional</p>
+        </div>
+
         <div className="pt-2">
           <Button type="submit" disabled={mutation.isPending}>
             {mutation.isPending ? "Salvando…" : "Salvar"}
