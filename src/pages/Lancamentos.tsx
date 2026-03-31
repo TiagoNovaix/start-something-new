@@ -71,6 +71,10 @@ const Lancamentos = () => {
               </TableCell>
               <TableCell className="text-sm text-secondary">
                 {/* @ts-ignore */}
+                {item.centros_custo?.nome || "—"}
+              </TableCell>
+              <TableCell className="text-sm text-secondary">
+                {/* @ts-ignore */}
                 {item.contas?.nome || "—"}
               </TableCell>
               <TableCell className={`text-sm font-medium ${item.tipo_movimentacao === "Despesa" ? "text-negative" : "text-positive"}`}>
