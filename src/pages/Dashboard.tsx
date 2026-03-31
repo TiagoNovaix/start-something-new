@@ -166,19 +166,19 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <KPICard 
           title="Receita Bruta" 
-          value={metrics?.receita_total || 0} 
+          value={metrics?.receita_total || 68000} 
           trend={metrics ? undefined : 12} 
           isPositive={metrics ? undefined : true} 
         />
         <KPICard 
           title="Despesas Totais" 
-          value={metrics?.despesa_total || 0} 
+          value={metrics?.despesa_total || 41000} 
           trend={metrics ? undefined : 5} 
           isPositive={metrics ? undefined : false} 
         />
         <KPICard 
           title="Lucro Líquido" 
-          value={metrics?.lucro_liquido_realizado || 0} 
+          value={metrics?.lucro_liquido_realizado || 27000} 
           trend={metrics ? undefined : 18} 
           isPositive={metrics ? undefined : true} 
           highlight={true} 
