@@ -46,8 +46,8 @@ const Recurrencias = () => {
         .from("grupos_parcelas")
         .select(`
           *,
-          categorias(nome),
-          contas(nome),
+          categoria:categorias(nome),
+          conta:contas(nome),
           lancamentos(id, numero_parcela, total_parcelas, data_vencimento, status, valor)
         `)
         .is("deleted_at", null)
