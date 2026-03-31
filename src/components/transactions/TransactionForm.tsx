@@ -35,6 +35,7 @@ export default function TransactionForm() {
   useEffect(() => {
     supabase.from("contas").select("id, nome").eq("ativo", true).then(({ data }) => setContas(data ?? []));
     supabase.from("socios").select("id, nome").eq("ativo", true).then(({ data }) => setSocios(data ?? []));
+    supabase.from("centros_custo").select("id, nome").eq("ativo", true).then(({ data }) => setCentrosCusto(data ?? []));
   }, []);
 
   useEffect(() => {
