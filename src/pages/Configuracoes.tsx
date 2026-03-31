@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CategoriasDre from "@/components/configuracoes/CategoriasDre";
 import ContasBancarias from "@/components/configuracoes/ContasBancarias";
 import EmpresaConfig from "@/components/configuracoes/EmpresaConfig";
+import Recurrencias from "@/components/configuracoes/Recurrencias";
 
 const Configuracoes = () => {
   return (
@@ -11,6 +12,7 @@ const Configuracoes = () => {
         <TabsList className="bg-card border border-border">
           <TabsTrigger value="categorias">Categorias DRE</TabsTrigger>
           <TabsTrigger value="contas">Contas Bancárias</TabsTrigger>
+          <TabsTrigger value="recorrencias">Recorrências</TabsTrigger>
           <TabsTrigger value="empresa">Empresa</TabsTrigger>
         </TabsList>
         <TabsContent value="categorias">
@@ -18,6 +20,9 @@ const Configuracoes = () => {
         </TabsContent>
         <TabsContent value="contas">
           <ContasBancarias />
+        </TabsContent>
+        <TabsContent value="recorrencias">
+          <Recurrencias />
         </TabsContent>
         <TabsContent value="empresa">
           <EmpresaConfig />
