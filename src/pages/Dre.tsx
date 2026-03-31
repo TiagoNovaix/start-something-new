@@ -59,6 +59,8 @@ const Dre = () => {
   const prevMonth = getMonth(prevDate) + 1;
   const prevYear = getYear(prevDate);
 
+  const queryClient = useQueryClient();
+
   const { data: transactions = [], isLoading } = useQuery({
     queryKey: ["dre-transactions", currentMonth, currentYear, compareWithPrevious, showPrevisto],
     queryFn: async () => {
@@ -81,6 +83,59 @@ const Dre = () => {
       return data;
     },
   });
+
+  const { data: closingStatus, isLoading: isClosingLoading } = useQuery({
+    queryKey: ["monthly-closing", currentMonth, currentYear],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("monthly_closings")
+        .select("*")
+        .eq("mes", currentMonth)
+        .eq("ano", currentYear)
+        .maybeSingle();
+      
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  const closeMonthMutation = useMutation({
+    mutationFn: async (snapshot: any) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Usuário não autenticado");
+
+      const { data, error } = await supabase
+        .from("monthly_closings")
+        .upsert({
+          mes: currentMonth,
+          ano: currentYear,
+          status: 'fechado',
+          snapshot_dre: snapshot as any,
+          closed_at: new Date().toISOString(),
+          closed_by: user.id,
+          user_id: user.id
+        })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["monthly-closing"] });
+      toast.success("Mês fechado com sucesso!");
+    },
+    onError: (error) => {
+      console.error("Erro ao fechar mês:", error);
+      toast.error("Erro ao fechar mês.");
+    }
+  });
+
+  const handleCloseMonth = () => {
+    if (confirm(`Deseja realmente fechar o mês de ${format(selectedDate, "MMMM", { locale: ptBR })}? Isso salvará um snapshot dos dados atuais.`)) {
+      closeMonthMutation.mutate(dreData);
+    }
+  };
 
   const dreData = useMemo(() => {
     const filterByMonth = (items: any[], month: number, year: number, status?: string) => {
