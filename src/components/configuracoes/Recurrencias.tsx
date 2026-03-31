@@ -21,7 +21,7 @@ const Recurrencias = () => {
         .select(`
           *,
           categorias(nome),
-          contas:contas!conta_id(nome),
+          conta:contas!conta_id(nome),
           proximos_lancamentos:lancamentos(data_vencimento, status)
         `)
         .is("deleted_at", null)
