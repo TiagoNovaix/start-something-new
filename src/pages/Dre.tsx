@@ -318,6 +318,33 @@ const Dre = () => {
           <p className="text-secondary mt-1">Demonstrativo do Resultado do Exercício</p>
         </div>
         <div className="flex items-center gap-2">
+          {closingStatus?.status === 'fechado' ? (
+            <Badge variant="outline" className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 px-3 py-1 flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4" />
+              Mês Fechado
+            </Badge>
+          ) : closingStatus?.status === 'em_conferencia' ? (
+            <Badge variant="outline" className="bg-amber-500/10 text-amber-600 border-amber-500/20 px-3 py-1 flex items-center gap-2">
+              <Info className="w-4 h-4" />
+              Em Conferência
+            </Badge>
+          ) : (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="bg-[#a400b6]/10 text-[#a400b6] border-[#a400b6]/20 hover:bg-[#a400b6]/20"
+              onClick={handleCloseMonth}
+              disabled={closeMonthMutation.isPending || isLoading}
+            >
+              {closeMonthMutation.isPending ? (
+                <div className="w-4 h-4 border-2 border-[#a400b6] border-t-transparent rounded-full animate-spin mr-2" />
+              ) : (
+                <Lock className="w-4 h-4 mr-2" />
+              )}
+              Fechar Mês
+            </Button>
+          )}
+          
           <Button 
             variant="outline" 
             size="sm" 
