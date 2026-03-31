@@ -471,6 +471,7 @@ export type Database = {
       }
       documents: {
         Row: {
+          company_id: string | null
           content: string | null
           embedding: string | null
           id: number
@@ -478,6 +479,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          company_id?: string | null
           content?: string | null
           embedding?: string | null
           id?: number
@@ -485,13 +487,22 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          company_id?: string | null
           content?: string | null
           embedding?: string | null
           id?: number
           metadata?: Json | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "documents_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       grupos_parcelas: {
         Row: {
@@ -1439,6 +1450,7 @@ export type Database = {
       }
       vector_soluv: {
         Row: {
+          company_id: string | null
           content: string | null
           embedding: string | null
           id: number
@@ -1446,6 +1458,7 @@ export type Database = {
           user_id: string | null
         }
         Insert: {
+          company_id?: string | null
           content?: string | null
           embedding?: string | null
           id?: number
@@ -1453,13 +1466,22 @@ export type Database = {
           user_id?: string | null
         }
         Update: {
+          company_id?: string | null
           content?: string | null
           embedding?: string | null
           id?: number
           metadata?: Json | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "vector_soluv_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
