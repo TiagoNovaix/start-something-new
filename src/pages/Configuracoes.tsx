@@ -12,6 +12,7 @@ const Configuracoes = () => {
         <TabsList className="bg-card border border-border">
           <TabsTrigger value="categorias">Categorias DRE</TabsTrigger>
           <TabsTrigger value="contas">Contas Bancárias</TabsTrigger>
+          <TabsTrigger value="recorrencias">Recorrências</TabsTrigger>
           <TabsTrigger value="empresa">Empresa</TabsTrigger>
         </TabsList>
         <TabsContent value="categorias">
