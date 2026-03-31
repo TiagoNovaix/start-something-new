@@ -30,6 +30,7 @@ export default function TransactionForm() {
   const [categorias, setCategorias] = useState<LookupItem[]>([]);
   const [contas, setContas] = useState<LookupItem[]>([]);
   const [socios, setSocios] = useState<LookupItem[]>([]);
+  const [centrosCusto, setCentrosCusto] = useState<LookupItem[]>([]);
 
   useEffect(() => {
     supabase.from("contas").select("id, nome").eq("ativo", true).then(({ data }) => setContas(data ?? []));
