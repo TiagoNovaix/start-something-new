@@ -113,7 +113,23 @@ const Dashboard = () => {
         )}
       </CardHeader>
       <CardContent>
-...
+        <div className={cn(
+          "text-3xl font-serif tracking-tight",
+          highlight ? "text-primary font-bold" : "text-foreground",
+          isPositive === true && !highlight && "text-positive",
+          isPositive === false && !highlight && "text-negative"
+        )}>
+          {formatCurrency(value)}
+        </div>
+        {trend && (
+          <div className="flex items-center gap-1 mt-1">
+            <span className={cn("text-xs font-medium", isPositive ? "text-positive" : "text-negative")}>
+              {isPositive ? "↑" : "↓"} {trend}%
+            </span>
+            <span className="text-[10px] text-muted-foreground uppercase tracking-wider">vs mês anterior</span>
+          </div>
+        )}
+      </CardContent>
     </Card>
   );
 
