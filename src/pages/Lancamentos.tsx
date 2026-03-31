@@ -14,7 +14,8 @@ const Lancamentos = () => {
         .select(`
           *,
           categorias (nome),
-          contas (nome)
+          contas (nome),
+          centros_custo (nome)
         `)
         .order("data", { ascending: false })
         .limit(20);
