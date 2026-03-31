@@ -154,6 +154,7 @@ export type Database = {
           deleted_at: string | null
           id: string
           nome: string
+          saldo_atual: number | null
           saldo_inicial: number | null
           tipo: string | null
           updated_at: string | null
@@ -167,6 +168,7 @@ export type Database = {
           deleted_at?: string | null
           id?: string
           nome: string
+          saldo_atual?: number | null
           saldo_inicial?: number | null
           tipo?: string | null
           updated_at?: string | null
@@ -180,6 +182,7 @@ export type Database = {
           deleted_at?: string | null
           id?: string
           nome?: string
+          saldo_atual?: number | null
           saldo_inicial?: number | null
           tipo?: string | null
           updated_at?: string | null
