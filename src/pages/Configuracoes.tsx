@@ -21,6 +21,9 @@ const Configuracoes = () => {
         <TabsContent value="contas">
           <ContasBancarias />
         </TabsContent>
+        <TabsContent value="recorrencias">
+          <Recurrencias />
+        </TabsContent>
         <TabsContent value="empresa">
           <EmpresaConfig />
         </TabsContent>
