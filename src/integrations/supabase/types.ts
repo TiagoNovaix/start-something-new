@@ -246,33 +246,45 @@ export type Database = {
       }
       grupos_parcelas: {
         Row: {
+          categoria_id: string | null
           centro_custo_id: string | null
+          conta_id: string | null
           created_at: string
           deleted_at: string | null
           descricao: string | null
           id: string
+          socio_id: string | null
+          subtipo: string | null
           total_parcelas: number
           updated_at: string
           user_id: string
           valor_total: number
         }
         Insert: {
+          categoria_id?: string | null
           centro_custo_id?: string | null
+          conta_id?: string | null
           created_at?: string
           deleted_at?: string | null
           descricao?: string | null
           id?: string
+          socio_id?: string | null
+          subtipo?: string | null
           total_parcelas: number
           updated_at?: string
           user_id: string
           valor_total: number
         }
         Update: {
+          categoria_id?: string | null
           centro_custo_id?: string | null
+          conta_id?: string | null
           created_at?: string
           deleted_at?: string | null
           descricao?: string | null
           id?: string
+          socio_id?: string | null
+          subtipo?: string | null
           total_parcelas?: number
           updated_at?: string
           user_id?: string
@@ -280,10 +292,31 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "grupos_parcelas_categoria_id_fkey"
+            columns: ["categoria_id"]
+            isOneToOne: false
+            referencedRelation: "categorias"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "grupos_parcelas_centro_custo_id_fkey"
             columns: ["centro_custo_id"]
             isOneToOne: false
             referencedRelation: "centros_custo"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "grupos_parcelas_conta_id_fkey"
+            columns: ["conta_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "grupos_parcelas_socio_id_fkey"
+            columns: ["socio_id"]
+            isOneToOne: false
+            referencedRelation: "socios"
             referencedColumns: ["id"]
           },
         ]
@@ -686,6 +719,7 @@ export type Database = {
         Row: {
           categoria_id: string | null
           centro_custo_id: string | null
+          conta_destino_id: string | null
           conta_id: string | null
           created_at: string
           data_fim: string | null
@@ -694,6 +728,7 @@ export type Database = {
           descricao: string | null
           frequencia: string
           id: string
+          socio_id: string | null
           subtipo: string | null
           updated_at: string
           user_id: string
@@ -702,6 +737,7 @@ export type Database = {
         Insert: {
           categoria_id?: string | null
           centro_custo_id?: string | null
+          conta_destino_id?: string | null
           conta_id?: string | null
           created_at?: string
           data_fim?: string | null
@@ -710,6 +746,7 @@ export type Database = {
           descricao?: string | null
           frequencia: string
           id?: string
+          socio_id?: string | null
           subtipo?: string | null
           updated_at?: string
           user_id: string
@@ -718,6 +755,7 @@ export type Database = {
         Update: {
           categoria_id?: string | null
           centro_custo_id?: string | null
+          conta_destino_id?: string | null
           conta_id?: string | null
           created_at?: string
           data_fim?: string | null
@@ -726,6 +764,7 @@ export type Database = {
           descricao?: string | null
           frequencia?: string
           id?: string
+          socio_id?: string | null
           subtipo?: string | null
           updated_at?: string
           user_id?: string
@@ -747,10 +786,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
           {
+            foreignKeyName: "regras_recorrencia_conta_destino_id_fkey"
+            columns: ["conta_destino_id"]
+            isOneToOne: false
+            referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "regras_recorrencia_conta_id_fkey"
             columns: ["conta_id"]
             isOneToOne: false
             referencedRelation: "contas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "regras_recorrencia_socio_id_fkey"
+            columns: ["socio_id"]
+            isOneToOne: false
+            referencedRelation: "socios"
             referencedColumns: ["id"]
           },
         ]
