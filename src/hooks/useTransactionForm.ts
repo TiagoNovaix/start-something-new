@@ -47,6 +47,7 @@ const initialFormData: TransactionFormData = {
   contaId: "",
   contaDestinoId: "",
   socioId: "",
+  centroCustoId: "",
   observacoes: "",
   parcelado: false,
   numeroParcelas: 2,
