@@ -140,21 +140,20 @@ const Dre = () => {
     }
   };
 
-  const { data: profile } = useQuery({
-    queryKey: ["user-profile"],
+  const { data: isAdmin } = useQuery({
+    queryKey: ["user-is-admin"],
     queryFn: async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return null;
+      if (!user) return false;
       const { data } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
+        .from("users_companies")
+        .select("role")
+        .eq("user_id", user.id)
+        .eq("role", "admin")
         .maybeSingle();
-      return data;
+      return !!data;
     }
   });
-
-  const isAdmin = profile?.role === 'admin';
 
   const dreData = useMemo(() => {
     const filterByMonth = (items: any[], month: number, year: number, status?: string) => {
