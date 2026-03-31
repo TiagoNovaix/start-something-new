@@ -20,6 +20,7 @@ export type Database = {
           classificacao_dre: string | null
           cor: string | null
           created_at: string | null
+          deleted_at: string | null
           descricao: string | null
           icone: string | null
           id: string
@@ -35,6 +36,7 @@ export type Database = {
           classificacao_dre?: string | null
           cor?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           descricao?: string | null
           icone?: string | null
           id?: string
@@ -50,6 +52,7 @@ export type Database = {
           classificacao_dre?: string | null
           cor?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           descricao?: string | null
           icone?: string | null
           id?: string
@@ -74,6 +77,7 @@ export type Database = {
         Row: {
           ativo: boolean | null
           created_at: string | null
+          deleted_at: string | null
           descricao: string | null
           id: string
           nome: string
@@ -83,6 +87,7 @@ export type Database = {
         Insert: {
           ativo?: boolean | null
           created_at?: string | null
+          deleted_at?: string | null
           descricao?: string | null
           id?: string
           nome: string
@@ -92,6 +97,7 @@ export type Database = {
         Update: {
           ativo?: boolean | null
           created_at?: string | null
+          deleted_at?: string | null
           descricao?: string | null
           id?: string
           nome?: string
@@ -142,6 +148,7 @@ export type Database = {
           banco: string | null
           cor: string | null
           created_at: string | null
+          deleted_at: string | null
           id: string
           nome: string
           saldo_inicial: number | null
@@ -154,6 +161,7 @@ export type Database = {
           banco?: string | null
           cor?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           id?: string
           nome: string
           saldo_inicial?: number | null
@@ -166,6 +174,7 @@ export type Database = {
           banco?: string | null
           cor?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           id?: string
           nome?: string
           saldo_inicial?: number | null
@@ -181,18 +190,21 @@ export type Database = {
           embedding: string | null
           id: number
           metadata: Json | null
+          user_id: string | null
         }
         Insert: {
           content?: string | null
           embedding?: string | null
           id?: number
           metadata?: Json | null
+          user_id?: string | null
         }
         Update: {
           content?: string | null
           embedding?: string | null
           id?: number
           metadata?: Json | null
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -749,6 +761,7 @@ export type Database = {
         Row: {
           ativo: boolean | null
           created_at: string | null
+          deleted_at: string | null
           email: string | null
           id: string
           nome: string
@@ -759,6 +772,7 @@ export type Database = {
         Insert: {
           ativo?: boolean | null
           created_at?: string | null
+          deleted_at?: string | null
           email?: string | null
           id?: string
           nome: string
@@ -769,6 +783,7 @@ export type Database = {
         Update: {
           ativo?: boolean | null
           created_at?: string | null
+          deleted_at?: string | null
           email?: string | null
           id?: string
           nome?: string
@@ -823,18 +838,21 @@ export type Database = {
           embedding: string | null
           id: number
           metadata: Json | null
+          user_id: string | null
         }
         Insert: {
           content?: string | null
           embedding?: string | null
           id?: number
           metadata?: Json | null
+          user_id?: string | null
         }
         Update: {
           content?: string | null
           embedding?: string | null
           id?: number
           metadata?: Json | null
+          user_id?: string | null
         }
         Relationships: []
       }
