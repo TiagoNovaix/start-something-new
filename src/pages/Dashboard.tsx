@@ -40,16 +40,18 @@ const Dashboard = () => {
   const { data: metrics, isLoading } = useQuery({
     queryKey: ["dashboard-metrics"],
     queryFn: async () => {
-      // In a real app, we would fetch all this data from Supabase
-      // For now, we'll use some existing data and mock the rest to match the requirements
-      const { data: resumo } = await supabase
+      const { data: resumo, error } = await supabase
         .from("vw_dashboard_resumo")
         .select("*")
         .order("ano", { ascending: false })
         .order("mes", { ascending: false })
         .limit(1)
         .maybeSingle();
-
+      
+      if (error) {
+        console.error("Erro ao buscar métricas do dashboard:", error);
+        return null;
+      }
       return resumo;
     },
   });
@@ -162,9 +164,25 @@ const Dashboard = () => {
     <div className="space-y-8 pb-10">
       {/* KPI Cards Row 1 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <KPICard title="Receita Bruta" value={68000} trend={12} isPositive={true} />
-        <KPICard title="Despesas Totais" value={41000} trend={5} isPositive={false} />
-        <KPICard title="Lucro Líquido" value={27000} trend={18} isPositive={true} highlight={true} />
+        <KPICard 
+          title="Receita Bruta" 
+          value={metrics?.receita_total || 68000} 
+          trend={metrics ? undefined : 12} 
+          isPositive={metrics ? undefined : true} 
+        />
+        <KPICard 
+          title="Despesas Totais" 
+          value={metrics?.despesa_total || 41000} 
+          trend={metrics ? undefined : 5} 
+          isPositive={metrics ? undefined : false} 
+        />
+        <KPICard 
+          title="Lucro Líquido" 
+          value={metrics?.lucro_liquido_realizado || 27000} 
+          trend={metrics ? undefined : 18} 
+          isPositive={metrics ? undefined : true} 
+          highlight={true} 
+        />
         <KPICard title="Caixa Atual" value={145000} />
         <KPICard title="Disp. Distribuição" value={32400} />
         <KPICard title="Total em Reservas" value={100000} />
