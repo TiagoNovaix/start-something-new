@@ -30,25 +30,25 @@ const Fechamento = () => {
     switch (status) {
       case 'fechado':
         return (
-          <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+          <Badge className="bg-positive/10 text-positive border-positive/20">
             <CheckCircle2 className="w-3 h-3 mr-1" /> Fechado
           </Badge>
         );
       case 'em_conferencia':
         return (
-          <Badge className="bg-amber-500/10 text-amber-600 border-amber-500/20">
+          <Badge className="bg-warning/10 text-warning border-warning/20">
             <AlertCircle className="w-3 h-3 mr-1" /> Em Conferência
           </Badge>
         );
       case 'reaberto':
         return (
-          <Badge className="bg-blue-500/10 text-blue-600 border-blue-500/20">
+          <Badge className="bg-blue-500/10 text-blue-500 border-blue-500/20">
             <Unlock className="w-3 h-3 mr-1" /> Reaberto
           </Badge>
         );
       default:
         return (
-          <Badge className="bg-gray-500/10 text-gray-600 border-gray-500/20">
+          <Badge className="bg-white/10 text-foreground/40 border-none">
             Aberto
           </Badge>
         );
