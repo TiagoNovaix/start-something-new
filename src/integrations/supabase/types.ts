@@ -110,6 +110,7 @@ export type Database = {
         Row: {
           cnpj: string | null
           created_at: string | null
+          deleted_at: string | null
           empresa_logo: string | null
           empresa_nome: string | null
           id: string
@@ -121,6 +122,7 @@ export type Database = {
         Insert: {
           cnpj?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           empresa_logo?: string | null
           empresa_nome?: string | null
           id?: string
@@ -132,6 +134,7 @@ export type Database = {
         Update: {
           cnpj?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           empresa_logo?: string | null
           empresa_nome?: string | null
           id?: string
@@ -212,6 +215,7 @@ export type Database = {
         Row: {
           ano: number
           data_fechamento: string | null
+          deleted_at: string | null
           id: string
           mes: number
           status: string | null
@@ -220,6 +224,7 @@ export type Database = {
         Insert: {
           ano: number
           data_fechamento?: string | null
+          deleted_at?: string | null
           id?: string
           mes: number
           status?: string | null
@@ -228,6 +233,7 @@ export type Database = {
         Update: {
           ano?: number
           data_fechamento?: string | null
+          deleted_at?: string | null
           id?: string
           mes?: number
           status?: string | null
@@ -238,6 +244,7 @@ export type Database = {
       grupos_parcelas: {
         Row: {
           created_at: string
+          deleted_at: string | null
           descricao: string | null
           id: string
           total_parcelas: number
@@ -247,6 +254,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           descricao?: string | null
           id?: string
           total_parcelas: number
@@ -256,6 +264,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           descricao?: string | null
           id?: string
           total_parcelas?: number
@@ -426,6 +435,7 @@ export type Database = {
           cor: string | null
           created_at: string | null
           data_limite: string | null
+          deleted_at: string | null
           icone: string | null
           id: string
           nome: string
@@ -439,6 +449,7 @@ export type Database = {
           cor?: string | null
           created_at?: string | null
           data_limite?: string | null
+          deleted_at?: string | null
           icone?: string | null
           id?: string
           nome: string
@@ -452,6 +463,7 @@ export type Database = {
           cor?: string | null
           created_at?: string | null
           data_limite?: string | null
+          deleted_at?: string | null
           icone?: string | null
           id?: string
           nome?: string
@@ -468,6 +480,7 @@ export type Database = {
           categoria_id: string | null
           conta_id: string | null
           created_at: string | null
+          deleted_at: string | null
           descricao: string
           dia_vencimento: number | null
           frequencia: string | null
@@ -483,6 +496,7 @@ export type Database = {
           categoria_id?: string | null
           conta_id?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           descricao: string
           dia_vencimento?: number | null
           frequencia?: string | null
@@ -498,6 +512,7 @@ export type Database = {
           categoria_id?: string | null
           conta_id?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           descricao?: string
           dia_vencimento?: number | null
           frequencia?: string | null
@@ -528,6 +543,7 @@ export type Database = {
       movimentacoes_reservas: {
         Row: {
           created_at: string
+          deleted_at: string | null
           id: string
           reserva_id: string
           tipo: string
@@ -537,6 +553,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          deleted_at?: string | null
           id?: string
           reserva_id: string
           tipo: string
@@ -546,6 +563,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          deleted_at?: string | null
           id?: string
           reserva_id?: string
           tipo?: string
@@ -575,6 +593,7 @@ export type Database = {
           ano: number
           categoria_id: string | null
           created_at: string | null
+          deleted_at: string | null
           id: string
           mes: number
           updated_at: string | null
@@ -585,6 +604,7 @@ export type Database = {
           ano: number
           categoria_id?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           id?: string
           mes: number
           updated_at?: string | null
@@ -595,6 +615,7 @@ export type Database = {
           ano?: number
           categoria_id?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           id?: string
           mes?: number
           updated_at?: string | null
@@ -651,6 +672,7 @@ export type Database = {
           created_at: string
           data_fim: string | null
           data_inicio: string
+          deleted_at: string | null
           descricao: string | null
           frequencia: string
           id: string
@@ -664,6 +686,7 @@ export type Database = {
           created_at?: string
           data_fim?: string | null
           data_inicio: string
+          deleted_at?: string | null
           descricao?: string | null
           frequencia: string
           id?: string
@@ -677,6 +700,7 @@ export type Database = {
           created_at?: string
           data_fim?: string | null
           data_inicio?: string
+          deleted_at?: string | null
           descricao?: string | null
           frequencia?: string
           id?: string
@@ -707,6 +731,7 @@ export type Database = {
           conta_id: string | null
           cor: string | null
           created_at: string | null
+          deleted_at: string | null
           id: string
           meta: number | null
           nome: string
@@ -722,6 +747,7 @@ export type Database = {
           conta_id?: string | null
           cor?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           id?: string
           meta?: number | null
           nome: string
@@ -737,6 +763,7 @@ export type Database = {
           conta_id?: string | null
           cor?: string | null
           created_at?: string | null
+          deleted_at?: string | null
           id?: string
           meta?: number | null
           nome?: string
@@ -796,6 +823,7 @@ export type Database = {
       transferencias: {
         Row: {
           created_at: string | null
+          deleted_at: string | null
           destino_lancamento_id: string | null
           id: string
           origem_lancamento_id: string | null
@@ -803,6 +831,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          deleted_at?: string | null
           destino_lancamento_id?: string | null
           id?: string
           origem_lancamento_id?: string | null
@@ -810,6 +839,7 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          deleted_at?: string | null
           destino_lancamento_id?: string | null
           id?: string
           origem_lancamento_id?: string | null
