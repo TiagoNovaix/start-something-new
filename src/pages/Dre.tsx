@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format, subMonths, startOfMonth, endOfMonth, getMonth, getYear } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -11,12 +11,16 @@ import {
   Filter,
   ChevronUp,
   ChevronDown,
-  Info
+  Info,
+  Lock,
+  Unlock,
+  CheckCircle2
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 import {
   Select,
   SelectContent,
@@ -56,6 +60,8 @@ const Dre = () => {
   const prevMonth = getMonth(prevDate) + 1;
   const prevYear = getYear(prevDate);
 
+  const queryClient = useQueryClient();
+
   const { data: transactions = [], isLoading } = useQuery({
     queryKey: ["dre-transactions", currentMonth, currentYear, compareWithPrevious, showPrevisto],
     queryFn: async () => {
@@ -78,6 +84,77 @@ const Dre = () => {
       return data;
     },
   });
+
+  const { data: closingStatus, isLoading: isClosingLoading } = useQuery({
+    queryKey: ["monthly-closing", currentMonth, currentYear],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("monthly_closings")
+        .select("*")
+        .eq("mes", currentMonth)
+        .eq("ano", currentYear)
+        .maybeSingle();
+      
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  const closeMonthMutation = useMutation({
+    mutationFn: async ({ snapshot, justification }: { snapshot: any, justification: string }) => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error("Usuário não autenticado");
+
+      const { data, error } = await supabase
+        .from("monthly_closings")
+        .upsert({
+          mes: currentMonth,
+          ano: currentYear,
+          status: 'fechado',
+          snapshot_dre: snapshot as any,
+          closed_at: new Date().toISOString(),
+          closed_by: user.id,
+          user_id: user.id,
+          justification
+        })
+        .select()
+        .single();
+      
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["monthly-closing"] });
+      toast.success("Mês fechado com sucesso!");
+    },
+    onError: (error) => {
+      console.error("Erro ao fechar mês:", error);
+      toast.error("Erro ao fechar mês.");
+    }
+  });
+
+  const handleCloseMonth = () => {
+    const justification = prompt(`Deseja fechar o mês de ${format(selectedDate, "MMMM", { locale: ptBR })}? Isso salvará um snapshot dos dados atuais. Adicione uma justificativa (opcional):`);
+    if (justification !== null) {
+      closeMonthMutation.mutate({ snapshot: dreData, justification });
+    }
+  };
+
+  const { data: profile } = useQuery({
+    queryKey: ["user-profile"],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .maybeSingle();
+      return data;
+    }
+  });
+
+  const isAdmin = profile?.role === 'admin';
 
   const dreData = useMemo(() => {
     const filterByMonth = (items: any[], month: number, year: number, status?: string) => {
@@ -259,6 +336,35 @@ const Dre = () => {
           <p className="text-secondary mt-1">Demonstrativo do Resultado do Exercício</p>
         </div>
         <div className="flex items-center gap-2">
+          {isAdmin && (
+            closingStatus?.status === 'fechado' ? (
+              <Badge variant="outline" className="bg-positive/10 text-positive border-positive/20 px-3 py-1 flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4" />
+                Mês Fechado
+              </Badge>
+            ) : closingStatus?.status === 'em_conferencia' ? (
+              <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20 px-3 py-1 flex items-center gap-2">
+                <Info className="w-4 h-4" />
+                Em Conferência
+              </Badge>
+            ) : (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className="bg-primary/10 text-primary border-primary/20 hover:bg-primary/20"
+                onClick={handleCloseMonth}
+                disabled={closeMonthMutation.isPending || isLoading}
+              >
+                {closeMonthMutation.isPending ? (
+                  <div className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin mr-2" />
+                ) : (
+                  <Lock className="w-4 h-4 mr-2" />
+                )}
+                Fechar Mês
+              </Button>
+            )
+          )}
+          
           <Button 
             variant="outline" 
             size="sm" 
