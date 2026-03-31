@@ -140,6 +140,22 @@ const Dre = () => {
     }
   };
 
+  const { data: profile } = useQuery({
+    queryKey: ["user-profile"],
+    queryFn: async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return null;
+      const { data } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      return data;
+    }
+  });
+
+  const isAdmin = profile?.role === 'admin';
+
   const dreData = useMemo(() => {
     const filterByMonth = (items: any[], month: number, year: number, status?: string) => {
       return items.filter(item => {
