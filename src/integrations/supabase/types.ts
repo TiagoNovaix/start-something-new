@@ -843,11 +843,28 @@ export type Database = {
       vw_dashboard_resumo: {
         Row: {
           ano: number | null
+          despesa_paga: number | null
+          despesa_pendente: number | null
           despesa_total: number | null
-          lucro_liquido: number | null
+          lucro_liquido_realizado: number | null
           mes: number | null
+          receita_paga: number | null
+          receita_pendente: number | null
           receita_total: number | null
           user_id: string | null
+        }
+        Relationships: []
+      }
+      vw_dre: {
+        Row: {
+          ano: number | null
+          categoria_nome: string | null
+          classificacao_dre: string | null
+          mes: number | null
+          subgrupo: string | null
+          tipo_movimentacao: string | null
+          user_id: string | null
+          valor_total: number | null
         }
         Relationships: []
       }
