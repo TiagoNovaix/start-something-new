@@ -30,10 +30,12 @@ export default function TransactionForm() {
   const [categorias, setCategorias] = useState<LookupItem[]>([]);
   const [contas, setContas] = useState<LookupItem[]>([]);
   const [socios, setSocios] = useState<LookupItem[]>([]);
+  const [centrosCusto, setCentrosCusto] = useState<LookupItem[]>([]);
 
   useEffect(() => {
     supabase.from("contas").select("id, nome").eq("ativo", true).then(({ data }) => setContas(data ?? []));
     supabase.from("socios").select("id, nome").eq("ativo", true).then(({ data }) => setSocios(data ?? []));
+    supabase.from("centros_custo").select("id, nome").eq("ativo", true).then(({ data }) => setCentrosCusto(data ?? []));
   }, []);
 
   useEffect(() => {
@@ -115,7 +117,7 @@ export default function TransactionForm() {
         </div>
 
         {/* Status + Categoria + Conta */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label>Status</Label>
             <Select value={formData.status} onValueChange={(v) => updateField("status", v)}>
@@ -143,6 +145,15 @@ export default function TransactionForm() {
               <SelectTrigger><SelectValue placeholder="Selecionar" /></SelectTrigger>
               <SelectContent>
                 {contas.map((c) => <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>Centro de Custo</Label>
+            <Select value={formData.centroCustoId} onValueChange={(v) => updateField("centroCustoId", v)}>
+              <SelectTrigger><SelectValue placeholder="Selecionar" /></SelectTrigger>
+              <SelectContent>
+                {centrosCusto.map((c) => <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>

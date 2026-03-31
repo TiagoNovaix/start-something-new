@@ -14,7 +14,8 @@ const Lancamentos = () => {
         .select(`
           *,
           categorias (nome),
-          contas (nome)
+          contas (nome),
+          centros_custo (nome)
         `)
         .order("data", { ascending: false })
         .limit(20);
@@ -51,6 +52,7 @@ const Lancamentos = () => {
             <TableHead>Data</TableHead>
             <TableHead>Descrição</TableHead>
             <TableHead>Categoria</TableHead>
+            <TableHead>Centro de Custo</TableHead>
             <TableHead>Conta</TableHead>
             <TableHead>Valor</TableHead>
             <TableHead>Status</TableHead>
@@ -66,6 +68,10 @@ const Lancamentos = () => {
               <TableCell className="text-sm text-secondary">
                 {/* @ts-ignore */}
                 {item.categorias?.nome || "—"}
+              </TableCell>
+              <TableCell className="text-sm text-secondary">
+                {/* @ts-ignore */}
+                {item.centros_custo?.nome || "—"}
               </TableCell>
               <TableCell className="text-sm text-secondary">
                 {/* @ts-ignore */}

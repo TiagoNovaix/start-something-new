@@ -25,6 +25,7 @@ export interface TransactionFormData {
   contaId: string;
   contaDestinoId: string;
   socioId: string;
+  centroCustoId: string;
   observacoes: string;
   parcelado: boolean;
   numeroParcelas: number;
@@ -46,6 +47,7 @@ const initialFormData: TransactionFormData = {
   contaId: "",
   contaDestinoId: "",
   socioId: "",
+  centroCustoId: "",
   observacoes: "",
   parcelado: false,
   numeroParcelas: 2,
@@ -209,6 +211,11 @@ export function useTransactionForm() {
             total_parcelas: formData.numeroParcelas,
             valor_total: valor,
             descricao: formData.descricao,
+            subtipo: formData.subtipo,
+            categoria_id: formData.categoriaId || null,
+            conta_id: formData.contaId || null,
+            socio_id: formData.socioId || null,
+            centro_custo_id: formData.centroCustoId || null,
           })
           .select()
           .single();
@@ -229,6 +236,7 @@ export function useTransactionForm() {
             conta_id: formData.contaId || null,
             conta_destino_id: formData.contaDestinoId || null,
             socio_id: formData.socioId || null,
+            centro_custo_id: formData.centroCustoId || null,
             observacoes: formData.observacoes || null,
             data_pagamento: i === 0 && formData.dataPagamento ? format(formData.dataPagamento, "yyyy-MM-dd") : null,
             parcelado: true,
@@ -259,6 +267,10 @@ export function useTransactionForm() {
             categoria_id: formData.categoriaId || null,
             conta_id: formData.contaId || null,
             descricao: formData.descricao,
+            socio_id: formData.socioId || null,
+            conta_destino_id: formData.contaDestinoId || null,
+            subtipo: formData.subtipo,
+            centro_custo_id: formData.centroCustoId || null,
           })
           .select()
           .single();
@@ -286,6 +298,7 @@ export function useTransactionForm() {
             categoria_id: formData.categoriaId || null,
             conta_id: formData.contaId || null,
             socio_id: formData.socioId || null,
+            centro_custo_id: formData.centroCustoId || null,
             observacoes: formData.observacoes || null,
             recorrente: true,
             frequencia_recorrencia: formData.frequenciaRecorrencia,
@@ -315,6 +328,7 @@ export function useTransactionForm() {
           conta_id: formData.contaId || null,
           conta_destino_id: formData.contaDestinoId || null,
           socio_id: formData.socioId || null,
+          centro_custo_id: formData.centroCustoId || null,
           observacoes: formData.observacoes || null,
           data_pagamento: formData.dataPagamento ? format(formData.dataPagamento, "yyyy-MM-dd") : null,
         })
