@@ -117,7 +117,7 @@ export default function TransactionForm() {
         </div>
 
         {/* Status + Categoria + Conta */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label>Status</Label>
             <Select value={formData.status} onValueChange={(v) => updateField("status", v)}>
@@ -145,6 +145,15 @@ export default function TransactionForm() {
               <SelectTrigger><SelectValue placeholder="Selecionar" /></SelectTrigger>
               <SelectContent>
                 {contas.map((c) => <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-2">
+            <Label>Centro de Custo</Label>
+            <Select value={formData.centroCustoId} onValueChange={(v) => updateField("centroCustoId", v)}>
+              <SelectTrigger><SelectValue placeholder="Selecionar" /></SelectTrigger>
+              <SelectContent>
+                {centrosCusto.map((c) => <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
