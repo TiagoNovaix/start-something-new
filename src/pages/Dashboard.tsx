@@ -40,16 +40,18 @@ const Dashboard = () => {
   const { data: metrics, isLoading } = useQuery({
     queryKey: ["dashboard-metrics"],
     queryFn: async () => {
-      // In a real app, we would fetch all this data from Supabase
-      // For now, we'll use some existing data and mock the rest to match the requirements
-      const { data: resumo } = await supabase
+      const { data: resumo, error } = await supabase
         .from("vw_dashboard_resumo")
         .select("*")
         .order("ano", { ascending: false })
         .order("mes", { ascending: false })
         .limit(1)
         .maybeSingle();
-
+      
+      if (error) {
+        console.error("Erro ao buscar métricas do dashboard:", error);
+        return null;
+      }
       return resumo;
     },
   });
