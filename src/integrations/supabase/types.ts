@@ -545,6 +545,7 @@ export type Database = {
           created_at: string
           deleted_at: string | null
           id: string
+          observacao: string | null
           reserva_id: string
           tipo: string
           transacao_id: string | null
@@ -555,6 +556,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: string
+          observacao?: string | null
           reserva_id: string
           tipo: string
           transacao_id?: string | null
@@ -565,6 +567,7 @@ export type Database = {
           created_at?: string
           deleted_at?: string | null
           id?: string
+          observacao?: string | null
           reserva_id?: string
           tipo?: string
           transacao_id?: string | null
@@ -728,49 +731,61 @@ export type Database = {
       reservas: {
         Row: {
           automatico: boolean | null
+          categorias_especificas: string[] | null
           conta_id: string | null
           cor: string | null
           created_at: string | null
           deleted_at: string | null
+          destino_contabil: string | null
           id: string
           meta: number | null
           nome: string
           origem_tipo: string[] | null
           percentual: number | null
+          permite_saque_livre: boolean | null
           saldo_atual: number
           status: string | null
+          tipo: string | null
           updated_at: string | null
           user_id: string
         }
         Insert: {
           automatico?: boolean | null
+          categorias_especificas?: string[] | null
           conta_id?: string | null
           cor?: string | null
           created_at?: string | null
           deleted_at?: string | null
+          destino_contabil?: string | null
           id?: string
           meta?: number | null
           nome: string
           origem_tipo?: string[] | null
           percentual?: number | null
+          permite_saque_livre?: boolean | null
           saldo_atual?: number
           status?: string | null
+          tipo?: string | null
           updated_at?: string | null
           user_id?: string
         }
         Update: {
           automatico?: boolean | null
+          categorias_especificas?: string[] | null
           conta_id?: string | null
           cor?: string | null
           created_at?: string | null
           deleted_at?: string | null
+          destino_contabil?: string | null
           id?: string
           meta?: number | null
           nome?: string
           origem_tipo?: string[] | null
           percentual?: number | null
+          permite_saque_livre?: boolean | null
           saldo_atual?: number
           status?: string | null
+          tipo?: string | null
           updated_at?: string | null
           user_id?: string
         }
