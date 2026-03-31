@@ -58,6 +58,7 @@ const EmpresaConfig = () => {
         empresa_nome: values.empresa_nome || null,
         cnpj: values.cnpj || null,
         regime_tributario: values.regime_tributario || null,
+        caixa_operacional_minimo_meses: values.caixa_operacional_minimo_meses || 1,
         user_id: user.id,
       };
 
