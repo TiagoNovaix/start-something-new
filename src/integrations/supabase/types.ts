@@ -264,6 +264,8 @@ export type Database = {
           created_at: string | null
           data: string
           data_pagamento: string | null
+          data_vencimento: string | null
+          deleted_at: string | null
           descricao: string
           fixo: boolean | null
           frequencia_recorrencia: string | null
@@ -296,6 +298,8 @@ export type Database = {
           created_at?: string | null
           data?: string
           data_pagamento?: string | null
+          data_vencimento?: string | null
+          deleted_at?: string | null
           descricao: string
           fixo?: boolean | null
           frequencia_recorrencia?: string | null
@@ -328,6 +332,8 @@ export type Database = {
           created_at?: string | null
           data?: string
           data_pagamento?: string | null
+          data_vencimento?: string | null
+          deleted_at?: string | null
           descricao?: string
           fixo?: boolean | null
           frequencia_recorrencia?: string | null
