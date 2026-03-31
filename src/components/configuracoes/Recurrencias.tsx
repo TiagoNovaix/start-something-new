@@ -20,7 +20,7 @@ const Recurrencias = () => {
         .from("regras_recorrencia")
         .select(`
           *,
-          categorias(nome),
+          categoria:categorias(nome),
           conta:contas!conta_id(nome),
           proximos_lancamentos:lancamentos(data_vencimento, status)
         `)
