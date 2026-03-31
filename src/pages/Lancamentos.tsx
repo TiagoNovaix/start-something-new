@@ -52,6 +52,7 @@ const Lancamentos = () => {
             <TableHead>Data</TableHead>
             <TableHead>Descrição</TableHead>
             <TableHead>Categoria</TableHead>
+            <TableHead>Centro de Custo</TableHead>
             <TableHead>Conta</TableHead>
             <TableHead>Valor</TableHead>
             <TableHead>Status</TableHead>
