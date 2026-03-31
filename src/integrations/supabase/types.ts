@@ -14,6 +14,44 @@ export type Database = {
   }
   public: {
     Tables: {
+      audit_logs: {
+        Row: {
+          created_at: string
+          id: string
+          socio_id: string | null
+          tipo_evento: string
+          user_id: string
+          valor_antigo: Json | null
+          valor_novo: Json | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          socio_id?: string | null
+          tipo_evento: string
+          user_id: string
+          valor_antigo?: Json | null
+          valor_novo?: Json | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          socio_id?: string | null
+          tipo_evento?: string
+          user_id?: string
+          valor_antigo?: Json | null
+          valor_novo?: Json | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_socio_id_fkey"
+            columns: ["socio_id"]
+            isOneToOne: false
+            referencedRelation: "socios"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       categorias: {
         Row: {
           ativo: boolean | null
@@ -108,6 +146,7 @@ export type Database = {
       }
       configuracoes: {
         Row: {
+          caixa_operacional_minimo_meses: number | null
           cnpj: string | null
           created_at: string | null
           deleted_at: string | null
@@ -120,6 +159,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          caixa_operacional_minimo_meses?: number | null
           cnpj?: string | null
           created_at?: string | null
           deleted_at?: string | null
@@ -132,6 +172,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          caixa_operacional_minimo_meses?: number | null
           cnpj?: string | null
           created_at?: string | null
           deleted_at?: string | null
@@ -189,6 +230,102 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      distribuicoes_lucro: {
+        Row: {
+          created_at: string
+          despesas_operacionais: number
+          disponivel_distribuicao: number
+          ebitda: number
+          financeiro: number
+          id: string
+          impostos: number
+          lucro_liquido: number
+          mes_referencia: string
+          pro_labore_total: number
+          receita_bruta: number
+          reservas_provisionadas: number
+          total_distribuido: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          despesas_operacionais?: number
+          disponivel_distribuicao?: number
+          ebitda?: number
+          financeiro?: number
+          id?: string
+          impostos?: number
+          lucro_liquido?: number
+          mes_referencia: string
+          pro_labore_total?: number
+          receita_bruta?: number
+          reservas_provisionadas?: number
+          total_distribuido?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          despesas_operacionais?: number
+          disponivel_distribuicao?: number
+          ebitda?: number
+          financeiro?: number
+          id?: string
+          impostos?: number
+          lucro_liquido?: number
+          mes_referencia?: string
+          pro_labore_total?: number
+          receita_bruta?: number
+          reservas_provisionadas?: number
+          total_distribuido?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      distribuicoes_lucro_itens: {
+        Row: {
+          created_at: string
+          distribuicao_id: string
+          id: string
+          percentual_societario: number
+          socio_id: string
+          valor_recebido: number
+        }
+        Insert: {
+          created_at?: string
+          distribuicao_id: string
+          id?: string
+          percentual_societario: number
+          socio_id: string
+          valor_recebido: number
+        }
+        Update: {
+          created_at?: string
+          distribuicao_id?: string
+          id?: string
+          percentual_societario?: number
+          socio_id?: string
+          valor_recebido?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "distribuicoes_lucro_itens_distribuicao_id_fkey"
+            columns: ["distribuicao_id"]
+            isOneToOne: false
+            referencedRelation: "distribuicoes_lucro"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "distribuicoes_lucro_itens_socio_id_fkey"
+            columns: ["socio_id"]
+            isOneToOne: false
+            referencedRelation: "socios"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       documents: {
         Row: {
@@ -888,6 +1025,7 @@ export type Database = {
           id: string
           nome: string
           participacao: number
+          pro_labore: number | null
           updated_at: string | null
           user_id: string
         }
@@ -899,6 +1037,7 @@ export type Database = {
           id?: string
           nome: string
           participacao?: number
+          pro_labore?: number | null
           updated_at?: string | null
           user_id?: string
         }
@@ -910,6 +1049,7 @@ export type Database = {
           id?: string
           nome?: string
           participacao?: number
+          pro_labore?: number | null
           updated_at?: string | null
           user_id?: string
         }
