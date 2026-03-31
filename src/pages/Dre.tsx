@@ -385,7 +385,7 @@ const Dre = () => {
                           {formatCurrency(item.value)}
                         </TableCell>
                         {showPrevisto && (
-                          <TableCell className="text-right font-mono text-amber-500/80">
+                          <TableCell className="text-right font-mono text-warning/80">
                             {formatCurrency(item.pendente)}
                           </TableCell>
                         )}
