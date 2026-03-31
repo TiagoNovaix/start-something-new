@@ -44,6 +44,7 @@ const EmpresaConfig = () => {
         empresa_nome: config.empresa_nome || "",
         cnpj: (config as any).cnpj || "",
         regime_tributario: (config as any).regime_tributario || "",
+        caixa_operacional_minimo_meses: config.caixa_operacional_minimo_meses || 1,
       });
     }
   }, [config, reset]);
