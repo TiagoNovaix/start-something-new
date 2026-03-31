@@ -35,7 +35,7 @@ const EmpresaConfig = () => {
   });
 
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FormValues>({
-    defaultValues: { empresa_nome: "", cnpj: "", regime_tributario: "" },
+    defaultValues: { empresa_nome: "", cnpj: "", regime_tributario: "", caixa_operacional_minimo_meses: 1 },
   });
 
   useEffect(() => {
