@@ -267,6 +267,10 @@ export function useTransactionForm() {
             categoria_id: formData.categoriaId || null,
             conta_id: formData.contaId || null,
             descricao: formData.descricao,
+            socio_id: formData.socioId || null,
+            conta_destino_id: formData.contaDestinoId || null,
+            subtipo: formData.subtipo,
+            centro_custo_id: formData.centroCustoId || null,
           })
           .select()
           .single();
