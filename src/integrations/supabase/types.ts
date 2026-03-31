@@ -840,7 +840,17 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      vw_dashboard_resumo: {
+        Row: {
+          ano: number | null
+          despesa_total: number | null
+          lucro_liquido: number | null
+          mes: number | null
+          receita_total: number | null
+          user_id: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       match_documents: {
