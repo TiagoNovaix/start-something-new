@@ -1056,44 +1056,6 @@ export type Database = {
           },
         ]
       }
-      partners: {
-        Row: {
-          company_id: string
-          created_at: string
-          equity_percentage: number
-          id: string
-          name: string
-          pro_labore: number | null
-          updated_at: string
-        }
-        Insert: {
-          company_id: string
-          created_at?: string
-          equity_percentage: number
-          id?: string
-          name: string
-          pro_labore?: number | null
-          updated_at?: string
-        }
-        Update: {
-          company_id?: string
-          created_at?: string
-          equity_percentage?: number
-          id?: string
-          name?: string
-          pro_labore?: number | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "partners_company_id_fkey"
-            columns: ["company_id"]
-            isOneToOne: false
-            referencedRelation: "companies"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -1534,6 +1496,10 @@ export type Database = {
     }
     Functions: {
       check_user_company_access: {
+        Args: { check_company_id: string }
+        Returns: boolean
+      }
+      check_user_is_company_admin: {
         Args: { check_company_id: string }
         Returns: boolean
       }
