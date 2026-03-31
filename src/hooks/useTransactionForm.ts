@@ -236,6 +236,7 @@ export function useTransactionForm() {
             conta_id: formData.contaId || null,
             conta_destino_id: formData.contaDestinoId || null,
             socio_id: formData.socioId || null,
+            centro_custo_id: formData.centroCustoId || null,
             observacoes: formData.observacoes || null,
             data_pagamento: i === 0 && formData.dataPagamento ? format(formData.dataPagamento, "yyyy-MM-dd") : null,
             parcelado: true,
