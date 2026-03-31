@@ -146,8 +146,8 @@ const Recurrencias = () => {
                 <TableCell className="font-medium">{r.descricao}</TableCell>
                 <TableCell className="capitalize">{r.frequencia}</TableCell>
                 <TableCell>{r.proximo_vencimento ? format(new Date(r.proximo_vencimento), "dd/MM/yyyy", { locale: ptBR }) : "—"}</TableCell>
-                <TableCell>{r.categorias?.nome || "—"}</TableCell>
-                <TableCell>{r.contas?.nome || "—"}</TableCell>
+                <TableCell>{r.categoria?.nome || "—"}</TableCell>
+                <TableCell>{r.conta?.nome || "—"}</TableCell>
                 <TableCell>
                   {new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(r.valor)}
                 </TableCell>
