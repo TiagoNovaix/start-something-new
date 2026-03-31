@@ -1065,7 +1065,6 @@ export type Database = {
           id: string
           phone: string | null
           preferencias: Json | null
-          role: string | null
           updated_at: string | null
         }
         Insert: {
@@ -1076,7 +1075,6 @@ export type Database = {
           id: string
           phone?: string | null
           preferencias?: Json | null
-          role?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -1087,7 +1085,6 @@ export type Database = {
           id?: string
           phone?: string | null
           preferencias?: Json | null
-          role?: string | null
           updated_at?: string | null
         }
         Relationships: []
