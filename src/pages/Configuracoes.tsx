@@ -2,6 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CategoriasDre from "@/components/configuracoes/CategoriasDre";
 import ContasBancarias from "@/components/configuracoes/ContasBancarias";
 import EmpresaConfig from "@/components/configuracoes/EmpresaConfig";
+import Recurrencias from "@/components/configuracoes/Recurrencias";
 
 const Configuracoes = () => {
   return (
