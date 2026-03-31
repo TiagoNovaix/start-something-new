@@ -1,13 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { TrendingUp, TrendingDown, DollarSign, PieChart } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { TrendingUp, TrendingDown, DollarSign, PieChart } from "lucide-react";
+import { TrendingUp, TrendingDown, DollarSign } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 const Dre = () => {
@@ -30,14 +24,6 @@ const Dre = () => {
       currency: "BRL",
     }).format(value || 0);
   };
-
-  // Grouping by classification for the main metrics
-  const groupedData = dreData.reduce((acc: any, item: any) => {
-    const key = item.classificacao_dre || "Outros";
-    if (!acc[key]) acc[key] = 0;
-    acc[key] += item.valor_total;
-    return acc;
-  }, {});
 
   const totalReceita = dreData
     .filter((d: any) => d.tipo_movimentacao === "Receita")
@@ -103,7 +89,7 @@ const Dre = () => {
       <div className="bg-card rounded-lg border shadow-subtle p-6">
         <h2 className="text-xl font-medium mb-6">Demonstrativo de Resultados</h2>
         
-        <div className="rounded-md border bg-white/5 overflow-hidden">
+        <div className="rounded-md border overflow-hidden">
           <Table>
             <TableHeader className="bg-card">
               <TableRow>
