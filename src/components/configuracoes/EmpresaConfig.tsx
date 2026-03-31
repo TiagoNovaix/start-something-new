@@ -12,6 +12,7 @@ type FormValues = {
   empresa_nome: string;
   cnpj: string;
   regime_tributario: string;
+  caixa_operacional_minimo_meses: number;
 };
 
 const EmpresaConfig = () => {
@@ -34,7 +35,7 @@ const EmpresaConfig = () => {
   });
 
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FormValues>({
-    defaultValues: { empresa_nome: "", cnpj: "", regime_tributario: "" },
+    defaultValues: { empresa_nome: "", cnpj: "", regime_tributario: "", caixa_operacional_minimo_meses: 1 },
   });
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const EmpresaConfig = () => {
         empresa_nome: config.empresa_nome || "",
         cnpj: (config as any).cnpj || "",
         regime_tributario: (config as any).regime_tributario || "",
+        caixa_operacional_minimo_meses: config.caixa_operacional_minimo_meses || 1,
       });
     }
   }, [config, reset]);
@@ -56,6 +58,7 @@ const EmpresaConfig = () => {
         empresa_nome: values.empresa_nome || null,
         cnpj: values.cnpj || null,
         regime_tributario: values.regime_tributario || null,
+        caixa_operacional_minimo_meses: values.caixa_operacional_minimo_meses || 1,
         user_id: user.id,
       };
 
@@ -110,6 +113,17 @@ const EmpresaConfig = () => {
               <SelectItem value="lucro_real">Lucro Real</SelectItem>
             </SelectContent>
           </Select>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="caixa-operacional">Meses de Caixa Operacional Mínimo</Label>
+          <Input 
+            id="caixa-operacional" 
+            type="number" 
+            {...register("caixa_operacional_minimo_meses", { valueAsNumber: true })} 
+            min={1} 
+          />
+          <p className="text-xs text-muted-foreground">Utilizado no cálculo de reserva operacional</p>
         </div>
 
         <div className="pt-2">
