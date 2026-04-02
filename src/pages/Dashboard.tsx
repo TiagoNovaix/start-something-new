@@ -41,12 +41,12 @@ const KPI = ({ label, value, trend, positive, large }: {
   )}>
     <CardContent className={cn("pt-6 pb-6", large ? "px-8" : "px-5")}>
       <p className={cn(
-        "font-medium text-muted-foreground uppercase tracking-wider mb-3",
-        large ? "text-sm" : "text-xs"
+        "font-medium text-muted-foreground/70 uppercase tracking-widest",
+        large ? "text-sm mb-5" : "text-[11px] mb-4"
       )}>{label}</p>
       <p className={cn(
-        "font-mono font-bold tracking-tight",
-        large ? "text-4xl md:text-5xl" : "text-xl md:text-2xl",
+        "font-mono font-semibold tracking-tight",
+        large ? "text-[40px] md:text-[48px] leading-none" : "text-[28px] md:text-[32px] leading-none",
         positive === true && "text-positive",
         positive === false && "text-negative",
         positive === undefined && "text-foreground",
@@ -54,16 +54,16 @@ const KPI = ({ label, value, trend, positive, large }: {
         {fmt(value)}
       </p>
       {trend !== undefined && (
-        <div className="flex items-center gap-1.5 mt-3">
+        <div className="flex items-center gap-1.5 mt-4">
           {positive ? (
             <ArrowUpRight className={cn("text-positive", large ? "w-4 h-4" : "w-3.5 h-3.5")} />
           ) : (
             <ArrowDownRight className={cn("text-negative", large ? "w-4 h-4" : "w-3.5 h-3.5")} />
           )}
-          <span className={cn("font-mono font-medium", large ? "text-sm" : "text-xs", positive ? "text-positive" : "text-negative")}>
+          <span className={cn("font-mono font-medium", large ? "text-sm" : "text-xs", positive ? "text-positive/90" : "text-negative/90")}>
             {trend}%
           </span>
-          <span className={cn("text-muted-foreground ml-0.5", large ? "text-xs" : "text-[10px]")}>vs mês anterior</span>
+          <span className={cn("text-muted-foreground/50 ml-0.5", large ? "text-xs" : "text-[10px]")}>vs mês anterior</span>
         </div>
       )}
     </CardContent>
