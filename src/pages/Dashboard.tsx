@@ -53,10 +53,10 @@ const Dashboard = () => {
     { name: "Mai", lucro: 19000 }, { name: "Jun", lucro: 27000 },
   ];
   const categoryData = [
-    { name: "Pessoal", value: 15000, color: "#9e11cd" },
-    { name: "Operacional", value: 12000, color: "#e20055" },
-    { name: "Impostos", value: 8000, color: "#a400b6" },
-    { name: "Marketing", value: 6000, color: "#6366f1" },
+    { name: "Pessoal", value: 15000, color: "#8B5CF6" },
+    { name: "Operacional", value: 12000, color: "#EF4444" },
+    { name: "Impostos", value: 8000, color: "#6366F1" },
+    { name: "Marketing", value: 6000, color: "#F59E0B" },
   ];
   const reservesData = [
     { name: "Emergência", saldo: 45000 }, { name: "Expansão", saldo: 32000 },
@@ -69,19 +69,27 @@ const Dashboard = () => {
   ];
 
   const KPICard = ({ title, value, trend, isPositive, highlight = false }: any) => (
-    <Card className={cn("bg-card border-none shadow-subtle relative overflow-hidden group pt-0.5", highlight && "ring-1 ring-primary/30")}>
+    <Card className={cn(
+      "border-none shadow-subtle relative overflow-hidden transition-transform duration-200 hover:scale-[1.01] hover:shadow-hover pt-0.5",
+      highlight && "ring-1 ring-primary/30"
+    )}>
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-identity-gradient" />
-      <CardHeader className="flex flex-row items-center justify-between pb-1 space-y-0 pt-4">
-        <CardTitle className="text-sm font-medium text-secondary">{title}</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between pb-1 space-y-0 pt-5">
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
         {isPositive !== undefined && (isPositive ? <ArrowUpRight className="w-4 h-4 text-positive" /> : <ArrowDownRight className="w-4 h-4 text-negative" />)}
       </CardHeader>
       <CardContent>
-        <div className={cn("text-2xl md:text-3xl font-serif tracking-tight", highlight ? "text-primary font-bold" : "text-foreground", isPositive === true && !highlight && "text-positive", isPositive === false && !highlight && "text-negative")}>
+        <div className={cn(
+          "text-2xl md:text-3xl font-semibold font-mono tracking-tight",
+          highlight ? "text-primary" : "text-foreground",
+          isPositive === true && !highlight && "text-positive",
+          isPositive === false && !highlight && "text-negative"
+        )}>
           {formatCurrency(value)}
         </div>
         {trend && (
           <div className="flex items-center gap-1 mt-1">
-            <span className={cn("text-xs font-medium", isPositive ? "text-positive" : "text-negative")}>{isPositive ? "↑" : "↓"} {trend}%</span>
+            <span className={cn("text-xs font-medium font-mono", isPositive ? "text-positive" : "text-negative")}>{isPositive ? "↑" : "↓"} {trend}%</span>
             <span className="text-[10px] text-muted-foreground uppercase tracking-wider">vs mês anterior</span>
           </div>
         )}
@@ -90,12 +98,12 @@ const Dashboard = () => {
   );
 
   const AlertCard = ({ title, value, count, icon: Icon, colorClass }: any) => (
-    <Card className="bg-card shadow-subtle border-none">
+    <Card className="border-none shadow-subtle transition-transform duration-200 hover:scale-[1.01] hover:shadow-hover">
       <CardContent className="pt-6">
         <div className="flex items-start justify-between">
           <div className="space-y-1">
-            <p className="text-sm font-medium text-secondary">{title}</p>
-            <div className="text-xl md:text-2xl font-serif">{formatCurrency(value)}</div>
+            <p className="text-sm font-medium text-muted-foreground">{title}</p>
+            <div className="text-xl md:text-2xl font-semibold font-mono">{formatCurrency(value)}</div>
             <p className="text-xs text-muted-foreground">{count} lançamentos</p>
           </div>
           <div className={cn("p-2 rounded-full", colorClass)}>
@@ -107,8 +115,8 @@ const Dashboard = () => {
   );
 
   const SkeletonCard = () => (
-    <Card className="bg-card border-none shadow-subtle">
-      <CardHeader className="pb-1 pt-4"><Skeleton className="h-4 w-24" /></CardHeader>
+    <Card className="border-none shadow-subtle">
+      <CardHeader className="pb-1 pt-5"><Skeleton className="h-4 w-24" /></CardHeader>
       <CardContent><Skeleton className="h-8 w-32 mt-2" /><Skeleton className="h-3 w-20 mt-2" /></CardContent>
     </Card>
   );
@@ -116,22 +124,19 @@ const Dashboard = () => {
   if (isLoading) {
     return (
       <div className="space-y-8 pb-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-          {Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)}
         </div>
       </div>
     );
   }
 
-  const tooltipStyle = { backgroundColor: "#141720", border: "1px solid rgba(255,255,255,0.1)", borderRadius: "8px" };
+  const tooltipStyle = { backgroundColor: "#171923", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "8px" };
   const tooltipItemStyle = { fontFamily: "IBM Plex Mono", fontSize: "12px" };
 
   return (
-    <div className="space-y-6 md:space-y-8 pb-10">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+    <div className="space-y-8 pb-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <KPICard title="Receita Bruta" value={metrics?.receita_total || 68000} trend={metrics ? undefined : 12} isPositive={metrics ? undefined : true} />
         <KPICard title="Despesas Totais" value={metrics?.despesa_total || 41000} trend={metrics ? undefined : 5} isPositive={metrics ? undefined : false} />
         <KPICard title="Lucro Líquido" value={metrics?.lucro_liquido_realizado || 27000} trend={metrics ? undefined : 18} isPositive={metrics ? undefined : true} highlight />
@@ -140,65 +145,65 @@ const Dashboard = () => {
         <KPICard title="Total em Reservas" value={100000} />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <AlertCard title="Contas a pagar (7 dias)" value={8500} count={12} icon={Clock} colorClass="bg-warning/10 text-warning" />
         <AlertCard title="Contas a pagar (30 dias)" value={24300} count={45} icon={Calendar} colorClass="bg-primary/10 text-primary" />
         <AlertCard title="Lançamentos atrasados" value={1200} count={3} icon={AlertCircle} colorClass="bg-negative/10 text-negative" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-        <Card className="bg-card border-none shadow-subtle">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Card className="border-none shadow-subtle">
           <CardHeader><CardTitle className="text-base font-medium">Receita vs Despesas (6 meses)</CardTitle></CardHeader>
-          <CardContent className="h-[260px] md:h-[300px]">
+          <CardContent className="h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={revenueData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="rgba(255,255,255,0.3)" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => `R$ ${v/1000}k`} />
-                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} cursor={{ fill: "rgba(255,255,255,0.05)" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
+                <XAxis dataKey="name" stroke="rgba(255,255,255,0.25)" fontSize={12} tickLine={false} axisLine={false} />
+                <YAxis stroke="rgba(255,255,255,0.25)" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => `R$ ${v/1000}k`} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
                 <Legend verticalAlign="top" height={36} />
-                <Bar dataKey="receita" fill="#10B981" radius={[4, 4, 0, 0]} name="Receita" />
-                <Bar dataKey="despesas" fill="#e20055" radius={[4, 4, 0, 0]} name="Despesas" />
+                <Bar dataKey="receita" fill="#22C55E" radius={[4, 4, 0, 0]} name="Receita" />
+                <Bar dataKey="despesas" fill="#EF4444" radius={[4, 4, 0, 0]} name="Despesas" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-none shadow-subtle">
+        <Card className="border-none shadow-subtle">
           <CardHeader><CardTitle className="text-base font-medium">Evolução do Lucro Líquido</CardTitle></CardHeader>
-          <CardContent className="h-[260px] md:h-[300px]">
+          <CardContent className="h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={profitData}>
-                <defs><linearGradient id="colorLucro" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#a400b6" stopOpacity={0.3}/><stop offset="95%" stopColor="#a400b6" stopOpacity={0}/></linearGradient></defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                <XAxis dataKey="name" stroke="rgba(255,255,255,0.3)" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="rgba(255,255,255,0.3)" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => `R$ ${v/1000}k`} />
+                <defs><linearGradient id="colorLucro" x1="0" y1="0" x2="0" y2="1"><stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.3}/><stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/></linearGradient></defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
+                <XAxis dataKey="name" stroke="rgba(255,255,255,0.25)" fontSize={12} tickLine={false} axisLine={false} />
+                <YAxis stroke="rgba(255,255,255,0.25)" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(v) => `R$ ${v/1000}k`} />
                 <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} />
-                <Area type="monotone" dataKey="lucro" stroke="#a400b6" fillOpacity={1} fill="url(#colorLucro)" name="Lucro" />
+                <Area type="monotone" dataKey="lucro" stroke="#8B5CF6" fillOpacity={1} fill="url(#colorLucro)" name="Lucro" />
               </AreaChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-none shadow-subtle">
+        <Card className="border-none shadow-subtle">
           <CardHeader><CardTitle className="text-base font-medium">Despesas por Grupo DRE</CardTitle></CardHeader>
-          <CardContent className="h-[260px] md:h-[300px] flex items-center justify-center">
+          <CardContent className="h-[280px] flex items-center justify-center">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart><Pie data={categoryData} cx="50%" cy="50%" innerRadius={60} outerRadius={80} paddingAngle={5} dataKey="value">{categoryData.map((entry, i) => <Cell key={i} fill={entry.color} />)}</Pie><Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} /><Legend layout="vertical" align="right" verticalAlign="middle" /></PieChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card className="bg-card border-none shadow-subtle">
+        <Card className="border-none shadow-subtle">
           <CardHeader><CardTitle className="text-base font-medium">Saldo das Caixinhas</CardTitle></CardHeader>
-          <CardContent className="h-[260px] md:h-[300px]">
+          <CardContent className="h-[280px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={reservesData} layout="vertical" margin={{ left: 40, right: 40 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" horizontal={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" horizontal={false} />
                 <XAxis type="number" hide />
-                <YAxis dataKey="name" type="category" stroke="rgba(255,255,255,0.5)" fontSize={11} width={80} tickLine={false} axisLine={false} />
-                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} cursor={{ fill: "rgba(255,255,255,0.05)" }} />
-                <Bar dataKey="saldo" fill="#9e11cd" radius={[0, 4, 4, 0]} name="Saldo" />
+                <YAxis dataKey="name" type="category" stroke="rgba(255,255,255,0.4)" fontSize={11} width={80} tickLine={false} axisLine={false} />
+                <Tooltip contentStyle={tooltipStyle} itemStyle={tooltipItemStyle} cursor={{ fill: "rgba(255,255,255,0.03)" }} />
+                <Bar dataKey="saldo" fill="#8B5CF6" radius={[0, 4, 4, 0]} name="Saldo" />
               </BarChart>
             </ResponsiveContainer>
           </CardContent>
@@ -208,15 +213,15 @@ const Dashboard = () => {
       <div className="space-y-4">
         <div className="flex items-center gap-2 px-1">
           <Users className="w-5 h-5 text-primary" />
-          <h2 className="text-lg font-semibold tracking-tight">Distribuição disponível por sócio</h2>
+          <h3>Distribuição disponível por sócio</h3>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {partners.map((partner, i) => (
-            <Card key={i} className="bg-card/50 border-none shadow-sm">
-              <CardContent className="p-4 flex items-center justify-between">
+            <Card key={i} className="border-none shadow-subtle transition-transform duration-200 hover:scale-[1.01]">
+              <CardContent className="p-5 flex items-center justify-between">
                 <div>
                   <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{partner.name}</p>
-                  <p className="text-lg font-serif">{formatCurrency(partner.value)}</p>
+                  <p className="text-lg font-semibold font-mono">{formatCurrency(partner.value)}</p>
                 </div>
                 <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary">{partner.percent}%</Badge>
               </CardContent>
@@ -226,11 +231,11 @@ const Dashboard = () => {
       </div>
 
       <Card className="bg-identity-gradient border-none p-[1px] rounded-lg">
-        <div className="bg-card rounded-[7px] p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div className="bg-card rounded-[11px] p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <div className="bg-primary/20 p-3 rounded-full"><TrendingUp className="w-6 h-6 text-primary" /></div>
             <div>
-              <h3 className="text-lg font-semibold">Último Fechamento</h3>
+              <h3>Último Fechamento</h3>
               <div className="flex flex-wrap items-center gap-2 mt-1">
                 <Badge className="bg-positive/20 text-positive hover:bg-positive/30 border-none">Junho/2024 Concluído</Badge>
                 <span className="text-xs text-muted-foreground">Status do mês atual em processamento</span>
