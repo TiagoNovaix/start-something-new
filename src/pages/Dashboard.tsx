@@ -37,7 +37,9 @@ const KPI = ({ label, value, trend, positive, large }: {
 }) => (
   <Card className={cn(
     "border-none shadow-subtle transition-all duration-200 hover:scale-[1.005]",
-    large && "md:col-span-2 ring-1 ring-primary/25 shadow-[0_0_24px_-6px_hsl(var(--primary)/0.15)]"
+    large
+      ? "md:col-span-2 ring-1 ring-primary/25 shadow-[0_0_24px_-6px_hsl(var(--primary)/0.15)] bg-card-gradient-accent"
+      : "bg-card-gradient"
   )}>
     <CardContent className={cn("pt-6 pb-6", large ? "px-8" : "px-5")}>
       <p className={cn(
