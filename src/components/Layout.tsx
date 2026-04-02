@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import logoSoluv from "@/assets/logo-soluv.jpg";
 import {
   LayoutDashboard,
   Receipt,
@@ -133,7 +134,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
           <SheetContent side="left" className="w-[260px] p-0 bg-card border-r border-border">
             <div className="p-5 pb-2">
-              <span className="text-lg font-semibold text-gradient">Soluv Financeiro</span>
+              <img src={logoSoluv} alt="Soluv Financeiro" className="h-8 object-contain" />
             </div>
             <SidebarNav pathname={location.pathname} collapsed={false} onItemClick={() => setDrawerOpen(false)} />
           </SheetContent>
@@ -166,7 +167,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       >
         {/* Logo + Toggle */}
         <div className={cn("flex items-center h-14 border-b border-border shrink-0", collapsed ? "justify-center px-2" : "justify-between px-5")}>
-          {!collapsed && <span className="text-lg font-semibold text-gradient truncate">Soluv Financeiro</span>}
+          {!collapsed && <img src={logoSoluv} alt="Soluv Financeiro" className="h-7 object-contain" />}
           <Button
             variant="ghost"
             size="icon"
