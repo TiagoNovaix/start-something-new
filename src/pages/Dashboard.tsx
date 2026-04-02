@@ -37,7 +37,9 @@ const KPI = ({ label, value, trend, positive, large }: {
 }) => (
   <Card className={cn(
     "border-none shadow-subtle transition-all duration-200 hover:scale-[1.005]",
-    large && "md:col-span-2 ring-1 ring-primary/25 shadow-[0_0_24px_-6px_hsl(var(--primary)/0.15)]"
+    large
+      ? "md:col-span-2 ring-1 ring-primary/25 shadow-[0_0_24px_-6px_hsl(var(--primary)/0.15)] bg-card-gradient-accent"
+      : "bg-card-gradient"
   )}>
     <CardContent className={cn("pt-6 pb-6", large ? "px-8" : "px-5")}>
       <p className={cn(
@@ -74,7 +76,7 @@ const KPI = ({ label, value, trend, positive, large }: {
 const Alert = ({ label, value, count, icon: Icon, color }: {
   label: string; value: number; count: number; icon: any; color: string;
 }) => (
-  <Card className="border-none shadow-subtle">
+  <Card className="border-none shadow-subtle bg-card-alt">
     <CardContent className="pt-5 pb-5 px-5 flex items-start justify-between">
       <div>
         <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">{label}</p>
@@ -90,7 +92,7 @@ const Alert = ({ label, value, count, icon: Icon, color }: {
 
 // ── Chart wrapper ──
 const ChartCard = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <Card className="border-none shadow-subtle">
+  <Card className="border-none shadow-subtle bg-card-gradient">
     <CardContent className="pt-5 pb-4 px-5">
       <p className="text-sm font-medium text-foreground mb-4">{title}</p>
       <div className="h-[240px]">{children}</div>

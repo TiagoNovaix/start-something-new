@@ -10,6 +10,7 @@
     --foreground: 228 20% 92%;
 
     --card: 225 18% 12%;
+    --card-alt: 228 16% 13%;
     --card-foreground: 228 20% 92%;
 
     --popover: 225 18% 12%;
@@ -62,6 +63,14 @@
 
 .bg-identity {
   background: linear-gradient(135deg, hsl(258 90% 66%), hsl(235 86% 65%));
+}
+
+.bg-card-gradient {
+  background: linear-gradient(145deg, hsl(225 18% 12%), hsl(228 16% 13.5%));
+}
+
+.bg-card-gradient-accent {
+  background: linear-gradient(145deg, hsl(225 18% 12%), hsl(258 20% 14%));
 }
 
 .text-gradient {
