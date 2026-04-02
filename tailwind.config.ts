@@ -45,6 +45,7 @@ export default {
         },
         card: {
           DEFAULT: "hsl(var(--card))",
+          alt: "hsl(var(--card-alt))",
           foreground: "hsl(var(--card-foreground))",
         },
         positive: "#22C55E",
