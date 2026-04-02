@@ -14,6 +14,7 @@ import Fechamento from "./pages/Fechamento";
 import Configuracoes from "./pages/Configuracoes";
 import NovoLancamento from "./pages/lancamentos/novo";
 import Auth from "./pages/Auth";
+import Perfil from "./pages/Perfil";
 import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
 
@@ -60,6 +61,7 @@ const AppRoutes = () => (
     <Route path="/socios" element={<ProtectedRoute><Layout><Socios /></Layout></ProtectedRoute>} />
     <Route path="/fechamento" element={<ProtectedRoute><Layout><Fechamento /></Layout></ProtectedRoute>} />
     <Route path="/configuracoes" element={<ProtectedRoute><Layout><Configuracoes /></Layout></ProtectedRoute>} />
+    <Route path="/perfil" element={<ProtectedRoute><Layout><Perfil /></Layout></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
