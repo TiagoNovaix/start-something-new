@@ -81,9 +81,9 @@ const Lancamentos = () => {
           <CardContent className="p-0">
             <EmptyState
               icon={Receipt}
-              title="Nenhum lançamento encontrado"
-              description="Comece registrando sua primeira receita ou despesa."
-              actionLabel="Novo Lançamento"
+              title="Sem movimentações ainda"
+              description="Comece registrando sua primeira entrada ou despesa"
+              actionLabel="Adicionar lançamento"
               onAction={() => navigate("/lancamentos/novo")}
             />
           </CardContent>
