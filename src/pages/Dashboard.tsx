@@ -69,19 +69,83 @@ const KPI = ({ label, value, trend, positive, large }: {
     </CardContent>
   </Card>
 );
+
+// ── Alert Card ──
+const Alert = ({ label, value, count, icon: Icon, color }: {
+  label: string; value: number; count: number; icon: any; color: string;
+}) => (
+  <Card className="border-none shadow-subtle">
+    <CardContent className="pt-5 pb-5 px-5 flex items-start justify-between">
+      <div>
+        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">{label}</p>
+        <p className="text-xl font-mono font-semibold">{fmt(value)}</p>
+        <p className="text-[11px] text-muted-foreground mt-1">{count} lançamentos</p>
+      </div>
+      <div className={cn("p-2 rounded-lg", color)}>
+        <Icon className="w-4 h-4" />
+      </div>
+    </CardContent>
+  </Card>
+);
+
+// ── Chart wrapper ──
+const ChartCard = ({ title, children }: { title: string; children: React.ReactNode }) => (
+  <Card className="border-none shadow-subtle">
+    <CardContent className="pt-5 pb-4 px-5">
+      <p className="text-sm font-medium text-foreground mb-4">{title}</p>
+      <div className="h-[240px]">{children}</div>
+    </CardContent>
+  </Card>
+);
+
+// ── Data ──
+const revenueData = [
+  { m: "Jan", rec: 45, desp: 32 },
+  { m: "Fev", rec: 52, desp: 34 },
+  { m: "Mar", rec: 48, desp: 31 },
+  { m: "Abr", rec: 61, desp: 38 },
+  { m: "Mai", rec: 55, desp: 36 },
+  { m: "Jun", rec: 68, desp: 41 },
+];
+const profitData = [
+  { m: "Jan", v: 13 }, { m: "Fev", v: 18 }, { m: "Mar", v: 17 },
+  { m: "Abr", v: 23 }, { m: "Mai", v: 19 }, { m: "Jun", v: 27 },
+];
+const catData = [
+  { name: "Pessoal", value: 15000, color: "#8B5CF6" },
+  { name: "Operacional", value: 12000, color: "#6366F1" },
+  { name: "Impostos", value: 8000, color: "#EF4444" },
+  { name: "Marketing", value: 6000, color: "#F59E0B" },
+];
+const partners = [
+  { name: "Sócio A", pct: 40, value: 10800 },
+  { name: "Sócio B", pct: 30, value: 8100 },
+  { name: "Sócio C", pct: 30, value: 8100 },
+];
+
+const Dashboard = () => {
+  const { data: metrics, isLoading } = useQuery({
+    queryKey: ["dashboard-metrics"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("vw_dashboard_resumo")
+        .select("*")
+        .order("ano", { ascending: false })
+        .order("mes", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (error) { console.error(error); return null; }
+      return data;
+    },
+  });
+
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <Card key={i} className="border-none shadow-subtle">
-              <CardContent className="pt-5 pb-5 px-5 space-y-3">
-                <Skeleton className="h-3 w-20" />
-                <Skeleton className="h-8 w-32" />
-                <Skeleton className="h-3 w-24" />
-              </CardContent>
-            </Card>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card className="border-none shadow-subtle"><CardContent className="pt-5 pb-5 px-5 space-y-3"><Skeleton className="h-3 w-20" /><Skeleton className="h-8 w-32" /><Skeleton className="h-3 w-24" /></CardContent></Card>
+          <Card className="border-none shadow-subtle"><CardContent className="pt-5 pb-5 px-5 space-y-3"><Skeleton className="h-3 w-20" /><Skeleton className="h-8 w-32" /><Skeleton className="h-3 w-24" /></CardContent></Card>
+          <Card className="border-none shadow-subtle md:col-span-2"><CardContent className="pt-5 pb-5 px-5 space-y-3"><Skeleton className="h-3 w-24" /><Skeleton className="h-10 w-48" /><Skeleton className="h-3 w-28" /></CardContent></Card>
         </div>
       </div>
     );
