@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { useCompany } from "@/hooks/useCompany";
 
 type FormValues = {
   empresa_nome: string;
@@ -17,6 +18,7 @@ type FormValues = {
 
 const EmpresaConfig = () => {
   const queryClient = useQueryClient();
+  const { companyId } = useCompany();
 
   const { data: config, isLoading } = useQuery({
     queryKey: ["configuracoes"],
@@ -53,6 +55,7 @@ const EmpresaConfig = () => {
     mutationFn: async (values: FormValues) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Não autenticado");
+      if (!companyId) throw new Error("Usuário não vinculado a uma empresa");
 
       const payload = {
         empresa_nome: values.empresa_nome || null,
@@ -60,6 +63,7 @@ const EmpresaConfig = () => {
         regime_tributario: values.regime_tributario || null,
         caixa_operacional_minimo_meses: values.caixa_operacional_minimo_meses || 1,
         user_id: user.id,
+        company_id: companyId,
       };
 
       if (config) {
@@ -77,7 +81,7 @@ const EmpresaConfig = () => {
       queryClient.invalidateQueries({ queryKey: ["configuracoes"] });
       toast({ title: "Configurações salvas" });
     },
-    onError: () => toast({ title: "Erro ao salvar configurações", variant: "destructive" }),
+    onError: (err: any) => toast({ title: err.message || "Erro ao salvar configurações", variant: "destructive" }),
   });
 
   const regimeValue = watch("regime_tributario");

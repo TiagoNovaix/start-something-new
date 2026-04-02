@@ -70,22 +70,6 @@ const Auth = () => {
               : error.message;
           toast.error(msg);
         } else if (data.user) {
-          // Create company and link user
-          const { data: company, error: companyError } = await supabase
-            .from("companies")
-            .insert({ name: "Minha Empresa" })
-            .select()
-            .single();
-
-          if (companyError) {
-            console.error("Error creating company:", companyError);
-          } else if (company) {
-            await supabase.from("users_companies").insert({
-              company_id: company.id,
-              user_id: data.user.id,
-              role: "admin",
-            });
-          }
 
           if (data.session) {
             toast.success("Conta criada com sucesso!");
