@@ -153,8 +153,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <span className="font-semibold text-sm text-foreground">{title}</span>
       </div>
       <div className="flex items-center gap-3">
-        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border text-xs font-medium text-muted-foreground hover:bg-[rgba(255,255,255,0.04)] transition-colors">
-          Jan 2024
+        <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border text-xs font-medium text-muted-foreground hover:bg-[rgba(255,255,255,0.04)] transition-colors capitalize">
+          {new Date().toLocaleDateString("pt-BR", { month: "long", year: "numeric" })}
           <ChevronDown className="w-3.5 h-3.5" />
         </button>
         <UserDropdown user={user} signOut={signOut} />
