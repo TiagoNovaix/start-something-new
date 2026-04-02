@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 type FormValues = {
   nome: string;
@@ -29,12 +29,7 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
 
   useEffect(() => {
     if (editing) {
-      reset({
-        nome: editing.nome,
-        email: editing.email || "",
-        participacao: editing.participacao || 0,
-        pro_labore: editing.pro_labore || 0,
-      });
+      reset({ nome: editing.nome, email: editing.email || "", participacao: editing.participacao || 0, pro_labore: editing.pro_labore || 0 });
     } else {
       reset({ nome: "", email: "", participacao: 0, pro_labore: 0 });
     }
@@ -44,9 +39,7 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
     mutationFn: async (values: FormValues) => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Não autenticado");
-
       const payload = { ...values, user_id: user.id };
-
       if (editing) {
         const { error } = await supabase.from("socios").update(payload).eq("id", editing.id);
         if (error) throw error;
@@ -57,11 +50,11 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["socios"] });
-      toast({ title: editing ? "Sócio atualizado" : "Sócio cadastrado" });
+      toast.success(editing ? "Sócio atualizado" : "Sócio cadastrado");
       onOpenChange(false);
     },
     onError: (error: any) => {
-      toast({ title: "Erro ao salvar sócio", description: error.message, variant: "destructive" });
+      toast.error("Erro ao salvar sócio", { description: error.message });
     },
   });
 
@@ -74,7 +67,8 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
         <form onSubmit={handleSubmit((v) => mutation.mutate(v))} className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="nome">Nome *</Label>
-            <Input id="nome" {...register("nome", { required: true })} />
+            <Input id="nome" {...register("nome", { required: "Nome é obrigatório" })} />
+            {errors.nome && <p className="text-xs text-destructive">{errors.nome.message}</p>}
           </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
