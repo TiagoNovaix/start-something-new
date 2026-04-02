@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -53,7 +53,23 @@ export function useTransactionForm() {
   const [reservaPreviews, setReservaPreviews] = useState<ReservaPreview[]>([]);
   const [showReservaDialog, setShowReservaDialog] = useState(false);
   const [pendingLancamentoId, setPendingLancamentoId] = useState<string | null>(null);
+  const [companyId, setCompanyId] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchCompany() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+      const { data } = await supabase
+        .from("users_companies")
+        .select("company_id")
+        .eq("user_id", user.id)
+        .limit(1)
+        .single();
+      if (data) setCompanyId(data.company_id);
+    }
+    fetchCompany();
+  }, []);
 
   const subtipos = SUBTIPOS[formData.tipo] ?? [];
 
@@ -98,8 +114,9 @@ export function useTransactionForm() {
     try {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Não autenticado");
+      if (!companyId) throw new Error("Usuário não vinculado a uma empresa");
       for (const r of reservaPreviews) {
-        await supabase.from("movimentacoes_reservas").insert({ reserva_id: r.id, transacao_id: pendingLancamentoId, tipo: "entrada", valor: r.valorProvisionado, user_id: user.id });
+        await supabase.from("movimentacoes_reservas").insert({ reserva_id: r.id, transacao_id: pendingLancamentoId, tipo: "entrada", valor: r.valorProvisionado, user_id: user.id, company_id: companyId });
         const { data: reserva } = await supabase.from("reservas").select("saldo_atual").eq("id", r.id).single();
         if (reserva) await supabase.from("reservas").update({ saldo_atual: Number(reserva.saldo_atual) + r.valorProvisionado }).eq("id", r.id);
       }
@@ -116,6 +133,7 @@ export function useTransactionForm() {
   async function handleSubmit() {
     const error = validate();
     if (error) { toast.error(error); return; }
+    if (!companyId) { toast.error("Usuário não vinculado a uma empresa"); return; }
     setSaving(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -125,7 +143,7 @@ export function useTransactionForm() {
 
       if (formData.parcelado && !formData.recorrente) {
         const { data: grupo, error: grupoErr } = await supabase.from("grupos_parcelas").insert({
-          user_id: user.id, total_parcelas: formData.numeroParcelas, valor_total: valor, descricao: formData.descricao,
+          user_id: user.id, company_id: companyId, total_parcelas: formData.numeroParcelas, valor_total: valor, descricao: formData.descricao,
           subtipo: formData.subtipo, categoria_id: formData.categoriaId || null, conta_id: formData.contaId || null,
           socio_id: formData.socioId || null, centro_custo_id: formData.centroCustoId || null,
         }).select().single();
@@ -139,6 +157,7 @@ export function useTransactionForm() {
             conta_destino_id: formData.contaDestinoId || null, socio_id: formData.socioId || null, centro_custo_id: formData.centroCustoId || null,
             observacoes: formData.observacoes || null, data_pagamento: i === 0 && formData.dataPagamento ? format(formData.dataPagamento, "yyyy-MM-dd") : null,
             parcelado: true, numero_parcela: i + 1, total_parcelas: formData.numeroParcelas, grupo_parcelas_id: grupo.id,
+            company_id: companyId,
           };
         });
         const { error: insErr } = await supabase.from("lancamentos").insert(parcelas);
@@ -148,7 +167,7 @@ export function useTransactionForm() {
 
       if (formData.recorrente) {
         const { data: regra, error: regraErr } = await supabase.from("regras_recorrencia").insert({
-          user_id: user.id, frequencia: formData.frequenciaRecorrencia, data_inicio: format(formData.dataCompetencia, "yyyy-MM-dd"),
+          user_id: user.id, company_id: companyId, frequencia: formData.frequenciaRecorrencia, data_inicio: format(formData.dataCompetencia, "yyyy-MM-dd"),
           data_fim: formData.dataFimRecorrencia ? format(formData.dataFimRecorrencia, "yyyy-MM-dd") : null, valor,
           categoria_id: formData.categoriaId || null, conta_id: formData.contaId || null, descricao: formData.descricao,
           socio_id: formData.socioId || null, conta_destino_id: formData.contaDestinoId || null, subtipo: formData.subtipo,
@@ -167,6 +186,7 @@ export function useTransactionForm() {
             status: "pendente", categoria_id: formData.categoriaId || null, conta_id: formData.contaId || null,
             socio_id: formData.socioId || null, centro_custo_id: formData.centroCustoId || null, observacoes: formData.observacoes || null,
             recorrente: true, frequencia_recorrencia: formData.frequenciaRecorrencia, regra_recorrencia_id: regra.id,
+            company_id: companyId,
           });
         }
         const { error: insErr } = await supabase.from("lancamentos").insert(instances);
@@ -179,6 +199,7 @@ export function useTransactionForm() {
         subtipo: formData.subtipo, status: formData.status, categoria_id: formData.categoriaId || null, conta_id: formData.contaId || null,
         conta_destino_id: formData.contaDestinoId || null, socio_id: formData.socioId || null, centro_custo_id: formData.centroCustoId || null,
         observacoes: formData.observacoes || null, data_pagamento: formData.dataPagamento ? format(formData.dataPagamento, "yyyy-MM-dd") : null,
+        company_id: companyId,
       }).select().single();
       if (lancErr) throw lancErr;
 
