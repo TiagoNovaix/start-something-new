@@ -76,7 +76,7 @@ const KPI = ({ label, value, trend, positive, large }: {
 const Alert = ({ label, value, count, icon: Icon, color }: {
   label: string; value: number; count: number; icon: any; color: string;
 }) => (
-  <Card className="border-none shadow-subtle">
+  <Card className="border-none shadow-subtle bg-card-alt">
     <CardContent className="pt-5 pb-5 px-5 flex items-start justify-between">
       <div>
         <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-1">{label}</p>
