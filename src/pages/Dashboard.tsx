@@ -36,14 +36,17 @@ const KPI = ({ label, value, trend, positive, large }: {
   label: string; value: number; trend?: number; positive?: boolean; large?: boolean;
 }) => (
   <Card className={cn(
-    "border-none shadow-subtle transition-transform duration-200 hover:scale-[1.005]",
-    large && "md:col-span-1 ring-1 ring-primary/20"
+    "border-none shadow-subtle transition-all duration-200 hover:scale-[1.005]",
+    large && "md:col-span-2 ring-1 ring-primary/25 shadow-[0_0_24px_-6px_hsl(var(--primary)/0.15)]"
   )}>
-    <CardContent className={cn("pt-5 pb-5", large ? "px-6" : "px-5")}>
-      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">{label}</p>
+    <CardContent className={cn("pt-6 pb-6", large ? "px-8" : "px-5")}>
       <p className={cn(
-        "font-mono font-semibold tracking-tight",
-        large ? "text-3xl md:text-4xl" : "text-2xl",
+        "font-medium text-muted-foreground uppercase tracking-wider mb-3",
+        large ? "text-sm" : "text-xs"
+      )}>{label}</p>
+      <p className={cn(
+        "font-mono font-bold tracking-tight",
+        large ? "text-4xl md:text-5xl" : "text-xl md:text-2xl",
         positive === true && "text-positive",
         positive === false && "text-negative",
         positive === undefined && "text-foreground",
@@ -51,16 +54,16 @@ const KPI = ({ label, value, trend, positive, large }: {
         {fmt(value)}
       </p>
       {trend !== undefined && (
-        <div className="flex items-center gap-1.5 mt-2">
+        <div className="flex items-center gap-1.5 mt-3">
           {positive ? (
-            <ArrowUpRight className="w-3.5 h-3.5 text-positive" />
+            <ArrowUpRight className={cn("text-positive", large ? "w-4 h-4" : "w-3.5 h-3.5")} />
           ) : (
-            <ArrowDownRight className="w-3.5 h-3.5 text-negative" />
+            <ArrowDownRight className={cn("text-negative", large ? "w-4 h-4" : "w-3.5 h-3.5")} />
           )}
-          <span className={cn("text-xs font-mono font-medium", positive ? "text-positive" : "text-negative")}>
+          <span className={cn("font-mono font-medium", large ? "text-sm" : "text-xs", positive ? "text-positive" : "text-negative")}>
             {trend}%
           </span>
-          <span className="text-[10px] text-muted-foreground ml-0.5">vs mês anterior</span>
+          <span className={cn("text-muted-foreground ml-0.5", large ? "text-xs" : "text-[10px]")}>vs mês anterior</span>
         </div>
       )}
     </CardContent>
@@ -139,16 +142,10 @@ const Dashboard = () => {
   if (isLoading) {
     return (
       <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <Card key={i} className="border-none shadow-subtle">
-              <CardContent className="pt-5 pb-5 px-5 space-y-3">
-                <Skeleton className="h-3 w-20" />
-                <Skeleton className="h-8 w-32" />
-                <Skeleton className="h-3 w-24" />
-              </CardContent>
-            </Card>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <Card className="border-none shadow-subtle"><CardContent className="pt-5 pb-5 px-5 space-y-3"><Skeleton className="h-3 w-20" /><Skeleton className="h-8 w-32" /><Skeleton className="h-3 w-24" /></CardContent></Card>
+          <Card className="border-none shadow-subtle"><CardContent className="pt-5 pb-5 px-5 space-y-3"><Skeleton className="h-3 w-20" /><Skeleton className="h-8 w-32" /><Skeleton className="h-3 w-24" /></CardContent></Card>
+          <Card className="border-none shadow-subtle md:col-span-2"><CardContent className="pt-5 pb-5 px-5 space-y-3"><Skeleton className="h-3 w-24" /><Skeleton className="h-10 w-48" /><Skeleton className="h-3 w-28" /></CardContent></Card>
         </div>
       </div>
     );
@@ -159,8 +156,8 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
-      {/* L1 — Primary KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* L1 — Primary KPIs: Lucro takes 2 cols for hero weight */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <KPI label="Receita Bruta" value={metrics?.receita_total || 68000} trend={12} positive />
         <KPI label="Despesas" value={metrics?.despesa_total || 41000} trend={5} positive={false} />
         <KPI label="Lucro Líquido" value={lucro} trend={18} positive={lucroPositive} large />
