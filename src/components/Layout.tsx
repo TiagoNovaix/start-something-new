@@ -93,7 +93,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const title = currentItem?.label || "Página";
 
   useEffect(() => {
-    document.title = `Control Tower — ${title}`;
+    document.title = `Financeiro Soluv — ${title}`;
   }, [title]);
 
   if (isMobile) {
