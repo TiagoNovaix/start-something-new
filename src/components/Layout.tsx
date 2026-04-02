@@ -45,8 +45,8 @@ const SidebarItem = ({ icon: Icon, label, path, active, onClick }: { icon: any; 
 const SidebarContent = ({ pathname, onItemClick }: { pathname: string; onItemClick?: () => void }) => (
   <>
     <div className="p-6">
-      <Link to="/dashboard" className="text-2xl font-serif text-gradient">
-        Control Tower
+      <Link to="/dashboard" className="text-xl font-semibold text-gradient tracking-tight">
+        Financeiro Soluv
       </Link>
     </div>
     <nav className="flex-1 mt-4">
