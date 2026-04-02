@@ -103,7 +103,7 @@ const UserDropdown = ({ user, signOut }: { user: any; signOut: () => void }) => 
           <p className="text-sm font-medium truncate">{user?.email || "Usuário"}</p>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => navigate("/configuracoes")}>
+        <DropdownMenuItem onClick={() => navigate("/perfil")}>
           <User className="w-4 h-4 mr-2" /> Perfil
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => navigate("/configuracoes")}>
