@@ -92,8 +92,8 @@ const KPI = ({ label, value, trend, positive, large }: {
 
   return (
     <div className="space-y-6">
-      {/* L1 — Primary KPIs */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* L1 — Primary KPIs: Lucro takes 2 cols for hero weight */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <KPI label="Receita Bruta" value={metrics?.receita_total || 68000} trend={12} positive />
         <KPI label="Despesas" value={metrics?.despesa_total || 41000} trend={5} positive={false} />
         <KPI label="Lucro Líquido" value={lucro} trend={18} positive={lucroPositive} large />
