@@ -92,7 +92,7 @@ const Alert = ({ label, value, count, icon: Icon, color }: {
 
 // ── Chart wrapper ──
 const ChartCard = ({ title, children }: { title: string; children: React.ReactNode }) => (
-  <Card className="border-none shadow-subtle">
+  <Card className="border-none shadow-subtle bg-card-gradient">
     <CardContent className="pt-5 pb-4 px-5">
       <p className="text-sm font-medium text-foreground mb-4">{title}</p>
       <div className="h-[240px]">{children}</div>
