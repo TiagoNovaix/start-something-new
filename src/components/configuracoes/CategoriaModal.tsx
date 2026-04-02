@@ -8,26 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { useCompany } from "@/hooks/useCompany";
 import type { Categoria } from "./CategoriasDre";
 
 const GRUPOS_DRE = [
-  "Receita Bruta",
-  "Deduções da Receita",
-  "Receita Líquida",
-  "Custo dos Serviços/Produtos",
-  "Lucro Bruto",
-  "Despesa Operacional",
-  "Despesa Administrativa",
-  "Despesa Comercial",
-  "Despesa Financeira",
-  "Receita Financeira",
-  "Outras Receitas",
-  "Outras Despesas",
-  "Resultado Antes do IR",
-  "Impostos sobre Lucro",
-  "Lucro Líquido",
-  "Despesa Variável",
-  "Despesa Fixa",
+  "Receita Bruta", "Deduções da Receita", "Receita Líquida", "Custo dos Serviços/Produtos",
+  "Lucro Bruto", "Despesa Operacional", "Despesa Administrativa", "Despesa Comercial",
+  "Despesa Financeira", "Receita Financeira", "Outras Receitas", "Outras Despesas",
+  "Resultado Antes do IR", "Impostos sobre Lucro", "Lucro Líquido", "Despesa Variável", "Despesa Fixa",
 ];
 
 type FormValues = {
@@ -45,6 +33,7 @@ interface Props {
 
 const CategoriaModal = ({ open, onOpenChange, categoria }: Props) => {
   const queryClient = useQueryClient();
+  const { companyId } = useCompany();
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FormValues>({
     defaultValues: { nome: "", tipo: "saida", classificacao_dre: "Despesa Variável", subgrupo: "" },
   });
@@ -52,8 +41,7 @@ const CategoriaModal = ({ open, onOpenChange, categoria }: Props) => {
   useEffect(() => {
     if (categoria) {
       reset({
-        nome: categoria.nome,
-        tipo: categoria.tipo,
+        nome: categoria.nome, tipo: categoria.tipo,
         classificacao_dre: categoria.classificacao_dre || "Despesa Variável",
         subgrupo: categoria.subgrupo || "",
       });
@@ -64,11 +52,12 @@ const CategoriaModal = ({ open, onOpenChange, categoria }: Props) => {
 
   const mutation = useMutation({
     mutationFn: async (values: FormValues) => {
+      if (!companyId) throw new Error("Usuário não vinculado a uma empresa");
       const payload = {
-        nome: values.nome,
-        tipo: values.tipo,
+        nome: values.nome, tipo: values.tipo,
         classificacao_dre: values.classificacao_dre,
         subgrupo: values.subgrupo || null,
+        company_id: companyId,
       };
 
       if (categoria) {
@@ -84,7 +73,7 @@ const CategoriaModal = ({ open, onOpenChange, categoria }: Props) => {
       toast({ title: categoria ? "Categoria atualizada" : "Categoria criada" });
       onOpenChange(false);
     },
-    onError: () => toast({ title: "Erro ao salvar categoria", variant: "destructive" }),
+    onError: (err: any) => toast({ title: err.message || "Erro ao salvar categoria", variant: "destructive" }),
   });
 
   const tipoValue = watch("tipo");
@@ -119,9 +108,7 @@ const CategoriaModal = ({ open, onOpenChange, categoria }: Props) => {
             <Select value={grupoDreValue} onValueChange={(v) => setValue("classificacao_dre", v)}>
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
-                {GRUPOS_DRE.map((g) => (
-                  <SelectItem key={g} value={g}>{g}</SelectItem>
-                ))}
+                {GRUPOS_DRE.map((g) => (<SelectItem key={g} value={g}>{g}</SelectItem>))}
               </SelectContent>
             </Select>
           </div>

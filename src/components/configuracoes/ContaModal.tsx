@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { useCompany } from "@/hooks/useCompany";
 
 type FormValues = {
   nome: string;
@@ -21,16 +22,19 @@ interface Props {
 
 const ContaModal = ({ open, onOpenChange }: Props) => {
   const queryClient = useQueryClient();
+  const { companyId } = useCompany();
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<FormValues>({
     defaultValues: { nome: "", tipo: "corrente", saldo_inicial: "0" },
   });
 
   const mutation = useMutation({
     mutationFn: async (values: FormValues) => {
+      if (!companyId) throw new Error("Usuário não vinculado a uma empresa");
       const { error } = await supabase.from("contas").insert({
         nome: values.nome,
         tipo: values.tipo,
         saldo_inicial: parseFloat(values.saldo_inicial) || 0,
+        company_id: companyId,
       });
       if (error) throw error;
     },
@@ -40,7 +44,7 @@ const ContaModal = ({ open, onOpenChange }: Props) => {
       reset();
       onOpenChange(false);
     },
-    onError: () => toast({ title: "Erro ao criar conta", variant: "destructive" }),
+    onError: (err: any) => toast({ title: err.message || "Erro ao criar conta", variant: "destructive" }),
   });
 
   const tipoValue = watch("tipo");

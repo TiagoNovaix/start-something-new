@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { useCompany } from "@/hooks/useCompany";
 
 type FormValues = {
   nome: string;
@@ -23,6 +24,7 @@ interface SocioModalProps {
 
 const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
   const queryClient = useQueryClient();
+  const { companyId } = useCompany();
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
     defaultValues: { nome: "", email: "", participacao: 0, pro_labore: 0 },
   });
@@ -37,9 +39,10 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
 
   const mutation = useMutation({
     mutationFn: async (values: FormValues) => {
+      if (!companyId) throw new Error("Usuário não vinculado a uma empresa");
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Não autenticado");
-      const payload = { ...values, user_id: user.id };
+      const payload = { ...values, user_id: user.id, company_id: companyId };
       if (editing) {
         const { error } = await supabase.from("socios").update(payload).eq("id", editing.id);
         if (error) throw error;
