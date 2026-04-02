@@ -167,7 +167,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       >
         {/* Logo + Toggle */}
         <div className={cn("flex items-center h-14 border-b border-border shrink-0", collapsed ? "justify-center px-2" : "justify-between px-5")}>
-          {!collapsed && <span className="text-lg font-semibold text-gradient truncate">Soluv Financeiro</span>}
+          {!collapsed && <img src={logoSoluv} alt="Soluv Financeiro" className="h-7 object-contain" />}
           <Button
             variant="ghost"
             size="icon"
