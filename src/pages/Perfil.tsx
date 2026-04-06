@@ -94,7 +94,7 @@ const Perfil = () => {
       if (updateError) throw updateError;
 
       queryClient.invalidateQueries({ queryKey: ["profile"] });
-      toast.success("Avatar atualizado!");
+      toastSuccess("Logo atualizada", "A nova logo já aparece na sidebar.");
     } catch (err: any) {
       toast.error("Erro ao enviar avatar", { description: err.message });
     } finally {
