@@ -85,7 +85,7 @@ const Auth = () => {
         if (error) {
           toastError(error.message);
         } else {
-          toast.success("E-mail de recuperação enviado!");
+          toastSuccess("E-mail de recuperação enviado!");
           setMode("login");
         }
       }
