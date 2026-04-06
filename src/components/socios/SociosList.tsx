@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Pencil, Trash2, Users } from "lucide-react";
-import { toast } from "sonner";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import EmptyState from "@/components/EmptyState";
 import SocioModal from "./SocioModal";

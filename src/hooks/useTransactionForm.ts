@@ -204,9 +204,9 @@ export function useTransactionForm() {
       if (lancErr) throw lancErr;
 
       if (formData.tipo === "entrada" && formData.status === "pago") { await checkReservas(lancamento.id, valor); return; }
-      navigate("/lancamentos"); toast.success("Lançamento salvo com sucesso!");
+      navigate("/lancamentos"); toastSuccess("Lançamento registrado", "Adicionado com sucesso.");
     } catch (err: any) {
-      toast.error("Erro ao salvar", { description: err.message });
+      toastError("Erro ao salvar", err.message);
     } finally { setSaving(false); }
   }
 
