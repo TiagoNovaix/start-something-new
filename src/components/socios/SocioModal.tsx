@@ -13,7 +13,7 @@ type FormValues = {
   nome: string;
   email: string;
   participacao: number;
-  pro_labore: number;
+  percentual_lucro: number;
 };
 
 interface SocioModalProps {
