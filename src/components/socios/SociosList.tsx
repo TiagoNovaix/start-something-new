@@ -95,8 +95,8 @@ const SociosList = () => {
             <TableRow>
               <TableHead>Nome</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Participação (%)</TableHead>
-              <TableHead>Pró-labore (R$)</TableHead>
+              <TableHead>Cotas (%)</TableHead>
+              <TableHead>Lucro (%)</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="w-[100px]">Ações</TableHead>
             </TableRow>
