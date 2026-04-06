@@ -310,7 +310,7 @@ const Dre = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      toast.success("DRE exportada com sucesso!");
+      toastSuccess("DRE exportada com sucesso!");
     } catch (error) {
       console.error("Erro ao exportar DRE:", error);
       toast.error("Erro ao exportar DRE.");
