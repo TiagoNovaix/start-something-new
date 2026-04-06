@@ -47,9 +47,9 @@ const ContasBancarias = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["contas"] });
-      toast({ title: "Conta atualizada" });
+      toastSuccess("Conta atualizada");
     },
-    onError: () => toast({ title: "Erro ao atualizar conta", variant: "destructive" }),
+    onError: () => toastError("Erro ao atualizar conta"),
   });
 
   const formatCurrency = (value: number | null) =>

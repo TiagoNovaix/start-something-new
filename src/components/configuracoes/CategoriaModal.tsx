@@ -70,10 +70,10 @@ const CategoriaModal = ({ open, onOpenChange, categoria }: Props) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categorias"] });
-      toast({ title: categoria ? "Categoria atualizada" : "Categoria criada" });
+      toastSuccess(categoria ? "Categoria atualizada" : "Categoria criada", "Disponível para novos lançamentos.");
       onOpenChange(false);
     },
-    onError: (err: any) => toast({ title: err.message || "Erro ao salvar categoria", variant: "destructive" }),
+    onError: (err: any) => toastError("Erro ao salvar categoria", err.message),
   });
 
   const tipoValue = watch("tipo");

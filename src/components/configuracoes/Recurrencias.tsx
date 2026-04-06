@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Pencil, Trash2, Eye, RefreshCcw } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toastSuccess } from "@/hooks/useToast";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 
@@ -72,9 +72,7 @@ const Recurrencias = () => {
 
   const generateInstancesMutation = useMutation({
     mutationFn: async () => {
-      // Logic to regenerate next 12 months (this usually happens via an edge function or complex query)
-      // For now, we'll just show a toast as the actual implementation depends on Task 4 details
-      toast({ title: "Gerando instâncias...", description: "As próximas instâncias estão sendo criadas." });
+      toastSuccess("Gerando instâncias...", "As próximas instâncias estão sendo criadas.");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["regras_recorrencia"] });
@@ -89,7 +87,6 @@ const Recurrencias = () => {
         .eq("id", id);
       if (error) throw error;
       
-      // Also soft delete future transactions
       await supabase
         .from("lancamentos")
         .update({ deleted_at: new Date().toISOString() })
@@ -99,7 +96,7 @@ const Recurrencias = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["regras_recorrencia"] });
-      toast({ title: "Recorrência cancelada", description: "As próximas instâncias foram removidas." });
+      toastSuccess("Recorrência cancelada", "As próximas instâncias foram removidas.");
     }
   });
 

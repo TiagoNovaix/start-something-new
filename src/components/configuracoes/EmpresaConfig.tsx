@@ -79,9 +79,9 @@ const EmpresaConfig = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["configuracoes"] });
-      toast({ title: "Configurações salvas" });
+      toastSuccess("Configurações salvas");
     },
-    onError: (err: any) => toast({ title: err.message || "Erro ao salvar configurações", variant: "destructive" }),
+    onError: (err: any) => toastError("Erro ao salvar configurações", err.message),
   });
 
   const regimeValue = watch("regime_tributario");

@@ -42,9 +42,9 @@ const CategoriasDre = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categorias"] });
-      toast({ title: "Status atualizado" });
+      toastSuccess("Status atualizado");
     },
-    onError: () => toast({ title: "Erro ao atualizar status", variant: "destructive" }),
+    onError: () => toastError("Erro ao atualizar status"),
   });
 
   return (
