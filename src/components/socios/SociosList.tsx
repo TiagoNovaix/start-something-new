@@ -107,7 +107,7 @@ const SociosList = () => {
                 <TableCell className="font-medium">{socio.nome}</TableCell>
                 <TableCell className="text-muted-foreground">{socio.email || "—"}</TableCell>
                 <TableCell>{socio.participacao}%</TableCell>
-                <TableCell>R$ {socio.pro_labore?.toLocaleString() || "0,00"}</TableCell>
+                <TableCell>{socio.percentual_lucro || 0}%</TableCell>
                 <TableCell><Switch checked={socio.ativo !== false} onCheckedChange={(c) => toggleMutation.mutate({ id: socio.id, ativo: c })} /></TableCell>
                 <TableCell>
                   <div className="flex gap-1">
