@@ -1,0 +1,1 @@
+ALTER TABLE public.socios ADD COLUMN IF NOT EXISTS percentual_lucro numeric DEFAULT 0;

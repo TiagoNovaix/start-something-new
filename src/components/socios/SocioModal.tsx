@@ -83,8 +83,8 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
               <Input id="participacao" type="number" step="0.01" {...register("participacao", { valueAsNumber: true })} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="pro_labore">Pró-labore (R$)</Label>
-              <Input id="pro_labore" type="number" step="0.01" {...register("pro_labore", { valueAsNumber: true })} />
+              <Label htmlFor="percentual_lucro">Distribuição do Lucro (%)</Label>
+              <Input id="percentual_lucro" type="number" step="0.01" {...register("percentual_lucro", { valueAsNumber: true })} />
             </div>
           </div>
           <DialogFooter className="pt-4">
