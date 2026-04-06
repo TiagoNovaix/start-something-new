@@ -26,7 +26,7 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
   const queryClient = useQueryClient();
   const { companyId } = useCompany();
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
-    defaultValues: { nome: "", email: "", participacao: 0, pro_labore: 0 },
+    defaultValues: { nome: "", email: "", participacao: 0, percentual_lucro: 0 },
   });
 
   useEffect(() => {
