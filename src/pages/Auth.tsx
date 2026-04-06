@@ -68,7 +68,7 @@ const Auth = () => {
             error.message.includes("already registered")
               ? "Este e-mail já está cadastrado"
               : error.message;
-          toast.error(msg);
+          toastError(msg);
         } else if (data.user) {
 
           if (data.session) {
