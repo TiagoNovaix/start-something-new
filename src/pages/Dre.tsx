@@ -129,7 +129,7 @@ const Dre = () => {
     },
     onError: (error) => {
       console.error("Erro ao fechar mês:", error);
-      toast.error("Erro ao fechar mês.");
+      toastError("Erro ao fechar mês");
     }
   });
 
