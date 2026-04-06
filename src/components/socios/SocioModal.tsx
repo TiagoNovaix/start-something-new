@@ -53,7 +53,7 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["socios"] });
-      toast.success(editing ? "Sócio atualizado" : "Sócio cadastrado");
+      toastSuccess("Sócio atualizado", "Dados salvos com sucesso.");
       onOpenChange(false);
     },
     onError: (error: any) => {
