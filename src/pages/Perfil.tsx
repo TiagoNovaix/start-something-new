@@ -66,7 +66,7 @@ const Perfil = () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       toastSuccess("Perfil atualizado com sucesso!");
     },
-    onError: (err: any) => toast.error("Erro ao atualizar perfil", { description: err.message }),
+    onError: (err: any) => toastError("Erro ao atualizar perfil", err.message),
   });
 
   const [uploading, setUploading] = useState(false);
