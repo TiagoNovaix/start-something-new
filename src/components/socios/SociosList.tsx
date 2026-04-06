@@ -32,8 +32,8 @@ const SociosList = () => {
       const { error } = await supabase.from("socios").update({ ativo }).eq("id", id);
       if (error) throw error;
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toast.success("Status atualizado"); },
-    onError: (err: any) => toast.error("Erro ao atualizar status", { description: err.message }),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toastSuccess("Status atualizado"); },
+    onError: (err: any) => toastError("Erro ao atualizar status", err.message),
   });
 
   const deleteMutation = useMutation({
