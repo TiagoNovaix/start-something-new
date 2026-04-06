@@ -31,9 +31,9 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
 
   useEffect(() => {
     if (editing) {
-      reset({ nome: editing.nome, email: editing.email || "", participacao: editing.participacao || 0, pro_labore: editing.pro_labore || 0 });
+      reset({ nome: editing.nome, email: editing.email || "", participacao: editing.participacao || 0, percentual_lucro: editing.percentual_lucro || 0 });
     } else {
-      reset({ nome: "", email: "", participacao: 0, pro_labore: 0 });
+      reset({ nome: "", email: "", participacao: 0, percentual_lucro: 0 });
     }
   }, [editing, reset, open]);
 
