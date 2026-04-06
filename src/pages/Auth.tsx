@@ -83,7 +83,7 @@ const Auth = () => {
           redirectTo: `${window.location.origin}/reset-password`,
         });
         if (error) {
-          toast.error(error.message);
+          toastError(error.message);
         } else {
           toast.success("E-mail de recuperação enviado!");
           setMode("login");
