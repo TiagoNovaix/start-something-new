@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { addMonths, format } from "date-fns";
 
 export type TipoMovimentacao = "entrada" | "saida" | "transferencia";
