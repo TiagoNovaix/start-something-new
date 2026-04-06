@@ -73,10 +73,13 @@ const SociosList = () => {
                 </div>
                 <div className="flex items-center justify-between text-xs text-muted-foreground">
                   <span>{socio.email || "—"}</span>
-                  <Badge variant="outline" className="border-primary/20 text-primary">{socio.participacao}%</Badge>
+                  <div className="flex gap-2">
+                    <Badge variant="outline" className="border-primary/20 text-primary">{socio.participacao}% cotas</Badge>
+                    <Badge variant="outline" className="border-accent/20 text-accent-foreground">{socio.percentual_lucro || 0}% lucro</Badge>
+                  </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">R$ {socio.pro_labore?.toLocaleString() || "0,00"}</span>
+                  <span className="text-sm text-muted-foreground">Distribuição: {socio.percentual_lucro || 0}% do lucro líquido</span>
                   <div className="flex gap-1">
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => { setEditing(socio); setModalOpen(true); }}><Pencil className="h-4 w-4" /></Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleDelete(socio.id)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
@@ -92,8 +95,8 @@ const SociosList = () => {
             <TableRow>
               <TableHead>Nome</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Participação (%)</TableHead>
-              <TableHead>Pró-labore (R$)</TableHead>
+              <TableHead>Cotas (%)</TableHead>
+              <TableHead>Lucro (%)</TableHead>
               <TableHead>Status</TableHead>
               <TableHead className="w-[100px]">Ações</TableHead>
             </TableRow>
@@ -104,7 +107,7 @@ const SociosList = () => {
                 <TableCell className="font-medium">{socio.nome}</TableCell>
                 <TableCell className="text-muted-foreground">{socio.email || "—"}</TableCell>
                 <TableCell>{socio.participacao}%</TableCell>
-                <TableCell>R$ {socio.pro_labore?.toLocaleString() || "0,00"}</TableCell>
+                <TableCell>{socio.percentual_lucro || 0}%</TableCell>
                 <TableCell><Switch checked={socio.ativo !== false} onCheckedChange={(c) => toggleMutation.mutate({ id: socio.id, ativo: c })} /></TableCell>
                 <TableCell>
                   <div className="flex gap-1">

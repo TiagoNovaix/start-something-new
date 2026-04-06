@@ -13,7 +13,7 @@ type FormValues = {
   nome: string;
   email: string;
   participacao: number;
-  pro_labore: number;
+  percentual_lucro: number;
 };
 
 interface SocioModalProps {
@@ -26,14 +26,14 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
   const queryClient = useQueryClient();
   const { companyId } = useCompany();
   const { register, handleSubmit, reset, formState: { errors } } = useForm<FormValues>({
-    defaultValues: { nome: "", email: "", participacao: 0, pro_labore: 0 },
+    defaultValues: { nome: "", email: "", participacao: 0, percentual_lucro: 0 },
   });
 
   useEffect(() => {
     if (editing) {
-      reset({ nome: editing.nome, email: editing.email || "", participacao: editing.participacao || 0, pro_labore: editing.pro_labore || 0 });
+      reset({ nome: editing.nome, email: editing.email || "", participacao: editing.participacao || 0, percentual_lucro: editing.percentual_lucro || 0 });
     } else {
-      reset({ nome: "", email: "", participacao: 0, pro_labore: 0 });
+      reset({ nome: "", email: "", participacao: 0, percentual_lucro: 0 });
     }
   }, [editing, reset, open]);
 
@@ -83,8 +83,8 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
               <Input id="participacao" type="number" step="0.01" {...register("participacao", { valueAsNumber: true })} />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="pro_labore">Pró-labore (R$)</Label>
-              <Input id="pro_labore" type="number" step="0.01" {...register("pro_labore", { valueAsNumber: true })} />
+              <Label htmlFor="percentual_lucro">Distribuição do Lucro (%)</Label>
+              <Input id="percentual_lucro" type="number" step="0.01" {...register("percentual_lucro", { valueAsNumber: true })} />
             </div>
           </div>
           <DialogFooter className="pt-4">

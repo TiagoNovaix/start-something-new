@@ -1283,6 +1283,7 @@ export type Database = {
           id: string
           nome: string
           participacao: number
+          percentual_lucro: number | null
           pro_labore: number | null
           updated_at: string | null
           user_id: string
@@ -1296,6 +1297,7 @@ export type Database = {
           id?: string
           nome: string
           participacao?: number
+          percentual_lucro?: number | null
           pro_labore?: number | null
           updated_at?: string | null
           user_id?: string
@@ -1309,6 +1311,7 @@ export type Database = {
           id?: string
           nome?: string
           participacao?: number
+          percentual_lucro?: number | null
           pro_labore?: number | null
           updated_at?: string | null
           user_id?: string
