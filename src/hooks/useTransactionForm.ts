@@ -191,7 +191,7 @@ export function useTransactionForm() {
         }
         const { error: insErr } = await supabase.from("lancamentos").insert(instances);
         if (insErr) throw insErr;
-        navigate("/lancamentos"); toast.success(`${instances.length} lançamentos recorrentes criados!`); return;
+        navigate("/lancamentos"); toastSuccess("Lançamento registrado", `${instances.length} lançamentos recorrentes criados!`); return;
       }
 
       const { data: lancamento, error: lancErr } = await supabase.from("lancamentos").insert({
