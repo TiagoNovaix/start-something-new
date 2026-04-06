@@ -122,9 +122,9 @@ export function useTransactionForm() {
       }
       const total = reservaPreviews.reduce((s, r) => s + r.valorProvisionado, 0);
       setShowReservaDialog(false); navigate("/lancamentos");
-      toast.success("Lançamento salvo!", { description: `R$ ${total.toFixed(2)} provisionado nas caixinhas.` });
+      toastSuccess("Reservas atualizadas", `R$ ${total.toFixed(2)} provisionado nas caixinhas.`);
     } catch (err: any) {
-      toast.error("Erro ao provisionar caixinhas", { description: err.message });
+      toastError("Erro ao provisionar caixinhas", err.message);
     } finally { setSaving(false); }
   }
 
