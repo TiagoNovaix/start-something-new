@@ -125,7 +125,7 @@ const Dre = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["monthly-closing"] });
-      toast.success("Mês fechado com sucesso!");
+      toastSuccess("Mês fechado", "Período travado com sucesso.");
     },
     onError: (error) => {
       console.error("Erro ao fechar mês:", error);
