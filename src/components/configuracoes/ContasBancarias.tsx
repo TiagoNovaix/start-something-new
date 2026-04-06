@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Ban, CheckCircle } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import ContaModal from "./ContaModal";
 
 export type Conta = {
