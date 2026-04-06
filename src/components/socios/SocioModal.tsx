@@ -57,7 +57,7 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
       onOpenChange(false);
     },
     onError: (error: any) => {
-      toast.error("Erro ao salvar sócio", { description: error.message });
+      toastError("Erro ao salvar sócio", error.message);
     },
   });
 

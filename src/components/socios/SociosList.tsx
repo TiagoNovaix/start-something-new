@@ -41,8 +41,8 @@ const SociosList = () => {
       const { error } = await supabase.from("socios").delete().eq("id", id);
       if (error) throw error;
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toast.success("Sócio excluído"); },
-    onError: (err: any) => toast.error("Erro ao excluir sócio", { description: err.message }),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toastSuccess("Sócio excluído"); },
+    onError: (err: any) => toastError("Erro ao excluir sócio", err.message),
   });
 
   const handleDelete = (id: string) => {

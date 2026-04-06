@@ -90,7 +90,7 @@ const Auth = () => {
         }
       }
     } catch (err) {
-      toast.error("Erro inesperado. Tente novamente.");
+      toastError("Erro inesperado. Tente novamente.");
     }
 
     setLoading(false);

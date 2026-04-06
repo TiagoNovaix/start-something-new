@@ -313,7 +313,7 @@ const Dre = () => {
       toastSuccess("DRE exportada com sucesso!");
     } catch (error) {
       console.error("Erro ao exportar DRE:", error);
-      toast.error("Erro ao exportar DRE.");
+      toastError("Erro ao exportar DRE");
     }
   };
 

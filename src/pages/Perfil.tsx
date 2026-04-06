@@ -96,7 +96,7 @@ const Perfil = () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       toastSuccess("Logo atualizada", "A nova logo já aparece na sidebar.");
     } catch (err: any) {
-      toast.error("Erro ao enviar avatar", { description: err.message });
+      toastError("Erro no upload", "Use uma imagem PNG ou JPG de até 2MB.");
     } finally {
       setUploading(false);
     }
