@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Pencil } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import CategoriaModal from "./CategoriaModal";
 
 export type Categoria = {
