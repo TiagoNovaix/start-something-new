@@ -72,7 +72,7 @@ const Auth = () => {
         } else if (data.user) {
 
           if (data.session) {
-            toast.success("Conta criada com sucesso!");
+            toastSuccess("Conta criada com sucesso!");
           } else {
             toast.success("Conta criada! Verifique seu e-mail para confirmar.");
             setMode("login");
