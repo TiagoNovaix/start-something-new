@@ -132,8 +132,8 @@ export function useTransactionForm() {
 
   async function handleSubmit() {
     const error = validate();
-    if (error) { toast.error(error); return; }
-    if (!companyId) { toast.error("Usuário não vinculado a uma empresa"); return; }
+    if (error) { toastError("Erro ao salvar", "Preencha todos os campos obrigatórios."); return; }
+    if (!companyId) { toastError("Falha na conexão", "Usuário não vinculado a uma empresa"); return; }
     setSaving(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
