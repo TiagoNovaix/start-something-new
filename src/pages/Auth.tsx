@@ -51,7 +51,7 @@ const Auth = () => {
               : error.message === "Email not confirmed"
               ? "Confirme seu e-mail antes de entrar"
               : error.message;
-          toast.error(msg);
+           toastError(msg);
         }
       } else if (mode === "register") {
         const { data, error } = await supabase.auth.signUp({
