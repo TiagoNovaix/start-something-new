@@ -128,7 +128,7 @@ export function useTransactionForm() {
     } finally { setSaving(false); }
   }
 
-  function skipReservas() { setShowReservaDialog(false); navigate("/lancamentos"); toast.success("Lançamento salvo com sucesso!"); }
+  function skipReservas() { setShowReservaDialog(false); navigate("/lancamentos"); toastSuccess("Lançamento registrado", "Adicionado com sucesso."); }
 
   async function handleSubmit() {
     const error = validate();
