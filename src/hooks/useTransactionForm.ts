@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { addMonths, format } from "date-fns";
 
 export type TipoMovimentacao = "entrada" | "saida" | "transferencia";
@@ -99,12 +99,12 @@ export function useTransactionForm() {
 
   async function checkReservas(lancamentoId: string, valor: number) {
     const { data: reservas } = await supabase.from("reservas").select("*").eq("automatico", true).eq("status", "ativa");
-    if (!reservas || reservas.length === 0) { navigate("/lancamentos"); toast.success("Lançamento salvo com sucesso!"); return; }
+    if (!reservas || reservas.length === 0) { navigate("/lancamentos"); toastSuccess("Lançamento registrado", "Adicionado com sucesso."); return; }
     const previews: ReservaPreview[] = reservas.filter((r) => r.percentual && r.percentual > 0).map((r) => ({
       id: r.id, nome: r.nome, percentual: Number(r.percentual),
       valorProvisionado: Math.round(valor * (Number(r.percentual) / 100) * 100) / 100, cor: r.cor ?? "#8B5CF6",
     }));
-    if (previews.length === 0) { navigate("/lancamentos"); toast.success("Lançamento salvo com sucesso!"); return; }
+    if (previews.length === 0) { navigate("/lancamentos"); toastSuccess("Lançamento registrado", "Adicionado com sucesso."); return; }
     setPendingLancamentoId(lancamentoId); setReservaPreviews(previews); setShowReservaDialog(true);
   }
 
@@ -122,18 +122,18 @@ export function useTransactionForm() {
       }
       const total = reservaPreviews.reduce((s, r) => s + r.valorProvisionado, 0);
       setShowReservaDialog(false); navigate("/lancamentos");
-      toast.success("Lançamento salvo!", { description: `R$ ${total.toFixed(2)} provisionado nas caixinhas.` });
+      toastSuccess("Reservas atualizadas", `R$ ${total.toFixed(2)} provisionado nas caixinhas.`);
     } catch (err: any) {
-      toast.error("Erro ao provisionar caixinhas", { description: err.message });
+      toastError("Erro ao provisionar caixinhas", err.message);
     } finally { setSaving(false); }
   }
 
-  function skipReservas() { setShowReservaDialog(false); navigate("/lancamentos"); toast.success("Lançamento salvo com sucesso!"); }
+  function skipReservas() { setShowReservaDialog(false); navigate("/lancamentos"); toastSuccess("Lançamento registrado", "Adicionado com sucesso."); }
 
   async function handleSubmit() {
     const error = validate();
-    if (error) { toast.error(error); return; }
-    if (!companyId) { toast.error("Usuário não vinculado a uma empresa"); return; }
+    if (error) { toastError("Erro ao salvar", "Preencha todos os campos obrigatórios."); return; }
+    if (!companyId) { toastError("Falha na conexão", "Usuário não vinculado a uma empresa"); return; }
     setSaving(true);
     try {
       const { data: { user } } = await supabase.auth.getUser();
@@ -162,7 +162,7 @@ export function useTransactionForm() {
         });
         const { error: insErr } = await supabase.from("lancamentos").insert(parcelas);
         if (insErr) throw insErr;
-        navigate("/lancamentos"); toast.success(`${formData.numeroParcelas} parcelas criadas com sucesso!`); return;
+        navigate("/lancamentos"); toastSuccess("Lançamento registrado", `${formData.numeroParcelas} parcelas criadas com sucesso!`); return;
       }
 
       if (formData.recorrente) {
@@ -191,7 +191,7 @@ export function useTransactionForm() {
         }
         const { error: insErr } = await supabase.from("lancamentos").insert(instances);
         if (insErr) throw insErr;
-        navigate("/lancamentos"); toast.success(`${instances.length} lançamentos recorrentes criados!`); return;
+        navigate("/lancamentos"); toastSuccess("Lançamento registrado", `${instances.length} lançamentos recorrentes criados!`); return;
       }
 
       const { data: lancamento, error: lancErr } = await supabase.from("lancamentos").insert({
@@ -204,9 +204,9 @@ export function useTransactionForm() {
       if (lancErr) throw lancErr;
 
       if (formData.tipo === "entrada" && formData.status === "pago") { await checkReservas(lancamento.id, valor); return; }
-      navigate("/lancamentos"); toast.success("Lançamento salvo com sucesso!");
+      navigate("/lancamentos"); toastSuccess("Lançamento registrado", "Adicionado com sucesso.");
     } catch (err: any) {
-      toast.error("Erro ao salvar", { description: err.message });
+      toastError("Erro ao salvar", err.message);
     } finally { setSaving(false); }
   }
 

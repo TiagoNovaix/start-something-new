@@ -37,7 +37,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 
 interface DREItem {
   label: string;
@@ -125,11 +125,11 @@ const Dre = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["monthly-closing"] });
-      toast.success("Mês fechado com sucesso!");
+      toastSuccess("Mês fechado", "Período travado com sucesso.");
     },
     onError: (error) => {
       console.error("Erro ao fechar mês:", error);
-      toast.error("Erro ao fechar mês.");
+      toastError("Erro ao fechar mês");
     }
   });
 
@@ -310,10 +310,10 @@ const Dre = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      toast.success("DRE exportada com sucesso!");
+      toastSuccess("DRE exportada com sucesso!");
     } catch (error) {
       console.error("Erro ao exportar DRE:", error);
-      toast.error("Erro ao exportar DRE.");
+      toastError("Erro ao exportar DRE");
     }
   };
 

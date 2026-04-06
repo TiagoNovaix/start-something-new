@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "@/hooks/use-toast";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { useCompany } from "@/hooks/useCompany";
 import type { Categoria } from "./CategoriasDre";
 
@@ -70,10 +70,10 @@ const CategoriaModal = ({ open, onOpenChange, categoria }: Props) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categorias"] });
-      toast({ title: categoria ? "Categoria atualizada" : "Categoria criada" });
+      toastSuccess(categoria ? "Categoria atualizada" : "Categoria criada", "Disponível para novos lançamentos.");
       onOpenChange(false);
     },
-    onError: (err: any) => toast({ title: err.message || "Erro ao salvar categoria", variant: "destructive" }),
+    onError: (err: any) => toastError("Erro ao salvar categoria", err.message),
   });
 
   const tipoValue = watch("tipo");

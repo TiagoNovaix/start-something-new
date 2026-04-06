@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { toast } from "sonner";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { Loader2, Camera, User } from "lucide-react";
 
 type ProfileForm = {
@@ -64,9 +64,9 @@ const Perfil = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
-      toast.success("Perfil atualizado com sucesso!");
+      toastSuccess("Perfil atualizado com sucesso!");
     },
-    onError: (err: any) => toast.error("Erro ao atualizar perfil", { description: err.message }),
+    onError: (err: any) => toastError("Erro ao atualizar perfil", err.message),
   });
 
   const [uploading, setUploading] = useState(false);
@@ -94,9 +94,9 @@ const Perfil = () => {
       if (updateError) throw updateError;
 
       queryClient.invalidateQueries({ queryKey: ["profile"] });
-      toast.success("Avatar atualizado!");
+      toastSuccess("Logo atualizada", "A nova logo já aparece na sidebar.");
     } catch (err: any) {
-      toast.error("Erro ao enviar avatar", { description: err.message });
+      toastError("Erro no upload", "Use uma imagem PNG ou JPG de até 2MB.");
     } finally {
       setUploading(false);
     }

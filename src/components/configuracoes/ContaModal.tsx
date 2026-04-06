@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "@/hooks/use-toast";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { useCompany } from "@/hooks/useCompany";
 
 type FormValues = {
@@ -40,11 +40,11 @@ const ContaModal = ({ open, onOpenChange }: Props) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["contas"] });
-      toast({ title: "Conta criada com sucesso" });
+      toastSuccess("Conta salva", "Conta bancária adicionada.");
       reset();
       onOpenChange(false);
     },
-    onError: (err: any) => toast({ title: err.message || "Erro ao criar conta", variant: "destructive" }),
+    onError: (err: any) => toastError("Erro ao criar conta", err.message),
   });
 
   const tipoValue = watch("tipo");

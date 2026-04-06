@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "@/hooks/use-toast";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { useCompany } from "@/hooks/useCompany";
 
 type FormValues = {
@@ -79,9 +79,9 @@ const EmpresaConfig = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["configuracoes"] });
-      toast({ title: "Configurações salvas" });
+      toastSuccess("Configurações salvas");
     },
-    onError: (err: any) => toast({ title: err.message || "Erro ao salvar configurações", variant: "destructive" }),
+    onError: (err: any) => toastError("Erro ao salvar configurações", err.message),
   });
 
   const regimeValue = watch("regime_tributario");

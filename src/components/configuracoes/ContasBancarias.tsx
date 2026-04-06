@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Ban, CheckCircle } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import ContaModal from "./ContaModal";
 
 export type Conta = {
@@ -47,9 +47,9 @@ const ContasBancarias = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["contas"] });
-      toast({ title: "Conta atualizada" });
+      toastSuccess("Conta atualizada");
     },
-    onError: () => toast({ title: "Erro ao atualizar conta", variant: "destructive" }),
+    onError: () => toastError("Erro ao atualizar conta"),
   });
 
   const formatCurrency = (value: number | null) =>

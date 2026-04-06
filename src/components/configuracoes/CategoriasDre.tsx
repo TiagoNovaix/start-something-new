@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Pencil } from "lucide-react";
-import { toast } from "@/hooks/use-toast";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import CategoriaModal from "./CategoriaModal";
 
 export type Categoria = {
@@ -42,9 +42,9 @@ const CategoriasDre = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["categorias"] });
-      toast({ title: "Status atualizado" });
+      toastSuccess("Status atualizado");
     },
-    onError: () => toast({ title: "Erro ao atualizar status", variant: "destructive" }),
+    onError: () => toastError("Erro ao atualizar status"),
   });
 
   return (

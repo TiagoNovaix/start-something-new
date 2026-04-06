@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Pencil, Trash2, Users } from "lucide-react";
-import { toast } from "sonner";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { useIsMobile } from "@/hooks/use-mobile";
 import EmptyState from "@/components/EmptyState";
 import SocioModal from "./SocioModal";
@@ -32,8 +32,8 @@ const SociosList = () => {
       const { error } = await supabase.from("socios").update({ ativo }).eq("id", id);
       if (error) throw error;
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toast.success("Status atualizado"); },
-    onError: (err: any) => toast.error("Erro ao atualizar status", { description: err.message }),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toastSuccess("Status atualizado"); },
+    onError: (err: any) => toastError("Erro ao atualizar status", err.message),
   });
 
   const deleteMutation = useMutation({
@@ -41,8 +41,8 @@ const SociosList = () => {
       const { error } = await supabase.from("socios").delete().eq("id", id);
       if (error) throw error;
     },
-    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toast.success("Sócio excluído"); },
-    onError: (err: any) => toast.error("Erro ao excluir sócio", { description: err.message }),
+    onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toastSuccess("Sócio excluído"); },
+    onError: (err: any) => toastError("Erro ao excluir sócio", err.message),
   });
 
   const handleDelete = (id: string) => {

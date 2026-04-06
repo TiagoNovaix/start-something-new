@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
@@ -51,7 +51,7 @@ const Auth = () => {
               : error.message === "Email not confirmed"
               ? "Confirme seu e-mail antes de entrar"
               : error.message;
-          toast.error(msg);
+           toastError(msg);
         }
       } else if (mode === "register") {
         const { data, error } = await supabase.auth.signUp({
@@ -68,13 +68,13 @@ const Auth = () => {
             error.message.includes("already registered")
               ? "Este e-mail já está cadastrado"
               : error.message;
-          toast.error(msg);
+          toastError(msg);
         } else if (data.user) {
 
           if (data.session) {
-            toast.success("Conta criada com sucesso!");
+            toastSuccess("Conta criada com sucesso!");
           } else {
-            toast.success("Conta criada! Verifique seu e-mail para confirmar.");
+            toastSuccess("Conta criada!", "Verifique seu e-mail para confirmar.");
             setMode("login");
           }
         }
@@ -83,14 +83,14 @@ const Auth = () => {
           redirectTo: `${window.location.origin}/reset-password`,
         });
         if (error) {
-          toast.error(error.message);
+          toastError(error.message);
         } else {
-          toast.success("E-mail de recuperação enviado!");
+          toastSuccess("E-mail de recuperação enviado!");
           setMode("login");
         }
       }
     } catch (err) {
-      toast.error("Erro inesperado. Tente novamente.");
+      toastError("Erro inesperado. Tente novamente.");
     }
 
     setLoading(false);

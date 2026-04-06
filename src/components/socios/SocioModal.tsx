@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 import { useCompany } from "@/hooks/useCompany";
 
 type FormValues = {
@@ -53,11 +53,11 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["socios"] });
-      toast.success(editing ? "Sócio atualizado" : "Sócio cadastrado");
+      toastSuccess("Sócio atualizado", "Dados salvos com sucesso.");
       onOpenChange(false);
     },
     onError: (error: any) => {
-      toast.error("Erro ao salvar sócio", { description: error.message });
+      toastError("Erro ao salvar sócio", error.message);
     },
   });
 
