@@ -162,7 +162,7 @@ export function useTransactionForm() {
         });
         const { error: insErr } = await supabase.from("lancamentos").insert(parcelas);
         if (insErr) throw insErr;
-        navigate("/lancamentos"); toast.success(`${formData.numeroParcelas} parcelas criadas com sucesso!`); return;
+        navigate("/lancamentos"); toastSuccess("Lançamento registrado", `${formData.numeroParcelas} parcelas criadas com sucesso!`); return;
       }
 
       if (formData.recorrente) {
