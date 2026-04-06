@@ -99,7 +99,7 @@ export function useTransactionForm() {
 
   async function checkReservas(lancamentoId: string, valor: number) {
     const { data: reservas } = await supabase.from("reservas").select("*").eq("automatico", true).eq("status", "ativa");
-    if (!reservas || reservas.length === 0) { navigate("/lancamentos"); toast.success("Lançamento salvo com sucesso!"); return; }
+    if (!reservas || reservas.length === 0) { navigate("/lancamentos"); toastSuccess("Lançamento registrado", "Adicionado com sucesso."); return; }
     const previews: ReservaPreview[] = reservas.filter((r) => r.percentual && r.percentual > 0).map((r) => ({
       id: r.id, nome: r.nome, percentual: Number(r.percentual),
       valorProvisionado: Math.round(valor * (Number(r.percentual) / 100) * 100) / 100, cor: r.cor ?? "#8B5CF6",
