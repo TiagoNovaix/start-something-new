@@ -104,7 +104,7 @@ export function useTransactionForm() {
       id: r.id, nome: r.nome, percentual: Number(r.percentual),
       valorProvisionado: Math.round(valor * (Number(r.percentual) / 100) * 100) / 100, cor: r.cor ?? "#8B5CF6",
     }));
-    if (previews.length === 0) { navigate("/lancamentos"); toast.success("Lançamento salvo com sucesso!"); return; }
+    if (previews.length === 0) { navigate("/lancamentos"); toastSuccess("Lançamento registrado", "Adicionado com sucesso."); return; }
     setPendingLancamentoId(lancamentoId); setReservaPreviews(previews); setShowReservaDialog(true);
   }
 
