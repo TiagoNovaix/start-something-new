@@ -100,9 +100,6 @@ const Perfil = () => {
     }
   };
 
-  const initials = profile?.full_name
-    ? profile.full_name.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()
-    : user?.email?.slice(0, 2).toUpperCase() || "U";
 
   if (isLoading) {
     return (
