@@ -192,16 +192,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
         <SidebarNav pathname={location.pathname} collapsed={collapsed} />
         <div className={cn("border-t border-border p-3 flex items-center gap-3", collapsed && "justify-center")}>
-          <Avatar className="w-8 h-8 shrink-0">
-            <AvatarImage src="" />
-            <AvatarFallback className="bg-primary/20 text-primary text-xs font-bold">
-              {user?.email?.slice(0, 2).toUpperCase() || "SF"}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar className="w-8 h-8" fallbackClassName="text-xs" />
           {!collapsed && (
             <div className="min-w-0">
-              <p className="text-sm font-medium text-foreground truncate">{user?.email || "Usuário"}</p>
-              <p className="text-xs text-muted-foreground truncate">admin</p>
+              <SidebarUserInfo />
             </div>
           )}
         </div>
