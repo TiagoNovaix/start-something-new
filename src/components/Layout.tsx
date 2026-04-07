@@ -84,6 +84,16 @@ const SidebarNav = ({ pathname, collapsed, onItemClick }: { pathname: string; co
     ))}
   </nav>
 );
+const SidebarUserInfo = () => {
+  const { user } = useAuth();
+  const { fullName } = useProfile();
+  return (
+    <>
+      <p className="text-sm font-medium text-foreground truncate">{fullName || user?.email || "Usuário"}</p>
+      <p className="text-xs text-muted-foreground truncate">admin</p>
+    </>
+  );
+};
 
 const UserDropdown = ({ user, signOut }: { user: any; signOut: () => void }) => {
   const navigate = useNavigate();
