@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import logoSoluv from "@/assets/logo-soluv.jpg";
+import { useCompanyData } from "@/hooks/useCompanyData";
 import {
   LayoutDashboard,
   Receipt,
@@ -84,6 +85,14 @@ const SidebarNav = ({ pathname, collapsed, onItemClick }: { pathname: string; co
     ))}
   </nav>
 );
+const CompanyLogo = ({ className = "h-7" }: { className?: string }) => {
+  const { logoUrl, companyName } = useCompanyData();
+  if (logoUrl) {
+    return <img src={logoUrl} alt={companyName || "Logo"} className={`${className} object-contain`} />;
+  }
+  return <img src={logoSoluv} alt="Soluv Financeiro" className={`${className} object-contain`} />;
+};
+
 const SidebarUserInfo = () => {
   const { user } = useAuth();
   const { fullName } = useProfile();
@@ -177,7 +186,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
           <SheetContent side="left" className="w-[260px] p-0 bg-card border-r border-border">
             <div className="p-5 pb-2">
-              <img src={logoSoluv} alt="Soluv Financeiro" className="h-8 object-contain" />
+              <CompanyLogo className="h-8" />
             </div>
             <SidebarNav pathname={location.pathname} collapsed={false} onItemClick={() => setDrawerOpen(false)} />
           </SheetContent>
@@ -195,7 +204,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         collapsed ? "w-[72px]" : "w-[240px]"
       )}>
         <div className={cn("flex items-center h-14 border-b border-border shrink-0", collapsed ? "justify-center px-2" : "justify-between px-5")}>
-          {!collapsed && <img src={logoSoluv} alt="Soluv Financeiro" className="h-7 object-contain" />}
+          {!collapsed && <CompanyLogo />}
           <Button variant="ghost" size="icon" onClick={toggleCollapse} className="text-muted-foreground hover:text-foreground h-8 w-8">
             {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
           </Button>
