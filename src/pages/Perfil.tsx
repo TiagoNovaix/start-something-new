@@ -89,7 +89,7 @@ const Perfil = () => {
     setUploading(true);
     try {
       const ext = file.name.split(".").pop();
-      const path = `avatars/${user.id}.${ext}`;
+      const path = `avatars/${user.id}/avatar.${ext}`;
 
       const { error: uploadError } = await supabase.storage
         .from("zaip_ai")
@@ -97,7 +97,6 @@ const Perfil = () => {
       if (uploadError) throw uploadError;
 
       const { data: { publicUrl } } = supabase.storage.from("zaip_ai").getPublicUrl(path);
-
       const { error: updateError } = await supabase
         .from("profiles")
         .update({ avatar_url: publicUrl })
@@ -107,7 +106,7 @@ const Perfil = () => {
       queryClient.invalidateQueries({ queryKey: ["profile"] });
       toastSuccess("Logo atualizada", "A nova logo já aparece na sidebar.");
     } catch (err: any) {
-      toastError("Erro no upload", "Use uma imagem PNG ou JPG de até 2MB.");
+      toastError("Erro no upload", err?.message || "Use uma imagem PNG, JPG ou WebP de até 10MB.");
     } finally {
       setUploading(false);
     }
