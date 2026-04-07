@@ -13,6 +13,7 @@ import Fechamento from "./pages/Fechamento";
 import Configuracoes from "./pages/Configuracoes";
 import NovoLancamento from "./pages/lancamentos/novo";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Perfil from "./pages/Perfil";
 import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
