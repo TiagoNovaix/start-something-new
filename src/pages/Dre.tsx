@@ -105,6 +105,15 @@ const Dre = () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Usuário não autenticado");
 
+      // Get company_id
+      const { data: uc } = await supabase
+        .from("users_companies")
+        .select("company_id")
+        .eq("user_id", user.id)
+        .limit(1)
+        .single();
+      if (!uc) throw new Error("Usuário não vinculado a uma empresa");
+
       const { data, error } = await supabase
         .from("monthly_closings")
         .upsert({
@@ -115,6 +124,7 @@ const Dre = () => {
           closed_at: new Date().toISOString(),
           closed_by: user.id,
           user_id: user.id,
+          company_id: uc.company_id,
           justification
         })
         .select()
@@ -127,9 +137,9 @@ const Dre = () => {
       queryClient.invalidateQueries({ queryKey: ["monthly-closing"] });
       toastSuccess("Mês fechado", "Período travado com sucesso.");
     },
-    onError: (error) => {
+    onError: (error: any) => {
       console.error("Erro ao fechar mês:", error);
-      toastError("Erro ao fechar mês");
+      toastError("Erro ao fechar mês", error.message);
     }
   });
 

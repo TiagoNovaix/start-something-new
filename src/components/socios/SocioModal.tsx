@@ -42,6 +42,21 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
       if (!companyId) throw new Error("Usuário não vinculado a uma empresa");
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) throw new Error("Não autenticado");
+
+      // Validate participacao sum
+      const { data: existingSocios } = await supabase
+        .from("socios")
+        .select("id, participacao")
+        .eq("ativo", true)
+        .is("deleted_at", null);
+
+      const otherSocios = (existingSocios || []).filter(s => !editing || s.id !== editing.id);
+      const totalParticipacao = otherSocios.reduce((sum, s) => sum + Number(s.participacao || 0), 0) + Number(values.participacao);
+      
+      if (totalParticipacao > 100) {
+        throw new Error(`A soma das participações (${totalParticipacao.toFixed(2)}%) excede 100%. Disponível: ${(100 - otherSocios.reduce((sum, s) => sum + Number(s.participacao || 0), 0)).toFixed(2)}%`);
+      }
+
       const payload = { ...values, user_id: user.id, company_id: companyId };
       if (editing) {
         const { error } = await supabase.from("socios").update(payload).eq("id", editing.id);
@@ -57,6 +72,7 @@ const SocioModal = ({ open, onOpenChange, editing }: SocioModalProps) => {
       onOpenChange(false);
     },
     onError: (error: any) => {
+      console.error("Erro ao salvar sócio:", error);
       toastError("Erro ao salvar sócio", error.message);
     },
   });

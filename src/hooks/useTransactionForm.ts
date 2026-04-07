@@ -134,7 +134,7 @@ export function useTransactionForm() {
 
   async function handleSubmit() {
     const error = validate();
-    if (error) { toastError("Erro ao salvar", "Preencha todos os campos obrigatórios."); return; }
+    if (error) { toastError("Erro ao salvar", error); return; }
     if (!companyId) { toastError("Falha na conexão", "Usuário não vinculado a uma empresa"); return; }
     setSaving(true);
     try {
