@@ -186,7 +186,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
           <SheetContent side="left" className="w-[260px] p-0 bg-card border-r border-border">
             <div className="p-5 pb-2">
-              <img src={logoSoluv} alt="Soluv Financeiro" className="h-8 object-contain" />
+              <CompanyLogo className="h-8" />
             </div>
             <SidebarNav pathname={location.pathname} collapsed={false} onItemClick={() => setDrawerOpen(false)} />
           </SheetContent>
