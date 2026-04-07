@@ -121,12 +121,7 @@ const Perfil = () => {
         <CardContent className="pt-6">
           <div className="flex items-center gap-6">
             <div className="relative group">
-              <Avatar className="w-20 h-20">
-                <AvatarImage src={profile?.avatar_url || ""} />
-                <AvatarFallback className="bg-primary/20 text-primary text-xl font-bold">
-                  {initials}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatar className="w-20 h-20" fallbackClassName="text-xl" />
               <label className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                 {uploading ? (
                   <Loader2 className="w-5 h-5 text-white animate-spin" />
