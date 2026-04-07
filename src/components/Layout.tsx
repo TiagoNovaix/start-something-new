@@ -85,6 +85,14 @@ const SidebarNav = ({ pathname, collapsed, onItemClick }: { pathname: string; co
     ))}
   </nav>
 );
+const CompanyLogo = ({ className = "h-7" }: { className?: string }) => {
+  const { logoUrl, companyName } = useCompanyData();
+  if (logoUrl) {
+    return <img src={logoUrl} alt={companyName || "Logo"} className={`${className} object-contain`} />;
+  }
+  return <img src={logoSoluv} alt="Soluv Financeiro" className={`${className} object-contain`} />;
+};
+
 const SidebarUserInfo = () => {
   const { user } = useAuth();
   const { fullName } = useProfile();
