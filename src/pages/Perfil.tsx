@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/UserAvatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toastSuccess, toastError } from "@/hooks/useToast";
 import { Loader2, Camera, User } from "lucide-react";
@@ -21,20 +22,7 @@ type ProfileForm = {
 const Perfil = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
-
-  const { data: profile, isLoading } = useQuery({
-    queryKey: ["profile", user?.id],
-    enabled: !!user,
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user!.id)
-        .single();
-      if (error) throw error;
-      return data;
-    },
-  });
+  const { profile, isLoading, initials } = useProfile();
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<ProfileForm>({
     defaultValues: { full_name: "", phone: "", bio: "" },
@@ -112,9 +100,6 @@ const Perfil = () => {
     }
   };
 
-  const initials = profile?.full_name
-    ? profile.full_name.split(" ").map((n: string) => n[0]).join("").slice(0, 2).toUpperCase()
-    : user?.email?.slice(0, 2).toUpperCase() || "U";
 
   if (isLoading) {
     return (
@@ -133,12 +118,7 @@ const Perfil = () => {
         <CardContent className="pt-6">
           <div className="flex items-center gap-6">
             <div className="relative group">
-              <Avatar className="w-20 h-20">
-                <AvatarImage src={profile?.avatar_url || ""} />
-                <AvatarFallback className="bg-primary/20 text-primary text-xl font-bold">
-                  {initials}
-                </AvatarFallback>
-              </Avatar>
+              <UserAvatar className="w-20 h-20" fallbackClassName="text-xl" />
               <label className="absolute inset-0 flex items-center justify-center bg-black/50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
                 {uploading ? (
                   <Loader2 className="w-5 h-5 text-white animate-spin" />

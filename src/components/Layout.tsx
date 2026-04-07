@@ -16,7 +16,8 @@ import {
   LogOut,
   User,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import UserAvatar from "@/components/UserAvatar";
+import { useProfile } from "@/hooks/useProfile";
 import { Sheet, SheetContent } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -83,24 +84,32 @@ const SidebarNav = ({ pathname, collapsed, onItemClick }: { pathname: string; co
     ))}
   </nav>
 );
+const SidebarUserInfo = () => {
+  const { user } = useAuth();
+  const { fullName } = useProfile();
+  return (
+    <>
+      <p className="text-sm font-medium text-foreground truncate">{fullName || user?.email || "Usuário"}</p>
+      <p className="text-xs text-muted-foreground truncate">admin</p>
+    </>
+  );
+};
 
 const UserDropdown = ({ user, signOut }: { user: any; signOut: () => void }) => {
   const navigate = useNavigate();
-  const initials = user?.email?.slice(0, 2).toUpperCase() || "SF";
+  const { fullName } = useProfile();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
-          <Avatar className="w-8 h-8">
-            <AvatarImage src="" />
-            <AvatarFallback className="bg-primary/20 text-primary text-xs font-bold">{initials}</AvatarFallback>
-          </Avatar>
+          <UserAvatar className="w-8 h-8" fallbackClassName="text-xs" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         <div className="px-3 py-2">
-          <p className="text-sm font-medium truncate">{user?.email || "Usuário"}</p>
+          <p className="text-sm font-medium truncate">{fullName || user?.email || "Usuário"}</p>
+          {fullName && <p className="text-xs text-muted-foreground truncate">{user?.email}</p>}
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => navigate("/perfil")}>
@@ -193,16 +202,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
         <SidebarNav pathname={location.pathname} collapsed={collapsed} />
         <div className={cn("border-t border-border p-3 flex items-center gap-3", collapsed && "justify-center")}>
-          <Avatar className="w-8 h-8 shrink-0">
-            <AvatarImage src="" />
-            <AvatarFallback className="bg-primary/20 text-primary text-xs font-bold">
-              {user?.email?.slice(0, 2).toUpperCase() || "SF"}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar className="w-8 h-8" fallbackClassName="text-xs" />
           {!collapsed && (
             <div className="min-w-0">
-              <p className="text-sm font-medium text-foreground truncate">{user?.email || "Usuário"}</p>
-              <p className="text-xs text-muted-foreground truncate">admin</p>
+              <SidebarUserInfo />
             </div>
           )}
         </div>
