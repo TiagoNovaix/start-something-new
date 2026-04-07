@@ -39,9 +39,10 @@ const Lancamentos = () => {
       const { data, error } = await supabase
         .from("lancamentos")
         .select(`*, categorias (nome), contas (nome), centros_custo (nome)`)
+        .is("deleted_at", null)
         .order("data", { ascending: false })
-        .limit(20);
-      if (error) throw error;
+        .limit(50);
+      if (error) { console.error("Erro ao buscar lançamentos:", error); throw error; }
       return data;
     },
   });

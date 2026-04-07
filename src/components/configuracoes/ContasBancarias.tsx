@@ -34,8 +34,9 @@ const ContasBancarias = () => {
       const { data, error } = await supabase
         .from("contas")
         .select("id, nome, tipo, saldo_inicial, ativo, cor")
+        .is("deleted_at", null)
         .order("nome");
-      if (error) throw error;
+      if (error) { console.error("Erro ao buscar contas:", error); throw error; }
       return data as Conta[];
     },
   });

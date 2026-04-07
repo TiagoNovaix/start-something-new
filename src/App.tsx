@@ -13,6 +13,7 @@ import Fechamento from "./pages/Fechamento";
 import Configuracoes from "./pages/Configuracoes";
 import NovoLancamento from "./pages/lancamentos/novo";
 import Auth from "./pages/Auth";
+import ResetPassword from "./pages/ResetPassword";
 import Perfil from "./pages/Perfil";
 import NotFound from "./pages/NotFound";
 import { Loader2 } from "lucide-react";
@@ -52,6 +53,7 @@ const AppRoutes = () => (
     <Route path="/" element={<Navigate to="/dashboard" replace />} />
     <Route path="/auth" element={<AuthRoute />} />
     <Route path="/login" element={<AuthRoute />} />
+    <Route path="/reset-password" element={<ResetPassword />} />
     <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
     <Route path="/lancamentos" element={<ProtectedRoute><Layout><Lancamentos /></Layout></ProtectedRoute>} />
     <Route path="/lancamentos/novo" element={<ProtectedRoute><NovoLancamento /></ProtectedRoute>} />

@@ -21,8 +21,12 @@ const SociosList = () => {
   const { data: socios = [], isLoading } = useQuery({
     queryKey: ["socios"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("socios").select("*").order("nome");
-      if (error) throw error;
+      const { data, error } = await supabase
+        .from("socios")
+        .select("*")
+        .is("deleted_at", null)
+        .order("nome");
+      if (error) { console.error("Erro ao buscar sócios:", error); throw error; }
       return data;
     },
   });
@@ -38,7 +42,7 @@ const SociosList = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("socios").delete().eq("id", id);
+      const { error } = await supabase.from("socios").update({ deleted_at: new Date().toISOString(), ativo: false }).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toastSuccess("Sócio excluído"); },

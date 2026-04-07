@@ -75,6 +75,17 @@ const Perfil = () => {
     const file = e.target.files?.[0];
     if (!file || !user) return;
 
+    // Validate file type and size
+    const validTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!validTypes.includes(file.type)) {
+      toastError("Tipo de arquivo inválido", "Use uma imagem PNG, JPG ou WebP.");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      toastError("Arquivo muito grande", "O tamanho máximo é 2MB.");
+      return;
+    }
+
     setUploading(true);
     try {
       const ext = file.name.split(".").pop();

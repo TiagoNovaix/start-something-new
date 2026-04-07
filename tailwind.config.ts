@@ -49,7 +49,7 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         positive: "#22C55E",
-        negative: "#EF4444",
+        negative: "#E20055",
         warning: "#F59E0B",
       },
       fontFamily: {

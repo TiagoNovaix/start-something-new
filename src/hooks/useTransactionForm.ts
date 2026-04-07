@@ -77,6 +77,8 @@ export function useTransactionForm() {
     setFormData((prev) => {
       const next = { ...prev, [key]: value };
       if (key === "tipo") { const newTipo = value as TipoMovimentacao; next.subtipo = SUBTIPOS[newTipo][0]; next.categoriaId = ""; }
+      // Auto-set status to "pago" when payment date is filled
+      if (key === "dataPagamento" && value) { next.status = "pago"; }
       return next;
     });
   }
@@ -132,7 +134,7 @@ export function useTransactionForm() {
 
   async function handleSubmit() {
     const error = validate();
-    if (error) { toastError("Erro ao salvar", "Preencha todos os campos obrigatórios."); return; }
+    if (error) { toastError("Erro ao salvar", error); return; }
     if (!companyId) { toastError("Falha na conexão", "Usuário não vinculado a uma empresa"); return; }
     setSaving(true);
     try {
