@@ -77,6 +77,8 @@ export function useTransactionForm() {
     setFormData((prev) => {
       const next = { ...prev, [key]: value };
       if (key === "tipo") { const newTipo = value as TipoMovimentacao; next.subtipo = SUBTIPOS[newTipo][0]; next.categoriaId = ""; }
+      // Auto-set status to "pago" when payment date is filled
+      if (key === "dataPagamento" && value) { next.status = "pago"; }
       return next;
     });
   }
