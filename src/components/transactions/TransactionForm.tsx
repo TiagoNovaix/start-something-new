@@ -33,9 +33,9 @@ export default function TransactionForm() {
   const [centrosCusto, setCentrosCusto] = useState<LookupItem[]>([]);
 
   useEffect(() => {
-    supabase.from("contas").select("id, nome").eq("ativo", true).then(({ data }) => setContas(data ?? []));
-    supabase.from("socios").select("id, nome").eq("ativo", true).then(({ data }) => setSocios(data ?? []));
-    supabase.from("centros_custo").select("id, nome").eq("ativo", true).then(({ data }) => setCentrosCusto(data ?? []));
+    supabase.from("contas").select("id, nome").eq("ativo", true).is("deleted_at", null).then(({ data }) => setContas(data ?? []));
+    supabase.from("socios").select("id, nome").eq("ativo", true).is("deleted_at", null).then(({ data }) => setSocios(data ?? []));
+    supabase.from("centros_custo").select("id, nome").eq("ativo", true).is("deleted_at", null).then(({ data }) => setCentrosCusto(data ?? []));
   }, []);
 
   useEffect(() => {
