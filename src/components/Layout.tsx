@@ -87,21 +87,19 @@ const SidebarNav = ({ pathname, collapsed, onItemClick }: { pathname: string; co
 
 const UserDropdown = ({ user, signOut }: { user: any; signOut: () => void }) => {
   const navigate = useNavigate();
-  const initials = user?.email?.slice(0, 2).toUpperCase() || "SF";
+  const { fullName } = useProfile();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full p-0">
-          <Avatar className="w-8 h-8">
-            <AvatarImage src="" />
-            <AvatarFallback className="bg-primary/20 text-primary text-xs font-bold">{initials}</AvatarFallback>
-          </Avatar>
+          <UserAvatar className="w-8 h-8" fallbackClassName="text-xs" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48">
         <div className="px-3 py-2">
-          <p className="text-sm font-medium truncate">{user?.email || "Usuário"}</p>
+          <p className="text-sm font-medium truncate">{fullName || user?.email || "Usuário"}</p>
+          {fullName && <p className="text-xs text-muted-foreground truncate">{user?.email}</p>}
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => navigate("/perfil")}>
