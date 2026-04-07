@@ -81,8 +81,8 @@ const Perfil = () => {
       toastError("Tipo de arquivo inválido", "Use uma imagem PNG, JPG ou WebP.");
       return;
     }
-    if (file.size > 5 * 1024 * 1024) {
-      toastError("Arquivo muito grande", "O tamanho máximo é 5MB.");
+    if (file.size > 10 * 1024 * 1024) {
+      toastError("Arquivo muito grande", "O tamanho máximo é 10MB.");
       return;
     }
 
