@@ -21,8 +21,12 @@ const SociosList = () => {
   const { data: socios = [], isLoading } = useQuery({
     queryKey: ["socios"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("socios").select("*").order("nome");
-      if (error) throw error;
+      const { data, error } = await supabase
+        .from("socios")
+        .select("*")
+        .is("deleted_at", null)
+        .order("nome");
+      if (error) { console.error("Erro ao buscar sócios:", error); throw error; }
       return data;
     },
   });
