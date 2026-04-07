@@ -10,8 +10,13 @@ const Reservas = () => {
   const { data: reservas = [], isLoading } = useQuery({
     queryKey: ["reservas"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("reservas").select("*").order("nome");
-      if (error) throw error;
+      const { data, error } = await supabase
+        .from("reservas")
+        .select("*")
+        .is("deleted_at", null)
+        .neq("status", "arquivada")
+        .order("nome");
+      if (error) { console.error("Erro ao buscar reservas:", error); throw error; }
       return data;
     },
   });

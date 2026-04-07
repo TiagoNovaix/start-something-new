@@ -45,6 +45,7 @@ export default function TransactionForm() {
       .select("id, nome")
       .eq("tipo", tipoCategoria)
       .eq("ativo", true)
+      .is("deleted_at", null)
       .then(({ data }) => setCategorias(data ?? []));
   }, [formData.tipo]);
 

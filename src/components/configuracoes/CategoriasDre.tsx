@@ -29,8 +29,9 @@ const CategoriasDre = () => {
       const { data, error } = await supabase
         .from("categorias")
         .select("id, nome, tipo, classificacao_dre, subgrupo, ativo")
+        .is("deleted_at", null)
         .order("nome");
-      if (error) throw error;
+      if (error) { console.error("Erro ao buscar categorias:", error); throw error; }
       return data as Categoria[];
     },
   });

@@ -42,7 +42,7 @@ const SociosList = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("socios").delete().eq("id", id);
+      const { error } = await supabase.from("socios").update({ deleted_at: new Date().toISOString(), ativo: false }).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["socios"] }); toastSuccess("Sócio excluído"); },
