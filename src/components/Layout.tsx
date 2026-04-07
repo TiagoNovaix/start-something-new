@@ -204,7 +204,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         collapsed ? "w-[72px]" : "w-[240px]"
       )}>
         <div className={cn("flex items-center h-14 border-b border-border shrink-0", collapsed ? "justify-center px-2" : "justify-between px-5")}>
-          {!collapsed && <img src={logoSoluv} alt="Soluv Financeiro" className="h-7 object-contain" />}
+          {!collapsed && <CompanyLogo />}
           <Button variant="ghost" size="icon" onClick={toggleCollapse} className="text-muted-foreground hover:text-foreground h-8 w-8">
             {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
           </Button>
