@@ -226,10 +226,11 @@ const EmpresaConfig = () => {
       }
 
       // Also sync to companies table
-      const companyUpdate: Record<string, any> = {};
-      if (values.empresa_nome) companyUpdate.name = values.empresa_nome;
-      if (values.cnpj) companyUpdate.cnpj = values.cnpj;
-      if (values.regime_tributario) companyUpdate.tax_regime = values.regime_tributario;
+      const companyUpdate = {
+        ...(values.empresa_nome ? { name: values.empresa_nome } : {}),
+        ...(values.cnpj ? { cnpj: values.cnpj } : {}),
+        ...(values.regime_tributario ? { tax_regime: values.regime_tributario } : {}),
+      };
 
       if (Object.keys(companyUpdate).length > 0) {
         const { error } = await supabase
