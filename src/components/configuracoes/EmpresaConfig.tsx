@@ -213,6 +213,7 @@ const EmpresaConfig = () => {
         company_id: companyId,
       };
 
+      // Update configuracoes
       if (config) {
         const { error } = await supabase
           .from("configuracoes")
@@ -223,9 +224,26 @@ const EmpresaConfig = () => {
         const { error } = await supabase.from("configuracoes").insert(payload);
         if (error) throw error;
       }
+
+      // Also sync to companies table
+      const companyUpdate = {
+        ...(values.empresa_nome ? { name: values.empresa_nome } : {}),
+        ...(values.cnpj ? { cnpj: values.cnpj } : {}),
+        ...(values.regime_tributario ? { tax_regime: values.regime_tributario } : {}),
+      };
+
+      if (Object.keys(companyUpdate).length > 0) {
+        const { error } = await supabase
+          .from("companies")
+          .update(companyUpdate)
+          .eq("id", companyId);
+        if (error) throw error;
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["configuracoes"] });
+      queryClient.invalidateQueries({ queryKey: ["company"] });
+      queryClient.invalidateQueries({ queryKey: ["onboarding-status"] });
       toastSuccess("Configurações salvas");
     },
     onError: (err: any) => toastError("Erro ao salvar configurações", err.message),
