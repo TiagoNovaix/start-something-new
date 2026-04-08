@@ -44,7 +44,7 @@ export default function TransactionForm() {
     supabase.from("centros_custo").select("id, nome").eq("ativo", true).is("deleted_at", null).then(({ data }) => setCentrosCusto(data ?? []));
   }, []);
 
-  useEffect(() => {
+  const fetchCategorias = () => {
     const tipoCategoria = formData.tipo === "entrada" ? "entrada" : "saida";
     supabase
       .from("categorias")
@@ -52,8 +52,31 @@ export default function TransactionForm() {
       .eq("tipo", tipoCategoria)
       .eq("ativo", true)
       .is("deleted_at", null)
+      .order("nome")
       .then(({ data }) => setCategorias(data ?? []));
+  };
+
+  useEffect(() => {
+    fetchCategorias();
   }, [formData.tipo]);
+
+  const handleCreateCategory = async () => {
+    if (!newCatName.trim() || !companyId) return;
+    setSavingCat(true);
+    const tipo = formData.tipo === "entrada" ? "entrada" : "saida";
+    const { data, error } = await supabase
+      .from("categorias")
+      .insert({ nome: newCatName.trim(), tipo, classificacao_dre: tipo === "entrada" ? "Receita Bruta" : "Despesa Variável", company_id: companyId })
+      .select("id, nome")
+      .single();
+    setSavingCat(false);
+    if (error) { toastError("Erro ao criar categoria"); return; }
+    toastSuccess("Categoria criada");
+    setNewCatName("");
+    setShowNewCatDialog(false);
+    fetchCategorias();
+    if (data) updateField("categoriaId", data.id);
+  };
 
   const DatePicker = ({ value, onChange, label }: { value: Date | undefined; onChange: (d: Date | undefined) => void; label: string }) => (
     <div className="space-y-2">
