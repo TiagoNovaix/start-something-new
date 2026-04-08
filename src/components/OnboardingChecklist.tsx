@@ -1,10 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useCompany } from "@/hooks/useCompany";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { CheckCircle2, Circle, Building2, Landmark, Users, Rocket } from "lucide-react";
+import { CheckCircle2, Circle, Building2, Landmark, Users, Rocket, PartyPopper } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface Step {
@@ -18,10 +19,14 @@ interface Step {
 
 const OnboardingChecklist = () => {
   const { companyId } = useCompany();
+  const queryClient = useQueryClient();
+  const [dismissed, setDismissed] = useState(false);
 
   const { data, isLoading } = useQuery({
     queryKey: ["onboarding-status", companyId],
     enabled: !!companyId,
+    refetchOnWindowFocus: true,
+    staleTime: 0,
     queryFn: async () => {
       const [companyRes, contasRes, sociosRes] = await Promise.all([
         supabase
@@ -56,10 +61,25 @@ const OnboardingChecklist = () => {
         sociosDone: (sociosRes.data?.length || 0) > 0,
       };
     },
-    staleTime: 1000 * 60 * 2,
   });
 
-  if (isLoading || !data) return null;
+  // Invalidate onboarding when related queries change
+  useEffect(() => {
+    const unsubContas = queryClient.getQueryCache().subscribe((event) => {
+      if (
+        event?.type === "updated" &&
+        event.query.queryKey[0] &&
+        ["contas", "socios", "company"].some((k) =>
+          JSON.stringify(event.query.queryKey).includes(k)
+        )
+      ) {
+        queryClient.invalidateQueries({ queryKey: ["onboarding-status"] });
+      }
+    });
+    return () => unsubContas();
+  }, [queryClient]);
+
+  if (isLoading || !data || dismissed) return null;
 
   const steps: Step[] = [
     {
@@ -90,10 +110,30 @@ const OnboardingChecklist = () => {
 
   const completedCount = steps.filter((s) => s.done).length;
   const allDone = completedCount === steps.length;
-
-  if (allDone) return null;
-
   const progress = Math.round((completedCount / steps.length) * 100);
+
+  if (allDone) {
+    return (
+      <Card className="border border-positive/30 bg-card-gradient shadow-subtle overflow-hidden">
+        <CardContent className="pt-6 pb-6 px-6 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="bg-positive/15 p-2 rounded-lg">
+              <PartyPopper className="w-5 h-5 text-positive" />
+            </div>
+            <div>
+              <h2 className="text-base font-semibold">Tudo pronto!</h2>
+              <p className="text-xs text-muted-foreground">
+                Configuração concluída. Você já pode usar todas as funcionalidades.
+              </p>
+            </div>
+          </div>
+          <Button variant="ghost" size="sm" onClick={() => setDismissed(true)}>
+            Fechar
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card className="border border-primary/20 bg-card-gradient shadow-subtle overflow-hidden">
