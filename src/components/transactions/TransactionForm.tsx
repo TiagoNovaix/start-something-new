@@ -315,6 +315,31 @@ export default function TransactionForm() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Dialog criar categoria inline */}
+      <Dialog open={showNewCatDialog} onOpenChange={setShowNewCatDialog}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Nova Categoria</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              Tipo: <span className="font-medium text-foreground">{formData.tipo === "entrada" ? "Entrada" : "Saída"}</span>
+            </p>
+            <div className="space-y-2">
+              <Label>Nome *</Label>
+              <Input value={newCatName} onChange={(e) => setNewCatName(e.target.value)} placeholder="Ex: Consultoria" autoFocus />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowNewCatDialog(false)}>Cancelar</Button>
+            <Button onClick={handleCreateCategory} disabled={savingCat || !newCatName.trim()}>
+              {savingCat && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Criar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
