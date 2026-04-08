@@ -23,6 +23,7 @@ interface LookupItem { id: string; nome: string; }
 
 export default function TransactionForm() {
   const navigate = useNavigate();
+  const { companyId } = useCompany();
   const {
     formData, updateField, subtipos, showSocio, showContaDestino,
     saving, handleSubmit, reservaPreviews, showReservaDialog,
@@ -33,6 +34,9 @@ export default function TransactionForm() {
   const [contas, setContas] = useState<LookupItem[]>([]);
   const [socios, setSocios] = useState<LookupItem[]>([]);
   const [centrosCusto, setCentrosCusto] = useState<LookupItem[]>([]);
+  const [showNewCatDialog, setShowNewCatDialog] = useState(false);
+  const [newCatName, setNewCatName] = useState("");
+  const [savingCat, setSavingCat] = useState(false);
 
   useEffect(() => {
     supabase.from("contas").select("id, nome").eq("ativo", true).is("deleted_at", null).then(({ data }) => setContas(data ?? []));
