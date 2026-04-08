@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useTransactionForm, TipoMovimentacao } from "@/hooks/useTransactionForm";
+import { useCompany } from "@/hooks/useCompany";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,16 +12,18 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { CalendarIcon, Loader2, ArrowLeft } from "lucide-react";
+import { CalendarIcon, Loader2, ArrowLeft, Plus } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import { toastSuccess, toastError } from "@/hooks/useToast";
 
 interface LookupItem { id: string; nome: string; }
 
 export default function TransactionForm() {
   const navigate = useNavigate();
+  const { companyId } = useCompany();
   const {
     formData, updateField, subtipos, showSocio, showContaDestino,
     saving, handleSubmit, reservaPreviews, showReservaDialog,
@@ -31,6 +34,9 @@ export default function TransactionForm() {
   const [contas, setContas] = useState<LookupItem[]>([]);
   const [socios, setSocios] = useState<LookupItem[]>([]);
   const [centrosCusto, setCentrosCusto] = useState<LookupItem[]>([]);
+  const [showNewCatDialog, setShowNewCatDialog] = useState(false);
+  const [newCatName, setNewCatName] = useState("");
+  const [savingCat, setSavingCat] = useState(false);
 
   useEffect(() => {
     supabase.from("contas").select("id, nome").eq("ativo", true).is("deleted_at", null).then(({ data }) => setContas(data ?? []));
@@ -38,7 +44,7 @@ export default function TransactionForm() {
     supabase.from("centros_custo").select("id, nome").eq("ativo", true).is("deleted_at", null).then(({ data }) => setCentrosCusto(data ?? []));
   }, []);
 
-  useEffect(() => {
+  const fetchCategorias = () => {
     const tipoCategoria = formData.tipo === "entrada" ? "entrada" : "saida";
     supabase
       .from("categorias")
@@ -46,8 +52,31 @@ export default function TransactionForm() {
       .eq("tipo", tipoCategoria)
       .eq("ativo", true)
       .is("deleted_at", null)
+      .order("nome")
       .then(({ data }) => setCategorias(data ?? []));
+  };
+
+  useEffect(() => {
+    fetchCategorias();
   }, [formData.tipo]);
+
+  const handleCreateCategory = async () => {
+    if (!newCatName.trim() || !companyId) return;
+    setSavingCat(true);
+    const tipo = formData.tipo === "entrada" ? "entrada" : "saida";
+    const { data, error } = await supabase
+      .from("categorias")
+      .insert({ nome: newCatName.trim(), tipo, classificacao_dre: tipo === "entrada" ? "Receita Bruta" : "Despesa Variável", company_id: companyId })
+      .select("id, nome")
+      .single();
+    setSavingCat(false);
+    if (error) { toastError("Erro ao criar categoria"); return; }
+    toastSuccess("Categoria criada");
+    setNewCatName("");
+    setShowNewCatDialog(false);
+    fetchCategorias();
+    if (data) updateField("categoriaId", data.id);
+  };
 
   const DatePicker = ({ value, onChange, label }: { value: Date | undefined; onChange: (d: Date | undefined) => void; label: string }) => (
     <div className="space-y-2">
@@ -133,12 +162,17 @@ export default function TransactionForm() {
           </div>
           <div className="space-y-2">
             <Label>Categoria</Label>
-            <Select value={formData.categoriaId} onValueChange={(v) => updateField("categoriaId", v)}>
-              <SelectTrigger><SelectValue placeholder="Selecionar" /></SelectTrigger>
-              <SelectContent>
-                {categorias.map((c) => <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}
-              </SelectContent>
-            </Select>
+            <div className="flex gap-2">
+              <Select value={formData.categoriaId} onValueChange={(v) => updateField("categoriaId", v)}>
+                <SelectTrigger className="flex-1"><SelectValue placeholder="Selecionar" /></SelectTrigger>
+                <SelectContent>
+                  {categorias.map((c) => <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}
+                </SelectContent>
+              </Select>
+              <Button type="button" variant="outline" size="icon" className="shrink-0" onClick={() => setShowNewCatDialog(true)} title="Nova categoria">
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
           <div className="space-y-2">
             <Label>Conta *</Label>
@@ -277,6 +311,31 @@ export default function TransactionForm() {
             <Button onClick={confirmReservas} disabled={saving}>
               {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Confirmar
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Dialog criar categoria inline */}
+      <Dialog open={showNewCatDialog} onOpenChange={setShowNewCatDialog}>
+        <DialogContent className="sm:max-w-sm">
+          <DialogHeader>
+            <DialogTitle>Nova Categoria</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3">
+            <p className="text-sm text-muted-foreground">
+              Tipo: <span className="font-medium text-foreground">{formData.tipo === "entrada" ? "Entrada" : "Saída"}</span>
+            </p>
+            <div className="space-y-2">
+              <Label>Nome *</Label>
+              <Input value={newCatName} onChange={(e) => setNewCatName(e.target.value)} placeholder="Ex: Consultoria" autoFocus />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowNewCatDialog(false)}>Cancelar</Button>
+            <Button onClick={handleCreateCategory} disabled={savingCat || !newCatName.trim()}>
+              {savingCat && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Criar
             </Button>
           </DialogFooter>
         </DialogContent>
