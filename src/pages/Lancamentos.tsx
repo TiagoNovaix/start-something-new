@@ -33,13 +33,16 @@ const StatusPill = ({ status }: { status: string | null }) => {
 const Lancamentos = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { companyId, loading: companyLoading } = useCompany();
 
   const { data: lancamentos = [], isLoading } = useQuery({
-    queryKey: ["lancamentos"],
+    queryKey: ["lancamentos", companyId],
+    enabled: !!companyId,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("lancamentos")
-        .select(`*, categorias (nome), contas (nome), centros_custo (nome)`)
+        .select(`id, descricao, valor, data, tipo_movimentacao, status, categorias (nome), contas (nome)`)
+        .eq("company_id", companyId!)
         .is("deleted_at", null)
         .order("data", { ascending: false })
         .limit(50);
@@ -47,6 +50,8 @@ const Lancamentos = () => {
       return data;
     },
   });
+
+  const loading = companyLoading || isLoading;
 
   if (isLoading) {
     return (
