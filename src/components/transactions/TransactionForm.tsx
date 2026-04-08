@@ -162,12 +162,17 @@ export default function TransactionForm() {
           </div>
           <div className="space-y-2">
             <Label>Categoria</Label>
-            <Select value={formData.categoriaId} onValueChange={(v) => updateField("categoriaId", v)}>
-              <SelectTrigger><SelectValue placeholder="Selecionar" /></SelectTrigger>
-              <SelectContent>
-                {categorias.map((c) => <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}
-              </SelectContent>
-            </Select>
+            <div className="flex gap-2">
+              <Select value={formData.categoriaId} onValueChange={(v) => updateField("categoriaId", v)}>
+                <SelectTrigger className="flex-1"><SelectValue placeholder="Selecionar" /></SelectTrigger>
+                <SelectContent>
+                  {categorias.map((c) => <SelectItem key={c.id} value={c.id}>{c.nome}</SelectItem>)}
+                </SelectContent>
+              </Select>
+              <Button type="button" variant="outline" size="icon" className="shrink-0" onClick={() => setShowNewCatDialog(true)} title="Nova categoria">
+                <Plus className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
           <div className="space-y-2">
             <Label>Conta *</Label>
