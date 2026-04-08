@@ -11,6 +11,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import EmptyState from "@/components/EmptyState";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { useCompany } from "@/hooks/useCompany";
 
 const fmt = (v: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(v);
@@ -32,13 +33,16 @@ const StatusPill = ({ status }: { status: string | null }) => {
 const Lancamentos = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const { companyId, loading: companyLoading } = useCompany();
 
   const { data: lancamentos = [], isLoading } = useQuery({
-    queryKey: ["lancamentos"],
+    queryKey: ["lancamentos", companyId],
+    enabled: !!companyId,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("lancamentos")
-        .select(`*, categorias (nome), contas (nome), centros_custo (nome)`)
+        .select(`id, descricao, valor, data, tipo_movimentacao, status, categorias (nome), contas (nome)`)
+        .eq("company_id", companyId!)
         .is("deleted_at", null)
         .order("data", { ascending: false })
         .limit(50);
@@ -47,7 +51,9 @@ const Lancamentos = () => {
     },
   });
 
-  if (isLoading) {
+  const loading = companyLoading || isLoading;
+
+  if (loading) {
     return (
       <div className="space-y-4">
         <div className="flex items-center justify-between">
