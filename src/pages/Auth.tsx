@@ -38,13 +38,33 @@ const Auth = () => {
       if (mode === "login") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
-          const msg =
-            error.message === "Invalid login credentials"
-              ? "E-mail ou senha incorretos"
-              : error.message === "Email not confirmed"
-              ? "Confirme seu e-mail antes de entrar"
-              : error.message;
-          toastError(msg);
+          if (error.message === "Invalid login credentials") {
+            // Check if user exists to distinguish wrong password vs non-existent user
+            try {
+              const baseUrl = import.meta.env.VITE_SUPABASE_URL;
+              const res = await fetch(`${baseUrl}/functions/v1/check-user-exists`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+                },
+                body: JSON.stringify({ email }),
+              });
+              const data = await res.json();
+              if (data.exists) {
+                toastError("Senha incorreta. Tente novamente.");
+              } else {
+                window.location.href = "https://sell-financeiro.lovable.app";
+                return;
+              }
+            } catch {
+              toastError("E-mail ou senha incorretos");
+            }
+          } else if (error.message === "Email not confirmed") {
+            toastError("Confirme seu e-mail antes de entrar");
+          } else {
+            toastError(error.message);
+          }
         }
       } else if (mode === "forgot") {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
