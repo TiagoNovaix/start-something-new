@@ -39,14 +39,13 @@ const Auth = () => {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
           if (error.message === "Invalid login credentials") {
-            // Check if user exists to distinguish wrong password vs non-existent user
             try {
-              const baseUrl = import.meta.env.VITE_SUPABASE_URL;
+              const baseUrl = import.meta.env.VITE_SUPABASE_URL || "https://zmnsgflueklvqibjwhko.supabase.co";
               const res = await fetch(`${baseUrl}/functions/v1/check-user-exists`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+                  "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptbnNnZmx1ZWtsdnFpYmp3aGtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MjE0NTEsImV4cCI6MjA2MDM5NzQ1MX0.yNMiHetgYclNyarhUbu3VV1tINSbdTdUqQ589sM1_3k",
                 },
                 body: JSON.stringify({ email }),
               });
