@@ -17,6 +17,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Perfil from "./pages/Perfil";
 import NotFound from "./pages/NotFound";
 import SuperAdmin from "./pages/SuperAdmin";
+import RegisterRedirect from "./pages/RegisterRedirect";
 import { Loader2 } from "lucide-react";
 
 const queryClient = new QueryClient();
@@ -56,6 +57,9 @@ const AppRoutes = () => (
     <Route path="/login" element={<AuthRoute />} />
     <Route path="/reset-password" element={<ResetPassword />} />
     <Route path="/superadmin" element={<SuperAdmin />} />
+    <Route path="/register" element={<RegisterRedirect />} />
+    <Route path="/signup" element={<RegisterRedirect />} />
+    <Route path="/cadastro" element={<RegisterRedirect />} />
     <Route path="/dashboard" element={<ProtectedRoute><Layout><Dashboard /></Layout></ProtectedRoute>} />
     <Route path="/lancamentos" element={<ProtectedRoute><Layout><Lancamentos /></Layout></ProtectedRoute>} />
     <Route path="/lancamentos/novo" element={<ProtectedRoute><NovoLancamento /></ProtectedRoute>} />
