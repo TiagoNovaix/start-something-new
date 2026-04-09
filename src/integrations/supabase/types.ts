@@ -1061,32 +1061,38 @@ export type Database = {
       }
       profiles: {
         Row: {
+          active: boolean
           avatar_url: string | null
           bio: string | null
           email: string | null
           full_name: string | null
           id: string
           phone: string | null
+          plan: string
           preferencias: Json | null
           updated_at: string | null
         }
         Insert: {
+          active?: boolean
           avatar_url?: string | null
           bio?: string | null
           email?: string | null
           full_name?: string | null
           id: string
           phone?: string | null
+          plan?: string
           preferencias?: Json | null
           updated_at?: string | null
         }
         Update: {
+          active?: boolean
           avatar_url?: string | null
           bio?: string | null
           email?: string | null
           full_name?: string | null
           id?: string
           phone?: string | null
+          plan?: string
           preferencias?: Json | null
           updated_at?: string | null
         }
