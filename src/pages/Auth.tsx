@@ -38,13 +38,32 @@ const Auth = () => {
       if (mode === "login") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
-          const msg =
-            error.message === "Invalid login credentials"
-              ? "E-mail ou senha incorretos"
-              : error.message === "Email not confirmed"
-              ? "Confirme seu e-mail antes de entrar"
-              : error.message;
-          toastError(msg);
+          if (error.message === "Invalid login credentials") {
+            try {
+              const baseUrl = import.meta.env.VITE_SUPABASE_URL || "https://zmnsgflueklvqibjwhko.supabase.co";
+              const res = await fetch(`${baseUrl}/functions/v1/check-user-exists`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptbnNnZmx1ZWtsdnFpYmp3aGtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MjE0NTEsImV4cCI6MjA2MDM5NzQ1MX0.yNMiHetgYclNyarhUbu3VV1tINSbdTdUqQ589sM1_3k",
+                },
+                body: JSON.stringify({ email }),
+              });
+              const data = await res.json();
+              if (data.exists) {
+                toastError("Senha incorreta. Tente novamente.");
+              } else {
+                window.location.href = "https://sell-financeiro.lovable.app";
+                return;
+              }
+            } catch {
+              toastError("E-mail ou senha incorretos");
+            }
+          } else if (error.message === "Email not confirmed") {
+            toastError("Confirme seu e-mail antes de entrar");
+          } else {
+            toastError(error.message);
+          }
         }
       } else if (mode === "forgot") {
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
