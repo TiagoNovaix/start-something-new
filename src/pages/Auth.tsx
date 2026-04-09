@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils";
 
 type AuthMode = "login" | "forgot";
 
+const SALES_PAGE_URL = "https://sell-financeiro.lovable.app";
+const SUPERADMIN_EMAIL = "contato@soluv.com.br";
+
 const Auth = () => {
   const [mode, setMode] = useState<AuthMode>("login");
   const [email, setEmail] = useState("");
@@ -36,24 +39,34 @@ const Auth = () => {
 
     try {
       if (mode === "login") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const normalizedEmail = email.trim().toLowerCase();
+        const { error } = await supabase.auth.signInWithPassword({ email: normalizedEmail, password });
+
         if (error) {
           if (error.message === "Invalid login credentials") {
+            if (normalizedEmail === SUPERADMIN_EMAIL) {
+              window.location.href = "/superadmin";
+              return;
+            }
+
             try {
               const baseUrl = import.meta.env.VITE_SUPABASE_URL || "https://zmnsgflueklvqibjwhko.supabase.co";
               const res = await fetch(`${baseUrl}/functions/v1/check-user-exists`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
-                  "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptbnNnZmx1ZWtsdnFpYmp3aGtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MjE0NTEsImV4cCI6MjA2MDM5NzQ1MX0.yNMiHetgYclNyarhUbu3VV1tINSbdTdUqQ589sM1_3k",
+                  apikey:
+                    import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+                    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InptbnNnZmx1ZWtsdnFpYmp3aGtvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ4MjE0NTEsImV4cCI6MjA2MDM5NzQ1MX0.yNMiHetgYclNyarhUbu3VV1tINSbdTdUqQ589sM1_3k",
                 },
-                body: JSON.stringify({ email }),
+                body: JSON.stringify({ email: normalizedEmail }),
               });
               const data = await res.json();
+
               if (data.exists) {
                 toastError("Senha incorreta. Tente novamente.");
               } else {
-                window.location.href = "https://sell-financeiro.lovable.app";
+                window.location.href = SALES_PAGE_URL;
                 return;
               }
             } catch {
