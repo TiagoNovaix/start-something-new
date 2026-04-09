@@ -17,6 +17,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Perfil from "./pages/Perfil";
 import NotFound from "./pages/NotFound";
 import SuperAdmin from "./pages/SuperAdmin";
+import RegisterRedirect from "./pages/RegisterRedirect";
 import { Loader2 } from "lucide-react";
 
 const queryClient = new QueryClient();
